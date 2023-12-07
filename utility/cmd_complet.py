@@ -1,21 +1,29 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import Completer, Completion     
-from utility.phone import Phone
 
 
 
-# zaimplementować funkcje obsługujące komendy np. add_phone()
+# zaimplementować funkcje obsługujące komendy np. add_phone() 
 # pamiętać o słowniku MAIN_COMMANDS z komendami
 
-
-def add_phone():
+# metoda przykładowa użyta tylko do testów 
+def add_phone(): 
     phone = input("Type phone or <<< if you want to cancel: ")
     if phone == "<<<":
         return None
-    return Phone(phone)
+    return phone
 
 MAIN_COMMANDS = {
     "new phone": add_phone,
+    "add phone": add_phone,
+    "edit email": add_phone,
+    "delete": add_phone,
+    "show all": add_phone,
+    "search": add_phone,
+    "save": add_phone,
+    "export": add_phone,
+    "import": add_phone,
+    "exit": add_phone,
 }
 
 #### powyższy fragment to przykład dla pamięci, w jaki sposób powinno działać
