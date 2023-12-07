@@ -14,7 +14,7 @@ from utility.birthday import Birthday
 
 class AddresBook(UserDict):
     """
-    The Record class extends the UserDict class by adding the add_record method
+    The AddresBook class extends the UserDict class by adding the add_record method
     and checking that the items added to the dictionary are valid (keys and values based on the Record class).
 
     Args:
