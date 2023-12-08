@@ -187,6 +187,23 @@ class AddresBook(UserDict):
                 if -1 < difference < 8:
                     this_week_birthdays[current_date + timedelta(difference)].append(record)
         return this_week_birthdays
-        
-        
-                    
+
+
+    # Returns a formatted string of birthdays
+    def show_birthdays(self, upcoming_birthdays_dict=None):
+        """
+        Display birthdays for each date in the provided dictionary.
+
+        Args:
+            birthdays_dict (dict): Dictionary with dates as keys and lists of records as values.
+        """
+        birthdays_str = ""
+        for date, records in upcoming_birthdays_dict.items():
+            birthdays_str += f"Birthdays on {date}:\n"
+            if not records:
+                birthdays_str += "  Nobody\n"
+            else:
+                for record in records:
+                    name = record.name.value if record.name else None
+                    birthdays_str += f"  {name}\n" if name else ""
+        return birthdays_str or "No birthdays in the next 7 days."                 
