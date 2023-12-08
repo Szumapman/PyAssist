@@ -8,7 +8,7 @@ from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
 
-#paths to files with data
+# paths to files with data
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
 #ścieżka do pliku z notatkami
 
