@@ -1,7 +1,7 @@
 import pickle 
 import csv
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from collections import UserDict
 
@@ -14,7 +14,7 @@ from utility.birthday import Birthday
 
 class AddresBook(UserDict):
     """
-    The Record class extends the UserDict class by adding the add_record method
+    The AddresBook class extends the UserDict class by adding the add_record method
     and checking that the items added to the dictionary are valid (keys and values based on the Record class).
 
     Args:
@@ -155,17 +155,38 @@ class AddresBook(UserDict):
                 phones = row['phones'].split('|')
                 phones_to_add = []
                 for phone in phones:
-                    if phone is not '':
+                    if phone != '':
                         phones_to_add.append(Phone(phone))
                 emails = row['emails'].split('|')
                 emails_to_add = []
                 for email in emails:
-                    if email is not '':
+                    if email != '':
                         emails_to_add.append(Email(email))
                 birthday = row['birthday']
-                if birthday is not '':
+                if birthday != '':
                     birthday = Birthday(birthday)
                 else:
                     birthday = None    
                 self.add_record(Record(Name(name), phones_to_add, emails_to_add, birthday))
+                
+
+    def records_with_upcoming_birthday(self) -> dict:
+        """
+        The function return a dict which the keys are the days of the week from current day and next 7 days as a datetime.date(), 
+        and the values are lists with Records having birthdays on a given day.
+
+        Returns:
+            dict: key datetime.date from today + next 7 days, values lists of Records with birthdays in corresponding day
+        """
+        current_date = datetime.now().date()
+        this_week_birthdays = {current_date + timedelta(days=i): [] for i in range(8)}
+        for record in self.values():
+            if record.birthday is not None:
+                this_year_birthday = datetime(year=current_date.year, month=record.birthday.value.month, day=record.birthday.value.day).date()
+                difference = (this_year_birthday - current_date).days
+                if -1 < difference < 8:
+                    this_week_birthdays[current_date + timedelta(difference)].append(record)
+        return this_week_birthdays
+        
+        
                     

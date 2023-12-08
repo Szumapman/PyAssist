@@ -7,6 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
+from utility.address import Address
 
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "addresbook.dat") # Because it's a simple program. The path is hard coded ;)
 
@@ -225,10 +226,17 @@ def edit_phone(addresbook, record):
 # init function for email changed
 def edit_email(addresbook, record):
     change_data(record, "email")
+    
+# changing birthday
+def edit_birthday(addresbook, record):
+    birthday = add_birthday()
+    addresbook[record.name.value].birthday = birthday
+    
+    
 
 
 # dict for menu edit handler
-EDIT_COMMANDS = {"1": edit_name, "2": edit_phone, "3": edit_email, "4": add_birthday}
+EDIT_COMMANDS = {"1": edit_name, "2": edit_phone, "3": edit_email, "4": edit_birthday}
 
 
 # record edit
@@ -242,7 +250,7 @@ def edit_record(addresbook: AddresBook):
         print("Unknown name, try again")
     while True:
         answer = input(
-            "What do you want to edit? Type: 1 name, 2 phone, 3 email, 4, birthday, 0 back to main menu: "
+            "What do you want to edit? Type: 1 name, 2 phone, 3 email, 4 birthday, 0 back to main menu: "
         )
         if answer in EDIT_COMMANDS.keys():
             handler = get_edit_handler(answer)
@@ -319,7 +327,7 @@ MAIN_COMMANDS = {
 
 def main():
     adressbook = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
-
+    print(adressbook.records_with_upcoming_birthday())
     while True:
         print(
             "{:<18} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10}".format(

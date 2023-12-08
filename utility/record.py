@@ -3,6 +3,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday
+from utility.address import Address
 
 
 class Record:
@@ -10,11 +11,12 @@ class Record:
     Record class represents a single address book record consisting of name, phone list, email list and birthday.
     """
 
-    def __init__(self, name: Name, phones=[], emails=[], birthday=None) -> None:
+    def __init__(self, name: Name, phones=[], emails=[], birthday=None, address=None) -> None:
         self._name = name
         self._phones = phones
         self._emails = emails
         self._birthday = birthday
+        self._address = address
 
     # overridden method __repr__
     def __repr__(self) -> str:
@@ -127,3 +129,22 @@ class Record:
             day=this_year_birthday.day,
         ).date()
         return f"day(s) to next birthday: {(next_birthday -  current_date).days}"
+    
+    # address section
+    # Getter for address
+    @property
+    def address(self):
+        return self._address
+
+    # Setter for address
+    @address.setter
+    def address(self, address):
+        self._address = address
+
+    # Add address to the record
+    def add_address(self, address: Address):
+        self._address = address
+
+    # Change address in the record
+    def change_address(self, new_address: Address):
+        self._address = new_address
