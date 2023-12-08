@@ -1,4 +1,5 @@
 from datetime import datetime
+import csv
 
 notes = []
 class Note:
@@ -21,7 +22,7 @@ class Note:
             f"Tags: {tags_str}\n"
         )
 
-    def edit_content__(self, new_content):     #edit content of note and update modified time
+    def edit_content(self, new_content):     #edit content of note and update modified time
         self.content = new_content
         self.modified_time = datetime.now()
 
@@ -59,6 +60,31 @@ class Note:
     def remove_note(self, notes_list):
         notes_list.remove(self)
 
+    def save_notes(notes_list, file_name):   #saving notes to .csv file
+        with open(file_name, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Title", "Content", "Creation Time", "Last Modified Time", "Tags"])
+            for note in notes_list:
+                writer.writerow([note.title, note.content, note.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+                                 note.modified_time.strftime("%Y-%m-%d %H:%M:%S"), ", ".join(note.tags)])
+
+    def load_notes(file_name):      #loading .csv file with notes
+        loaded_notes = []
+        with open(file_name, mode="r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            next(reader)
+            for row in reader:
+                title, content, creation_time_str, modified_time_str, tags_str = row
+                create_time = datetime.strptime(creation_time_str, "%Y-%m-%d %H:%M:%S")
+                modified_time = datetime.strptime(modified_time_str, "%Y-%m-%d %H:%M:%S")
+                tags = tags_str.split(', ') if tags_str else []
+                new_note = Note(title, content)
+                new_note.create_time = create_time
+                new_note.modified_time = modified_time
+                new_note.tags = tags
+                loaded_notes.append(new_note)
+        return loaded_notes
+
 '''debug code below'''
 
 # note1 = Note("Meeting Agenda", "something something.")
@@ -72,7 +98,10 @@ class Note:
 # note3.add_tag("project")
 
 # notes = [note1, note2, note3]
-
+# Note.save_notes(notes, "mynotes.csv")
+# load = Note.load_notes("mynotes.csv")
+# for note in load:
+#     print(note)
 
 # found_notes = Note.find_note_by_tag(notes, "project")
 # for note in found_notes:
