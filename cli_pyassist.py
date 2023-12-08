@@ -9,7 +9,7 @@ from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
 
-from utility.cmd_complet import CommandCompleter
+from utility.cmd_complet import CommandCompleter, similar_command
 
 # paths to files with data
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
@@ -83,21 +83,22 @@ def get_main_handler(command):
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
-    # "add / new": create_record,
-    # "edit": edit_record,
-    # "delete / del": delete_record,
-    # "show": show_all,
-    # "search": search,
-    # "save": save_data,
-    # "export": export_to_csv,
-    # "import": import_from_csv,
+    "addals": cli_pyassist_exit,
+    "addall": cli_pyassist_exit,
+    "edit": cli_pyassist_exit,
+    "delete / del": cli_pyassist_exit,
+    "show": cli_pyassist_exit,
+    "search": cli_pyassist_exit,
+    "save": cli_pyassist_exit,
+    "export": cli_pyassist_exit,
+    "import": cli_pyassist_exit,
 }
 
 
-def similar_command(cmd):
-    for key in MAIN_COMMANDS:
-        if cmd in key or key in cmd:
-           return  f"\nmaybe you meant {key}"
+# def similar_command(cmd):
+#     for key in MAIN_COMMANDS:
+#         if cmd in key or key in cmd:
+#            return  f"\nmaybe you meant: {key}"
 
 
 
@@ -113,7 +114,7 @@ def execute_commands(cmd, arguments):
         func: function with arguments
     """
     if cmd not in MAIN_COMMANDS:
-        return f"Command {cmd} is not recognized" + similar_command(cmd)
+        return f"Command {cmd} is not recognized" + similar_command(cmd, MAIN_COMMANDS.keys())
     cmd = MAIN_COMMANDS[cmd]
     return cmd(*arguments)
 
