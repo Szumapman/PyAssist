@@ -1,12 +1,15 @@
 import sys
 import os
 from typing import Callable
+from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
 from utility.record import Record
 from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
+
+from utility.cmd_complet import CommandCompleter
 
 # paths to files with data
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
@@ -110,9 +113,10 @@ def execute_commands(cmd, arguments):
 
 @error_handler
 def main():
+    completer = CommandCompleter(MAIN_COMMANDS)
     print("Type command or help for command list.")
     while True:
-        user_input = input(">>> ").strip().lower()
+        user_input = prompt(">>> ", completer=completer).strip().lower()
         if user_input:
             cmd, arguments = parse_command(user_input)
             print(execute_commands(cmd, arguments))
