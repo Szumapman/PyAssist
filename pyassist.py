@@ -326,8 +326,7 @@ MAIN_COMMANDS = {
 
 
 def main():
-    adressbook = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
-    print(adressbook.records_with_upcoming_birthday())
+    adressbook = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)    
     while True:
         print(
             "{:<18} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10}".format(
