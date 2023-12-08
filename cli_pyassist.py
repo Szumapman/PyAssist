@@ -94,6 +94,13 @@ MAIN_COMMANDS = {
 }
 
 
+def similar_command(cmd):
+    for key in MAIN_COMMANDS:
+        if cmd in key or key in cmd:
+           return  f"\nmaybe you meant {key}"
+
+
+
 def execute_commands(cmd, arguments):
     """
     Function to execute user commands
@@ -106,7 +113,7 @@ def execute_commands(cmd, arguments):
         func: function with arguments
     """
     if cmd not in MAIN_COMMANDS:
-        return f"Command {cmd} is not recognized"
+        return f"Command {cmd} is not recognized" + similar_command(cmd)
     cmd = MAIN_COMMANDS[cmd]
     return cmd(*arguments)
 
