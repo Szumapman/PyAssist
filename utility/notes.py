@@ -21,6 +21,12 @@ class Note:
             f"Last Modified Time: {modified_time_str}\n"
             f"Tags: {tags_str}\n"
         )
+    
+
+    """class Note llow you to create a note title, content, tag, creation time,
+    editing time and deleting the entire note. It is also possible to save the content to a separate .csv file
+    with the given name and reading notes from the .csv file"""
+
 
     def edit_content(self, new_content):     #edit content of note and update modified time
         self.content = new_content
@@ -61,48 +67,67 @@ class Note:
         notes_list.remove(self)
 
     def save_notes(notes_list, file_name):   #saving notes to .csv file
-        with open(file_name, mode="w", newline="", encoding="utf-8") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Title", "Content", "Creation Time", "Last Modified Time", "Tags"])
-            for note in notes_list:
-                writer.writerow([note.title, note.content, note.create_time.strftime("%Y-%m-%d %H:%M:%S"),
-                                 note.modified_time.strftime("%Y-%m-%d %H:%M:%S"), ", ".join(note.tags)])
+        try:
+            with open(file_name, mode="w", newline="", encoding="utf-8") as file:  
+                writer = csv.writer(file)
+                writer.writerow(["Title", "Content", "Creation Time", "Last Modified Time", "Tags"])  #header
+
+                for note in notes_list:
+                    writer.writerow([note.title, note.content, note.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+                                    note.modified_time.strftime("%Y-%m-%d %H:%M:%S"), ", ".join(note.tags)])
+        except (FileNotFoundError, PermissionError) as e:
+            print(f"Error saving notes to {file_name}: {e}")
 
     def load_notes(file_name):      #loading .csv file with notes
-        loaded_notes = []
-        with open(file_name, mode="r", encoding="utf-8") as file:
-            reader = csv.reader(file)
-            next(reader)
-            for row in reader:
-                title, content, creation_time_str, modified_time_str, tags_str = row
-                create_time = datetime.strptime(creation_time_str, "%Y-%m-%d %H:%M:%S")
-                modified_time = datetime.strptime(modified_time_str, "%Y-%m-%d %H:%M:%S")
-                tags = tags_str.split(', ') if tags_str else []
-                new_note = Note(title, content)
-                new_note.create_time = create_time
-                new_note.modified_time = modified_time
-                new_note.tags = tags
-                loaded_notes.append(new_note)
-        return loaded_notes
+        try:
+            loaded_notes = []
+            with open(file_name, mode="r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                next(reader)
+                for row in reader:
+                    title, content, creation_time_str, modified_time_str, tags_str = row
+                    create_time = datetime.strptime(creation_time_str, "%Y-%m-%d %H:%M:%S")
+                    modified_time = datetime.strptime(modified_time_str, "%Y-%m-%d %H:%M:%S")
+                    tags = tags_str.split(', ') if tags_str else []
+                    new_note = Note(title, content)
+                    new_note.create_time = create_time
+                    new_note.modified_time = modified_time
+                    new_note.tags = tags
+                    loaded_notes.append(new_note)
+            return loaded_notes
+        except (FileNotFoundError, PermissionError, ValueError, csv.Error) as e:
+            print(f"Error loading notes from {file_name}: {e}")
+            return []
 
 '''debug code below'''
 
-# note1 = Note("Meeting Agenda", "something something.")
-# note1.add_tag("meeting")
-# note1.add_tag("project")
+# note1 = Note("Shopping List", "z, x ,c")
+# note1.add_tag("shopping")
+# note1.edit_content("q, w, e")
+# note2 = Note("Meeting Agenda", "some notes")
+# note2.add_tag("work")
+# note2.add_tag("meeting")
 
-# note2 = Note("Shopping List", "another something.")
-# note2.add_tag("shopping")
 
-# note3 = Note("Ideas", "yet another some....")
-# note3.add_tag("project")
+# Note.save_notes([note1, note2], "my_notes.csv")
 
-# notes = [note1, note2, note3]
-# Note.save_notes(notes, "mynotes.csv")
-# load = Note.load_notes("mynotes.csv")
-# for note in load:
+# loaded_notes = Note.load_notes("my_notes.csv")
+
+
+# for note in loaded_notes:
 #     print(note)
+#     print("--------------------")
 
-# found_notes = Note.find_note_by_tag(notes, "project")
+
+# loaded_notes[0].edit_content("o, o, o, o")
+# loaded_notes[0].add_tag("groceries")
+# Note.save_notes(loaded_notes, "my_notes.csv")
+
+# loaded_notes[0].remove_tag("shopping")
+# loaded_notes[1].remove_note(loaded_notes)
+# Note.save_notes(loaded_notes, "my_notes.csv")
+
+# found_notes = Note.find_note_by_tag(loaded_notes, "work")
 # for note in found_notes:
 #     print(note)
+#     print("--------------------")
