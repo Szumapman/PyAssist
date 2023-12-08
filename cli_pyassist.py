@@ -83,23 +83,15 @@ def get_main_handler(command):
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
-    "addals": cli_pyassist_exit,
-    "addall": cli_pyassist_exit,
-    "edit": cli_pyassist_exit,
-    "delete / del": cli_pyassist_exit,
-    "show": cli_pyassist_exit,
-    "search": cli_pyassist_exit,
-    "save": cli_pyassist_exit,
-    "export": cli_pyassist_exit,
-    "import": cli_pyassist_exit,
+    # "add": create_record,
+    # "edit": edit_record,
+    # "delete / del": delete_record,
+    # "show": show_all,
+    # "search": search,
+    # "save": save_data,
+    # "export": export_to_csv,
+    # "import": import_from_csv,
 }
-
-
-# def similar_command(cmd):
-#     for key in MAIN_COMMANDS:
-#         if cmd in key or key in cmd:
-#            return  f"\nmaybe you meant: {key}"
-
 
 
 def execute_commands(cmd, arguments):
