@@ -25,21 +25,28 @@ class Note:
         self.content = new_content
         self.modified_time = datetime.now()
 
+    @staticmethod
+    def sort_notes_by_tag(notes_list):      #mechanism that sorts notes by tag (added to add, change, remove tag)
+        notes_list.sort(key=lambda note: ", ".join(note.tags))
+
     def add_tag(self, tag):     #add tag to the note if it doesnt exist and update modified time
         if tag not in self.tags:
             self.tags.append(tag)
             self.modified_time = datetime.now()
+            Note.sort_notes_by_tag(notes)
 
     def change_tag(self, old_tag, new_tag):     #changing tag and update modified time
         if old_tag in self.tags:
             index = self.tags.index(old_tag)
             self.tags[index] = new_tag
             self.modified_time = datetime.now()
+            Note.sort_notes_by_tag(notes)
 
     def remove_tag(self, tag):      #remove tag from note
         if tag in self.tags:
             self.tags.remove(tag)
             self.modified_time = datetime.now()
+            Note.sort_notes_by_tag(notes)
 
     def find_note_by_tag(notes_list, tag):  #returns list of notes with specified tag
         note_tag = []
@@ -47,8 +54,8 @@ class Note:
             if tag in note.tags:
                 note_tag.append(note)
         return note_tag
-
-            
+    
+        
     def remove_note(self, notes_list):
         notes_list.remove(self)
 
@@ -61,7 +68,7 @@ class Note:
 # note2 = Note("Shopping List", "another something.")
 # note2.add_tag("shopping")
 
-# note3 = Note("Ideas", "yet another some.....")
+# note3 = Note("Ideas", "yet another some....")
 # note3.add_tag("project")
 
 # notes = [note1, note2, note3]
