@@ -7,6 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
+from utility.address import Address
 
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "addresbook.dat") # Because it's a simple program. The path is hard coded ;)
 
