@@ -1,6 +1,22 @@
 import difflib
-from prompt_toolkit import prompt
 from prompt_toolkit.completion import Completer, Completion     
+
+
+def similar_command(user_cmd: str, commands: list) -> str:
+    """
+    Check if a word is similar to any command in the list.
+
+    Args:
+        user_cmd (str): user command to check
+        commands (list): list of valid commands
+
+    Returns:
+        str: hint to user with similar word or words and return empty string if nothing found
+    """
+    matches = difflib.get_close_matches(user_cmd, commands)
+    if matches:
+        return f"\nmaybe you meant: {' or '.join(matches)}"
+    return ""
 
 
 class CommandCompleter(Completer):
