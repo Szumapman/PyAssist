@@ -11,7 +11,7 @@ class Record:
     Record class represents a single address book record consisting of name, phone list, email list and birthday.
     """
 
-    def __init__(self, name: Name, phones=[], emails=[], birthday=None) -> None:
+    def __init__(self, name: Name, phones=[], emails=[], birthday=None, address=None) -> None:
         self._name = name
         self._phones = phones
         self._emails = emails
