@@ -8,6 +8,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
+from utility.record_interaction import add_name
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -82,7 +83,19 @@ def cli_pyassist_exit(*args):
     sys.exit("Good bye!")
 
 def add_record(*args):
-    return "A record in the address book has been created."
+    # jeśli użytkownik wpisał po prostu add to zostanie poproszony o podanie nazwy kontaktu do dodania
+    if len(args) == 0:
+        name = add_name(ADDRESSBOOK)
+    # jeśli wpisał np. add John Smith to "John Smith" zostanie potraktowane jako nazwa dla nowego kontaku 
+    # o ile taki kontakt już nie istnieje
+    name = " ".join(args).strip().title()
+    if name in ADDRESSBOOK.keys():
+        print(f"Contact {name} already exists. Choose another name.")
+        name = add_name(ADDRESSBOOK) 
+    else:
+        name = Name(name)
+        
+    return f"A record in the address book has been created."
 
 
 # dict for addressbook menu
