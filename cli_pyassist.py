@@ -81,17 +81,17 @@ def cli_pyassist_exit(*args):
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
-def add_contact(*args):
+def add_record(*args):
     return "A record in the address book has been created."
 
 
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
-    "add": add_contact,
+    "add": add_record,
     "up": ...,
 }
 
-def addressbook_subapp(*args):
+def addressbook_commands(*args):
     completer = CommandCompleter(ADDRESSBOOK_MENU_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer)
@@ -104,7 +104,7 @@ def addressbook_subapp(*args):
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
-    "addressbook": addressbook_subapp,
+    "addressbook": addressbook_commands,
     # "edit": edit_record,
     # "delete / del": delete_record,
     # "show": show_all,
