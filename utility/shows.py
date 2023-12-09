@@ -12,3 +12,5 @@ def show_upcoming_birthday(adressbook):
     if is_upcoming_birthday:
         return info
     return "No upcoming birthdays in the next 7 days."
+
+

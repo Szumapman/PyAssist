@@ -12,11 +12,11 @@ from utility.birthday import Birthday, FutureDateError
 from utility.cmd_complet import CommandCompleter, similar_command
 
 # paths to files with data
-ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
+ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
 #ścieżka do pliku z notatkami
 
 #objects storing data while the program is running
-ADDRESBOOK = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
+ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
 # function to handle with errors
@@ -67,23 +67,44 @@ def parse_command(user_input: str) -> (str, tuple):
 
 
 
+# taking a command from the user
+def user_command_input(completer: CommandCompleter):
+    user_input = prompt(">>> ", completer=completer).strip().lower()
+    if user_input:
+        return parse_command(user_input)
+    
+    
 # exit / close program
 def cli_pyassist_exit(*args):
-    ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)
+    ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     # dodać zapisywanie notatek
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
-    
-# hendler for main menu
-def get_main_handler(command):
-    return MAIN_COMMANDS[command]
+def add_contact(*args):
+    return "A record in the address book has been created."
 
-   
+
+# dict for addressbook menu
+ADDRESSBOOK_MENU_COMMANDS = {
+    "add": add_contact,
+    "up": ...,
+}
+
+def addressbook_subapp(*args):
+    completer = CommandCompleter(ADDRESSBOOK_MENU_COMMANDS.keys())
+    while True:
+        cmd, arguments = user_command_input(completer)
+        if cmd == "up":
+            break
+        print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
+    return "Ok, I return to the main menu."
+    
+
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
-    # "add": create_record,
+    "addressbook": addressbook_subapp,
     # "edit": edit_record,
     # "delete / del": delete_record,
     # "show": show_all,
@@ -94,33 +115,33 @@ MAIN_COMMANDS = {
 }
 
 
-def execute_commands(cmd, arguments):
+def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     """
     Function to execute user commands
 
     Args:
+        menu_commands (dict): dict for menu-specific commands
         cmd (str): user command
         arguments (tuple): arguments from user input
 
     Returns:
         func: function with arguments
     """
-    if cmd not in MAIN_COMMANDS:
-        return f"Command {cmd} is not recognized" + similar_command(cmd, MAIN_COMMANDS.keys())
-    cmd = MAIN_COMMANDS[cmd]
+    if cmd not in menu_commands:
+        return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
+    cmd = menu_commands[cmd]
     return cmd(*arguments)
 
 
 
 @error_handler
 def main():
-    completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
+    # completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
+    completer = CommandCompleter(MAIN_COMMANDS.keys())
     print("Type command or help for command list.")
     while True:
-        user_input = prompt(">>> ", completer=completer).strip().lower()
-        if user_input:
-            cmd, arguments = parse_command(user_input)
-            print(execute_commands(cmd, arguments))
+            cmd, arguments = user_command_input(completer)
+            print(execute_commands(MAIN_COMMANDS, cmd, arguments))
 
 
 if __name__ == "__main__":
