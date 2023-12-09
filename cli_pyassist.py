@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name
+from utility.record_interaction import add_name, create_record
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -94,7 +94,8 @@ def add_record(*args):
             name = add_name(ADDRESSBOOK) 
         else:
             name = Name(name)
-    print(name.value)
+    if name is not None:
+        record = create_record(name)
         
     return f"A record in the address book has been created."
 

@@ -1,5 +1,6 @@
 from .record import Record
 from .phone import Phone
+from .email import Email
 from .name import Name
 
 
@@ -9,7 +10,6 @@ def error_handler(func):
         while True:
             try:
                 return func(*args)
-            # błędy i komunikaty przeniesione z pierwotnej wersji - do sprawdzenia / zmiany
             except ValueError:
                 if func.__name__ == "add_name":
                     print("The name field cannot be empty, try again.")
@@ -50,6 +50,14 @@ def add_phone():
     return Phone(phone)
 
 
+@error_handler
+def add_email():
+    email = input("Type email or <<< if you want to cancel: ")
+    if email == "<<<":
+        return None
+    return Email(email)    
+
+
 def create_record(name):
     phones = []
     emails = []
@@ -63,6 +71,18 @@ def create_record(name):
                 if phone is not None:
                     phones.append(phone)
                     answer = (input("Type Y (yes) if you want to add another phone number: ").strip().lower())
+                    if answer == "y" or answer == "yes":
+                        continue
+                break
+        break
+    while True:
+        answer = input("Type Y (yes) if you want to add email: ").strip().lower()
+        if answer == "y" or answer == "yes":
+            while True:
+                email = add_email()
+                if email is not None:
+                    emails.append(email)
+                    answer = (input("Type Y (yes) if you want to add another email: ").strip().upper())
                     if answer == "y" or answer == "yes":
                         continue
                 break
