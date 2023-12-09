@@ -70,7 +70,7 @@ def user_command_input(completer: CommandCompleter):
     user_input = prompt(">>> ", completer=completer).strip().lower()
     if user_input:
         return parse_command(user_input)
-    
+    return ("", "") 
     
 # exit / close program
 def cli_pyassist_exit(*args):
