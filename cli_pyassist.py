@@ -70,7 +70,7 @@ def user_command_input(completer: CommandCompleter):
     user_input = prompt(">>> ", completer=completer).strip().lower()
     if user_input:
         return parse_command(user_input)
-    return ("", "") 
+    return "", ""
     
 # exit / close program
 def cli_pyassist_exit(*args):
@@ -85,6 +85,7 @@ def add_record(*args):
     # jeśli użytkownik wpisał po prostu add to zostanie poproszony o podanie nazwy kontaktu do dodania
     if len(args) == 0:
         name = add_name(ADDRESSBOOK)
+        
     # jeśli wpisał np. add John Smith to "John Smith" zostanie potraktowane jako nazwa dla nowego kontaku 
     # o ile taki kontakt już nie istnieje
     else:
@@ -96,8 +97,9 @@ def add_record(*args):
             name = Name(name)
     if name is not None:
         record = create_record(name)
-        
-    return f"A record in the address book has been created."
+        ADDRESSBOOK.add_record(record)
+        return f"A record: {record} added to your address book."
+    return "Operation cancelled"
 
 
 # dict for addressbook menu

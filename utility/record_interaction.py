@@ -114,4 +114,6 @@ def create_record(name):
     answer = input("Type Y (yes) if you want to add address: ").strip().lower()
     if answer == "y" or answer == "yes":
         address = add_address()
+    
+    return Record(name, phones, emails, birthday, address)
         
