@@ -8,6 +8,7 @@ from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
 from utility.address import Address
+from utility.shows import show_upcoming_birthday
 
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "addresbook.dat") # Because it's a simple program. The path is hard coded ;)
 
@@ -327,7 +328,10 @@ MAIN_COMMANDS = {
 
 def main():
     adressbook = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
-    print(adressbook.records_with_upcoming_birthday())
+    
+    print(adressbook.show_birthdays(adressbook.records_with_upcoming_birthday()))
+    print(show_upcoming_birthday(adressbook))    
+    
     while True:
         print(
             "{:<18} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10}".format(
@@ -335,7 +339,7 @@ def main():
                 "1 add",
                 "2 edit",
                 "3 delete",
-                "4 show all",
+                "4 show contacts",
                 "5 search",
                 "6 save data",
                 "7 export to csv",

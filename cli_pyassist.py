@@ -119,9 +119,10 @@ def execute_commands(cmd, arguments):
     return cmd(*arguments)
 
 
+
 @error_handler
 def main():
-    completer = CommandCompleter(MAIN_COMMANDS)
+    completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
     print("Type command or help for command list.")
     while True:
         user_input = prompt(">>> ", completer=completer).strip().lower()
