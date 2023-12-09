@@ -1,6 +1,7 @@
 from .record import Record
 from .phone import Phone
 from .email import Email
+from .birthday import Birthday
 from .name import Name
 
 
@@ -55,7 +56,16 @@ def add_email():
     email = input("Type email or <<< if you want to cancel: ")
     if email == "<<<":
         return None
-    return Email(email)    
+    return Email(email)
+
+
+@error_handler
+def add_birthday():
+    birthday = input("Input the date of birth as day month year (e.g. 15-10-1985 or 15 10 1985) or <<< if you want to cancel: ")
+    if birthday == "<<<":
+        return None
+    return Birthday(birthday)    
+    
 
 
 def create_record(name):
@@ -87,3 +97,7 @@ def create_record(name):
                         continue
                 break
         break
+    answer = input("Type Y (yes) if you want to add birthday: ").strip().lower()
+    if answer == "y" or answer == "yes":
+        birthday = add_birthday()
+        
