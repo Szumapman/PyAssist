@@ -2,6 +2,7 @@ from .record import Record
 from .phone import Phone
 from .email import Email
 from .birthday import Birthday
+from .address import Address
 from .name import Name
 
 
@@ -67,12 +68,19 @@ def add_birthday():
     return Birthday(birthday)    
     
 
+#@error_handler
+def add_address():
+    street = input("street: ")
+    city = input("city: ")
+    zip_code = input("zip code: ")
+    country = input("country: ")
+    return Address(street, city, zip_code, country)
 
 def create_record(name):
     phones = []
     emails = []
-    # birthday = None
-    # address = None
+    birthday = None
+    address = None
     while True:
         answer = (input("Type Y (yes) if you want to add phone number: ").strip().lower())
         if answer == "y" or answer == "yes":
@@ -85,6 +93,7 @@ def create_record(name):
                         continue
                 break
         break
+    
     while True:
         answer = input("Type Y (yes) if you want to add email: ").strip().lower()
         if answer == "y" or answer == "yes":
@@ -97,7 +106,12 @@ def create_record(name):
                         continue
                 break
         break
+    
     answer = input("Type Y (yes) if you want to add birthday: ").strip().lower()
     if answer == "y" or answer == "yes":
         birthday = add_birthday()
+    
+    answer = input("Type Y (yes) if you want to add address: ").strip().lower()
+    if answer == "y" or answer == "yes":
+        address = add_address()
         
