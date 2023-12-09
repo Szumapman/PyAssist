@@ -1,6 +1,5 @@
 import sys
 import os
-from typing import Callable
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
 from utility.record import Record
@@ -21,15 +20,13 @@ ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
 # function to handle with errors
-def error_handler(func: Callable):
+def error_handler(func):
     def wrapper(*args):
         while True:
             try:
                 return func(*args)
             # błędy i komunikaty przeniesione z pierwotnej wersji - do sprawdzenia / zmiany
             except ValueError:
-                if func.__name__ == "add_name":
-                    print("The name field cannot be empty, try again.")
                 if func.__name__ == "add_phone":
                     print("Invalid phone number, try again.")
                 if func.__name__ == "add_email":
@@ -82,18 +79,22 @@ def cli_pyassist_exit(*args):
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
+
+# @error_handler
 def add_record(*args):
     # jeśli użytkownik wpisał po prostu add to zostanie poproszony o podanie nazwy kontaktu do dodania
     if len(args) == 0:
         name = add_name(ADDRESSBOOK)
     # jeśli wpisał np. add John Smith to "John Smith" zostanie potraktowane jako nazwa dla nowego kontaku 
     # o ile taki kontakt już nie istnieje
-    name = " ".join(args).strip().title()
-    if name in ADDRESSBOOK.keys():
-        print(f"Contact {name} already exists. Choose another name.")
-        name = add_name(ADDRESSBOOK) 
     else:
-        name = Name(name)
+        name = " ".join(args).strip().title()
+        if name in ADDRESSBOOK.keys():
+            print(f"Contact {name} already exists. Choose another name.")
+            name = add_name(ADDRESSBOOK) 
+        else:
+            name = Name(name)
+    print(name.value)
         
     return f"A record in the address book has been created."
 
