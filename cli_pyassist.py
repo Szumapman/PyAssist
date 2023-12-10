@@ -11,11 +11,11 @@ from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
-from utility.record_interaction import add_name, create_record, del_record, show
-from utility.record_interaction import add_name, create_record, del_record, export_to_csv, import_from_csv
+from utility.notes_interaction import *
+from utility.record_interaction import *
 
 from utility.cmd_complet import CommandCompleter, similar_command
-from utility.notes_interaction import *
+
 
 # paths to files with data
 
