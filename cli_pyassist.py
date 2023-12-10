@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record, edit_commands
+from utility.record_interaction import add_name, create_record, edit_record
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -102,63 +102,11 @@ def add_record(*args):
     return "Operation cancelled"
 
 
-################################################
-# record edit
-def edit_record(*args):
-    while True:
-        if len(args) == 0:
-            name = input("Enter a name to edit: ").strip().title()
-        else:
-            name = " ".join(args).strip().title()
-
-        if name in ADDRESSBOOK.keys():
-            while True:
-                print(f"Editing record for {name}")
-                print("Available commands:")
-                print("\n".join(EDIT_COMMANDS.keys()))
-                command = input("Enter a command: ").strip()
-
-                if command == "up":
-                    break  # Powrót do poprzedniego menu
-
-                if command in EDIT_COMMANDS:
-                    EDIT_COMMANDS[command](ADDRESSBOOK, ADDRESSBOOK[name])
-                    break
-                else:
-                    print("Invalid command. Try again.")
-            break
-        else:
-            print(f"Name '{name}' not found in the address book. Please try again.")
-
-
-    # while True:
-    #     print(f"Your contacts:\n{addresbook.show_names()}")
-    #     name = input("Type the name of the contact to edit: ").strip().title()
-    #     if name in addresbook.keys():
-    #         record = addresbook[name]
-    #         break
-    #     print("Unknown name, try again")
-    # while True:
-    #     answer = input(
-    #         "What do you want to edit? Type: 1 name, 2 phone, 3 email, 4 birthday, 0 back to main menu: "
-    #     )
-    #     if answer in EDIT_COMMANDS.keys():
-    #         handler = get_edit_handler(answer)
-    #         handler(addresbook, record)
-    #         break
-    #     elif answer == "0":
-    #         break
-    #     else:
-    #         print("Wrong option, try again")
-
-
-################################################
-
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
     "add": add_record,
     "up": ...,
-    "edit": edit_record,
+    "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
 }
 
 def addressbook_commands(*args):

@@ -311,3 +311,44 @@ def edit_commands(*args):
             break
         print(execute_commands(EDIT_COMMANDS, cmd, arguments))
     return "Ok, I return to the addressbook menu."
+
+################################################
+# record edit
+def edit_record(addressbook, *args):
+    if not args:
+        name = input("Enter the name of the record you want to edit: ").strip().title()
+    else:
+        name = " ".join(args).strip().title()
+
+    if name in addressbook:
+        #del addressbook[name]
+        return f"Record {name} chnaged successfully."
+    else:
+        return f"Record {name} not found in the address book."
+
+
+
+    while True:
+        if len(args) == 0:
+            name = input("Enter a name to edit: ").strip().title()
+        else:
+            name = " ".join(args).strip().title()
+
+        if name in ADDRESSBOOK.keys():
+            while True:
+                print(f"Editing record for {name}")
+                print("Available commands:")
+                print("\n".join(EDIT_COMMANDS.keys()))
+                command = input("Enter a command: ").strip()
+
+                if command == "up":
+                    break  # Powrót do poprzedniego menu
+
+                if command in EDIT_COMMANDS:
+                    EDIT_COMMANDS[command](ADDRESSBOOK, ADDRESSBOOK[name])
+                    break
+                else:
+                    print("Invalid command. Try again.")
+            break
+        else:
+            print(f"Name '{name}' not found in the address book. Please try again.")
