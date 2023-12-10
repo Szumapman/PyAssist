@@ -12,6 +12,8 @@ from utility.birthday import Birthday, FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.record_interaction import add_name, create_record, del_record, show
+from utility.record_interaction import add_name, create_record, del_record, export_to_csv, import_from_csv
+
 from utility.cmd_complet import CommandCompleter, similar_command
 from utility.notes_interaction import *
 
@@ -132,6 +134,9 @@ ADDRESSBOOK_MENU_COMMANDS = {
     "up": ...,
     "show": lambda *args: show(ADDRESSBOOK, *args),
     "delete": lambda *args: del_record(ADDRESSBOOK, *args),
+    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
+    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
+    
 }
 
 def addressbook_commands(*args):
@@ -180,12 +185,9 @@ MAIN_COMMANDS = {
     "sort": sort_files_command,
     "notes": notes_command,
     # "edit": edit_record,
-    # "delete / del": delete_record,
     # "show": show_all,
     # "search": search,
     # "save": save_data,
-    # "export": export_to_csv,
-    # "import": import_from_csv,
 }
 
 
