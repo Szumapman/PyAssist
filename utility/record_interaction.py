@@ -32,8 +32,12 @@ def error_handler(func):
             except FutureDateError:
                 print("You can't use a future date as a birthday, try again.")
             except FileNotFoundError:
-                print("I can't find file to import data.")
-                break
+                if func.__name__ == "export_to_csv":
+                    return "Error: Unable to find the specified file. Please try again."
+                if func.__name__ == "import_from_csv":
+                    return "Error: Unable to find the specified file. Please try again."
+            except Exception as e:
+                return f"Error: {e}. Please try again."
     return wrapper
 
 
@@ -167,32 +171,23 @@ def show(addressbook, *args):
         return f"{addressbook[name_record_to_show]}"
     return f"Contact {name_record_to_show} doesn't exist."
 
-  
+@error_handler 
 def export_to_csv(addressbook):
     while True:
         filename = input("Type the filename to export to (e.g., output.csv) or <<< to cancel: ").strip()        
         if filename == "<<<" or filename == "":
             return "Export cancelled."
-        try:
-            addressbook.export_to_csv(filename)
-            return f"Data exported successfully to {filename}."
-        except FileNotFoundError:
-            return "Error: Unable to find the specified file. Please try again."
-        except Exception as e:
-            return f"Error: {e}. Please try again."
+        addressbook.export_to_csv(filename)
+        return f"Data exported successfully to {filename}."
 
-         
+
+@error_handler         
 def import_from_csv(addressbook):
     filename = input("Enter the CSV file name for import: ").strip()
     if filename == "<<<" or filename == "":
             return "Import cancelled."
-    try:
-        addressbook.import_from_csv(filename)
-        return f"Data imported successfully from {filename}."
-    except FileNotFoundError:
-            return "Error: Unable to find the specified file. Please try again."
-    except Exception as e:
-            return f"Error: {e}. Please try again."
+    addressbook.import_from_csv(filename)
+    return f"Data imported successfully from {filename}."
 
 
 #function displays the birthdays of contacts in the next days. If the user has not entered a number of days, the function displays for 7 days.
