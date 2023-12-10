@@ -1,5 +1,5 @@
 import difflib
-from prompt_toolkit.completion import Completer, Completion     
+from prompt_toolkit.completion import Completer, Completion  # pip install prompt_toolkit
 
 
 def similar_command(user_cmd: str, commands: list) -> str:

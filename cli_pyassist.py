@@ -66,8 +66,8 @@ def parse_command(user_input: str) -> (str, tuple):
 
 
 # taking a command from the user
-def user_command_input(completer: CommandCompleter):
-    user_input = prompt(">>> ", completer=completer).strip().lower()
+def user_command_input(completer: CommandCompleter, menu_name=""):
+    user_input = prompt(f"{menu_name} >>> ", completer=completer).strip().lower()
     if user_input:
         return parse_command(user_input)
     return "", ""
@@ -111,7 +111,7 @@ ADDRESSBOOK_MENU_COMMANDS = {
 def addressbook_commands(*args):
     completer = CommandCompleter(ADDRESSBOOK_MENU_COMMANDS.keys())
     while True:
-        cmd, arguments = user_command_input(completer)
+        cmd, arguments = user_command_input(completer, "address book")
         if cmd == "up":
             break
         print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
