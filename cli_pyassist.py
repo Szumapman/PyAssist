@@ -111,6 +111,7 @@ NOTES_MENU_COMMANDS = {
     "delete": delete_note,
     "add_tag": add_tag_to_note,
     "find_by_tag": find_notes_by_tag,
+    "sort_by_tag": sort_notes_by_tag,
     "save": save_note,
     "load": load_note,
     "search": find_note,

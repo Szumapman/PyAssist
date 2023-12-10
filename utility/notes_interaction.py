@@ -61,6 +61,10 @@ def find_notes_by_tag():
         return f"Notes with tag '{tag}'"
     else:
         return f"No notes found with tag '{tag}'."
+    
+def sort_notes_by_tag(*args):
+    Note.sort_notes_by_tag(notes)
+    return "Notes sorted by tags."
 
 
 
