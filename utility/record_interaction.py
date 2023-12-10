@@ -152,9 +152,14 @@ def edit_birthday(addresbook, record):
         addresbook[record.name.value].birthday = birthday
         return f"{record.name} birthday set to: {birthday}"
     return "Operation canceled."
-# @error_handler
-# def edit_address(existing_address):
-#     if existing_address:
+
+
+@error_handler
+def edit_address(addresbook, record):
+    record.address = add_address() # na razie najprostsza wersja, do czasu zmiany walidacji w klasie Address
+    return f"{record.name} new {record.address}"
+    
+        #     if existing_address:
 #         street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
 #         city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
 #         zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
@@ -249,7 +254,7 @@ EDIT_COMMANDS = {
     "name": edit_name, 
     #"phone": edit_phone, 
     #"email": edit_email,
-    #"address": edit_address,
+    "address": edit_address,
     "birthday": edit_birthday,
     }
 
