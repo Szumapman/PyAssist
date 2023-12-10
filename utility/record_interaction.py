@@ -1,21 +1,15 @@
 from .record import Record
 from .phone import Phone
 from .email import Email
-from .birthday import Birthday
+from .birthday import Birthday, FutureDateError
 from .address import Address
 from .name import Name
 from .addressbook import AddresBook
-# import os
+
 
 from prompt_toolkit import prompt
 from utility.cmd_complet import CommandCompleter, similar_command
 
-# # paths to files with data
-# ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-# #ścieżka do pliku z notatkami
-
-# #objects storing data while the program is running
-# ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 # function to handle with errors
 def error_handler(func):
@@ -35,8 +29,8 @@ def error_handler(func):
                 if func.__name__ == "import_from_csv":
                     print("I can't import from this source. Check the file.")
                     break
-            # except FutureDateError:
-            #     print("You can't use a future date as a birthday, try again.")
+            except FutureDateError:
+                print("You can't use a future date as a birthday, try again.")
             except FileNotFoundError:
                 print("I can't find file to import data.")
                 break
@@ -150,12 +144,14 @@ def edit_name(addressbook, record):
 # def edit_email(addresbook, record):
 #     change_data(record, "email")
     
-# # changing birthday
-# @error_handler
-# def edit_birthday(addresbook, record):
-#     birthday = add_birthday()
-#     addresbook[record.name.value].birthday = birthday
-
+# changing birthday
+@error_handler
+def edit_birthday(addresbook, record):
+    birthday = add_birthday()
+    if birthday:
+        addresbook[record.name.value].birthday = birthday
+        return f"{record.name} birthday set to: {birthday}"
+    return "Operation canceled."
 # @error_handler
 # def edit_address(existing_address):
 #     if existing_address:
@@ -254,7 +250,7 @@ EDIT_COMMANDS = {
     #"phone": edit_phone, 
     #"email": edit_email,
     #"address": edit_address,
-    #"birthday": edit_birthday,
+    "birthday": edit_birthday,
     }
 
 # # a function that parses user input commands
