@@ -83,17 +83,22 @@ class Note:
             loaded_notes = []
             with open(file_name, mode="r", encoding="utf-8") as file:
                 reader = csv.reader(file)
-                next(reader)
+                header = next(reader, None)
+                if header is None:
+                    print("Empty file or missing header.")
+                    return []
+                
                 for row in reader:
-                    title, content, creation_time_str, modified_time_str, tags_str = row
-                    create_time = datetime.strptime(creation_time_str, "%Y-%m-%d %H:%M:%S")
-                    modified_time = datetime.strptime(modified_time_str, "%Y-%m-%d %H:%M:%S")
-                    tags = tags_str.split(', ') if tags_str else []
-                    new_note = Note(title, content)
-                    new_note.create_time = create_time
-                    new_note.modified_time = modified_time
-                    new_note.tags = tags
-                    loaded_notes.append(new_note)
+                    if row:
+                        title, content, creation_time_str, modified_time_str, tags_str = row
+                        create_time = datetime.strptime(creation_time_str, "%Y-%m-%d %H:%M:%S")
+                        modified_time = datetime.strptime(modified_time_str, "%Y-%m-%d %H:%M:%S")
+                        tags = tags_str.split(', ') if tags_str else []
+                        new_note = Note(title, content)
+                        new_note.create_time = create_time
+                        new_note.modified_time = modified_time
+                        new_note.tags = tags
+                        loaded_notes.append(new_note)
             return loaded_notes
         except (FileNotFoundError, PermissionError, ValueError, csv.Error) as e:
             print(f"Error loading notes from {file_name}: {e}")

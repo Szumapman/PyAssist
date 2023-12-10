@@ -1,5 +1,6 @@
 import sys
 import os
+import csv
 from typing import Callable
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
@@ -14,11 +15,12 @@ from utility.cmd_complet import CommandCompleter, similar_command
 
 # paths to files with data
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
+NOTES_DATA_PATH = os.path.join(os.getcwd(), "notes.csv")
 
 #objects storing data while the program is running
 ADDRESBOOK = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
 NOTES = Note.load_notes(NOTES_DATA_PATH)
+notes = NOTES if NOTES else []
 
 #initialize an instance of FileSorter class
 file_sorter = FileSorter()
@@ -28,7 +30,7 @@ def sort_files_in_directory(directory):
     file_sorter.process_folder(directory)
 
 #functions for note command #================CHECK
-notes = []
+
 def display_notes(notes_list):
     if not notes_list:
         print("No notes available.")
@@ -82,6 +84,13 @@ def find_notes_by_tag():
         display_notes(found_notes)
     else:
         print(f"No notes found with tag '{tag}'.")
+
+def save_note(*args):
+    Note.save_notes(notes, NOTES_DATA_PATH)
+    return f"Saved."
+def load_note(*args):
+    global notes
+    notes = Note.load_notes(NOTES_DATA_PATH)
         
 # function to handle with errors
 def error_handler(func: Callable):
@@ -161,6 +170,8 @@ NOTES_MENU_COMMANDS = {
     "delete": delete_note,
     "add tag": add_tag_to_note,
     "find by tag": find_notes_by_tag,
+    "save": save_note,
+    "load": load_note,
 }
 
 # function to handle note command  #================CHECK
