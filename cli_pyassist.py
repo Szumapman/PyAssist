@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record
+from utility.record_interaction import add_name, create_record, show
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -102,23 +102,12 @@ def add_record(*args):
     return "Operation cancelled"
 
 
-def show(*args):
-    if len(args) == 1:
-        if args[0] == "all":
-            for info in ADDRESSBOOK.iterator():
-                print(info, end="")
-                if info != "":
-                    input("Press Enter to continue. ")
-            return ""        
-    
-
-
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
     "exit": cli_pyassist_exit,
     "add": add_record,
     "up": ...,
-    "show": show,
+    "show": lambda *args: show(ADDRESSBOOK, *args),
 }
 
 def addressbook_commands(*args):
