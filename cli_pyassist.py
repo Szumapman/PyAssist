@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record, del_record
+from utility.record_interaction import add_name, create_record, del_record, export_to_csv, import_from_csv
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -107,6 +107,9 @@ ADDRESSBOOK_MENU_COMMANDS = {
     "add": add_record,
     "up": ...,
     "delete": lambda *args: del_record(ADDRESSBOOK, *args),
+    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
+    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
+    
 }
 
 def addressbook_commands(*args):
@@ -123,13 +126,13 @@ def addressbook_commands(*args):
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
     "addressbook": addressbook_commands,
+    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
+    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
+    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
     # "edit": edit_record,
-    # "delete / del": delete_record,
     # "show": show_all,
     # "search": search,
     # "save": save_data,
-    # "export": export_to_csv,
-    # "import": import_from_csv,
 }
 
 
