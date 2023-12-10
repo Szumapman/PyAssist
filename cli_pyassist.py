@@ -28,11 +28,13 @@ file_sorter = FileSorter()
 #function for FileSorter in specified directory
 def sort_files_in_directory(directory):
     file_sorter.process_folder(directory)
+    
+# function to handle sort command
+def sort_files_command(*args):
+    directory = input("Enter directory path to sort files: ")
+    sort_files_in_directory(directory)
+    return f"Done."
 
-#functions for note command #================CHECK
-
-
-        
 # function to handle with errors
 def error_handler(func: Callable):
     def wrapper(*args):
@@ -87,8 +89,8 @@ def user_command_input(completer: CommandCompleter):
 
 # exit / close program
 def cli_pyassist_exit(*args):
-    ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)
-    NOTES.save_notes(NOTES_DATA_PATH)
+    ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)  #there is a problem with saving this, when problem ///Jakub
+    Note.save_notes(notes, NOTES_DATA_PATH)   
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
@@ -97,11 +99,6 @@ def cli_pyassist_exit(*args):
 def get_main_handler(command):
     return MAIN_COMMANDS[command]
 
-# function to handle sort command
-def sort_files_command(*args):
-    directory = input("Enter directory path to sort files: ")
-    sort_files_in_directory(directory)
-
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
     "up": ...,
@@ -109,9 +106,9 @@ NOTES_MENU_COMMANDS = {
     "create": create_note,
     "edit": edit_note,
     "delete": delete_note,
-    "add_tag": add_tag_to_note,
-    "find_by_tag": find_notes_by_tag,
-    "sort_by_tag": sort_notes_by_tag,
+    "addtag": add_tag_to_note,
+    "findtag": find_notes_by_tag,
+    "sorttag": sort_notes_by_tag,
     "save": save_note,
     "load": load_note,
     "search": find_note,
