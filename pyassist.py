@@ -153,7 +153,7 @@ def edit_name(addresbook, record):
 # help menu function to choose email or phone
 def item_selection(record, data_list, show):
     print(f"Contact {record.name} {type}s:\n{show}", end="")
-    number_to_change = input("Select by typing a number (for example 1 or 2): ")
+    number_to_change = input("\nSelect by typing a number (for example 1 or 2): ")
     try:
         number_to_change = int(number_to_change) - 1
         if number_to_change >= len(data_list) or number_to_change < 0:
@@ -177,7 +177,7 @@ def change_data(record, type):
         if len(data_list) > 0:
             while True:
                 answer = input(
-                    f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: "
+                    f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 change, 2 add, 3 delete: "
                 )
                 if answer == "1":
                     if len(data_list) == 1:

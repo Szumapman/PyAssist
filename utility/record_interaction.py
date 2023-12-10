@@ -133,16 +133,6 @@ def edit_name(addressbook, record):
         return f"Name changed from {old_record.name} to {new_name}"
     return "Operation canceled."
 
-
-# # init function for phone changed
-# @error_handler
-# def edit_phone(addresbook, record):
-#     change_data(record, "phone")
-
-# # init function for email changed
-# @error_handler
-# def edit_email(addresbook, record):
-#     change_data(record, "email")
     
 # changing birthday
 @error_handler
@@ -158,69 +148,94 @@ def edit_birthday(addresbook, record):
 def edit_address(addresbook, record):
     record.address = add_address() # na razie najprostsza wersja, do czasu zmiany walidacji w klasie Address
     return f"{record.name} new {record.address}"
+
+
+# init function for phone changed
+@error_handler
+def edit_phone(addresbook, record):
+    return change_data(record, "phone")
+
+# init function for email changed
+@error_handler
+def edit_email(addresbook, record):
+    return change_data(record, "email")    
+
+
+# help menu function to choose email or phone
+def item_selection(record, data_list, show):
+    print(f"Contact {record.name} {type}s:\n{show}", end="")
+    number_to_change = input("Select by typing a number (for example 1 or 2): ")
+    try:
+        number_to_change = int(number_to_change) - 1
+        if number_to_change >= len(data_list) or number_to_change < 0:
+            raise ValueError
+        return number_to_change
+    except ValueError:
+        return -1
     
-    
-# # change of phone or email
-# def change_data(record, type):
-#     if type == "phone":
-#         data_list = record.phones
-#         show = record.show_phones()
-#         add_type = record.add_phone
-#     elif type == "email":
-#         data_list = record.emails
-#         show = record.show_emails()
-#         add_type = record.add_email
-#     while True:
-#         if len(data_list) > 0:
-#             while True:
-#                 answer = input(
-#                     f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: "
-#                 )
-#                 if answer == "1":
-#                     if len(data_list) == 1:
-#                         data_to_add = add_email() if type == "email" else add_phone()
-#                         if data_to_add is not None:
-#                             data_list[0] = data_to_add
-#                         break
-#                     else:
-#                         number_to_change = item_selection(record, data_list, show)
-#                         if number_to_change == -1:
-#                             print("Wrong option, try again")
-#                             break
-#                         data_to_add = add_email() if type == "email" else add_phone()
-#                         if data_to_add is not None:
-#                             data_list[number_to_change] = data_to_add
-#                         break
-#                 elif answer == "2":
-#                     data_to_add = add_email() if type == "email" else add_phone()
-#                     if data_to_add is not None:
-#                         add_type(data_to_add)
-#                     break
-#                 elif answer == "3":
-#                     if len(data_list) == 1:
-#                         data_list.clear()
-#                         break
-#                     else:
-#                         number_to_delete = item_selection(record, data_list, show)
-#                         if number_to_delete == -1:
-#                             print("Wrong option, try again")
-#                             break
-#                         print(
-#                             f"{type} no {number_to_delete+1}: {data_list.pop(number_to_delete)} deleted."
-#                         )
-#                         break
-#                 else:
-#                     print("Unrecognized command, try again.")
-#         else:
-#             add_type(add_email() if type == "email" else add_phone())
-#         break
+        
+# change of phone or email
+def change_data(record, type):
+    if type == "phone":
+        data_list = record.phones
+        show = record.show_phones()
+        add_type = record.add_phone
+    elif type == "email":
+        data_list = record.emails
+        show = record.show_emails()
+        add_type = record.add_email
+    while True:
+        if len(data_list) > 0:
+            while True:
+                answer = input(f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: ")
+                if answer == "1":
+                    if len(data_list) == 1:
+                        data_to_add = add_email() if type == "email" else add_phone()
+                        if data_to_add is not None:
+                            data_list[0] = data_to_add
+                            return f"{type} edited sucessfully."
+                        return "Operation canceled."
+                    else:
+                        number_to_change = item_selection(record, data_list, show)
+                        if number_to_change == -1:
+                            print("Wrong option, try again")
+                            break
+                        data_to_add = add_email() if type == "email" else add_phone()
+                        if data_to_add is not None:
+                            data_list[number_to_change] = data_to_add
+                            return f"{type} edited sucessfully."
+                        return "Operation canceled."
+                elif answer == "2":
+                    data_to_add = add_email() if type == "email" else add_phone()
+                    if data_to_add is not None:
+                        add_type(data_to_add)
+                        return f"{type} edited sucessfully."
+                    return "Operation canceled."
+                elif answer == "3":
+                    if len(data_list) == 1:
+                        data_list.clear()
+                        return f"{type} edited sucessfully."
+                    else:
+                        number_to_delete = item_selection(record, data_list, show)
+                        if number_to_delete == -1:
+                            print("Wrong option, try again")
+                            break
+                        print(f"{type} no {number_to_delete+1}: {data_list.pop(number_to_delete)} deleted.")
+                        return f"{type} edited sucessfully."
+                else:
+                    print("Unrecognized command, try again.")
+        else:
+            add_type(add_email() if type == "email" else add_phone())
+            return f"{type} edited sucessfully."
+        return f"{type} edited sucessfully.???"
+
 
 
 # dict for menu edit handler
 EDIT_COMMANDS = {
     "name": edit_name, 
     "phone": edit_phone, 
-    #"email": edit_email,
+    "email": edit_email,
     "address": edit_address,
     "birthday": edit_birthday,
     }
@@ -242,15 +257,6 @@ def execute_commands(commands: dict, cmd: str, addresbook: AddresBook, record: R
         return f"Command {cmd} is not recognized" + similar_command(cmd, commands.keys())
     cmd = commands[cmd]
     return cmd(addresbook, record)
-
-# def edit_commands(addressbook, *args):
-#     completer = CommandCompleter(EDIT_COMMANDS.keys())
-#     while True:
-#         cmd, arguments = user_command_input(completer)
-#         if cmd == "up":
-#             break
-#         print(execute_commands(EDIT_COMMANDS, cmd, arguments))
-#     return "Ok, I return to the addressbook menu."
 
 
 # record edit
