@@ -97,7 +97,6 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
-    ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)  #there is a problem with saving this, when problem ///Jakub
     Note.save_notes(notes, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.") 
