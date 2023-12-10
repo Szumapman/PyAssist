@@ -119,7 +119,7 @@ ADDRESSBOOK_MENU_COMMANDS = {
 }
 
 def addressbook_commands(*args):
-    completer = CommandCompleter(ADDRESSBOOK_MENU_COMMANDS.keys())
+    completer = CommandCompleter(list(ADDRESSBOOK_MENU_COMMANDS.keys()) + list(ADDRESSBOOK.keys()))
     while True:
         cmd, arguments = user_command_input(completer, "address book")
         if cmd == "up":
