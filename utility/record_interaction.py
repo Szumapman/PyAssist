@@ -116,4 +116,116 @@ def create_record(name):
         address = add_address()
     
     return Record(name, phones, emails, birthday, address)
+
+#####################################
+# edit existing name
+def edit_name(addresbook, record):
+    print(f"Type new name for contact {record.name}")
+    new_name = add_name(addresbook)
+    addresbook.add_record(Record(new_name, record.phones, record.emails))
+    addresbook.pop(record.name.value)
+
+# init function for phone changed
+def edit_phone(addresbook, record):
+    change_data(record, "phone")
+
+# init function for email changed
+def edit_email(addresbook, record):
+    change_data(record, "email")
+    
+# changing birthday
+def edit_birthday(addresbook, record):
+    birthday = add_birthday()
+    addresbook[record.name.value].birthday = birthday
+
+# help menu function to choose email or phone
+def item_selection(record, data_list, show):
+    print(f"Contact {record.name} {type}s:\n{show}", end="")
+    number_to_change = input("Select by typing a number (for example 1 or 2): ")
+    try:
+        number_to_change = int(number_to_change) - 1
+        if number_to_change >= len(data_list) or number_to_change < 0:
+            raise ValueError
+        return number_to_change
+    except ValueError:
+        return -1
+    
+# change of phone or email
+def change_data(record, type):
+    if type == "phone":
+        data_list = record.phones
+        show = record.show_phones()
+        add_type = record.add_phone
+    elif type == "email":
+        data_list = record.emails
+        show = record.show_emails()
+        add_type = record.add_email
+    while True:
+        if len(data_list) > 0:
+            while True:
+                answer = input(
+                    f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: "
+                )
+                if answer == "1":
+                    if len(data_list) == 1:
+                        data_to_add = add_email() if type == "email" else add_phone()
+                        if data_to_add is not None:
+                            data_list[0] = data_to_add
+                        break
+                    else:
+                        number_to_change = item_selection(record, data_list, show)
+                        if number_to_change == -1:
+                            print("Wrong option, try again")
+                            break
+                        data_to_add = add_email() if type == "email" else add_phone()
+                        if data_to_add is not None:
+                            data_list[number_to_change] = data_to_add
+                        break
+                elif answer == "2":
+                    data_to_add = add_email() if type == "email" else add_phone()
+                    if data_to_add is not None:
+                        add_type(data_to_add)
+                    break
+                elif answer == "3":
+                    if len(data_list) == 1:
+                        data_list.clear()
+                        break
+                    else:
+                        number_to_delete = item_selection(record, data_list, show)
+                        if number_to_delete == -1:
+                            print("Wrong option, try again")
+                            break
+                        print(
+                            f"{type} no {number_to_delete+1}: {data_list.pop(number_to_delete)} deleted."
+                        )
+                        break
+                else:
+                    print("Unrecognized command, try again.")
+        else:
+            add_type(add_email() if type == "email" else add_phone())
+        break
+
+
+def get_updated_address(existing_address):
+    if existing_address:
+        street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
+        city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
+        zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
+        country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
+
+        return Address(street or existing_address.street,
+                       city or existing_address.city,
+                       zip_code or existing_address.zip_code,
+                       country or existing_address.country)
+    else:
+        # If existing_address is None, create a new Address object
+        street = input("Enter the street: ")
+        city = input("Enter the city: ")
+        zip_code = input("Enter the zip code: ")
+        country = input("Enter the country: ")
+
+        if street or city or zip_code or country:
+            return Address(street, city, zip_code, country)
+        else:
+            return None
         
