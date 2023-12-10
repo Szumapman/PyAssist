@@ -2,7 +2,7 @@ from utility.notes import Note
 import os
 
 # paths to files with data
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "notes.csv")
+NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
 
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
