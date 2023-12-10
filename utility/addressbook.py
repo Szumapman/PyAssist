@@ -109,6 +109,11 @@ class AddresBook(UserDict):
             if record.birthday is not None:
                 if query in str(record.birthday.value):
                     query_addresbook[record.name.value] = record
+            if record.address and (query in record.address.street.lower() or
+                                   query in record.address.city.lower() or
+                                   query in record.address.zip_code.lower() or
+                                   query in record.address.country.lower()):
+                query_addresbook[record.name.value] = record
         return query_addresbook
             
        
