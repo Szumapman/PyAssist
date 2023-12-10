@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record
+from utility.record_interaction import add_name, create_record, del_record
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -106,6 +106,7 @@ def add_record(*args):
 ADDRESSBOOK_MENU_COMMANDS = {
     "add": add_record,
     "up": ...,
+    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
 }
 
 def addressbook_commands(*args):
