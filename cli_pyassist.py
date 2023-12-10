@@ -131,13 +131,13 @@ def add_record(*args):
 ADDRESSBOOK_MENU_COMMANDS = {
     "exit": cli_pyassist_exit,
     "add": add_record,
-    "up": ...,
+    "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
     "show": lambda *args: show(ADDRESSBOOK, *args),
     "delete": lambda *args: del_record(ADDRESSBOOK, *args),
     "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
     "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
     "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
-    
+    "up": ...,
 }
 
 def addressbook_commands(*args):
