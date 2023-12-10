@@ -4,18 +4,18 @@ from .email import Email
 from .birthday import Birthday
 from .address import Address
 from .name import Name
-from utility.addressbook import AddresBook
-import os
+from .addressbook import AddresBook
+# import os
 
 from prompt_toolkit import prompt
 from utility.cmd_complet import CommandCompleter, similar_command
 
-# paths to files with data
-ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-#ścieżka do pliku z notatkami
+# # paths to files with data
+# ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
+# #ścieżka do pliku z notatkami
 
-#objects storing data while the program is running
-ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
+# #objects storing data while the program is running
+# ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 # function to handle with errors
 def error_handler(func):
@@ -128,29 +128,32 @@ def create_record(name):
     
     return Record(name, phones, emails, birthday, address)
 
+
+
 #####################################
 # edit existing name
-def edit_name(addressbook, *args):
-    while True:
-        name = " ".join(args).strip().title()
-        print(f"Type new name for contact {name}")
-        new_name = input("New name: ").strip().title()
+def edit_name(addressbook, record):
+    ...
+    # while True:
+    #     name = " ".join(args).strip().title()
+    #     print(f"Type new name for contact {name}")
+    #     new_name = input("New name: ").strip().title()
 
-        if not new_name:
-            print("Name cannot be empty. Please try again.")
-            continue
+    #     if not new_name:
+    #         print("Name cannot be empty. Please try again.")
+    #         continue
 
-        if new_name == name:
-            print("The new name is the same as the current name. Please provide a different name.")
-            continue
+    #     if new_name == name:
+    #         print("The new name is the same as the current name. Please provide a different name.")
+    #         continue
 
-        if new_name in ADDRESSBOOK.keys():
-            print("A contact with this name already exists. Please choose a different name.")
-            continue
+    #     if new_name in ADDRESSBOOK.keys():
+    #         print("A contact with this name already exists. Please choose a different name.")
+    #         continue
 
-        addressbook[new_name] = Record(new_name, addressbook.phones, addressbook.emails, addressbook.birthday, addressbook.address)
-        del addressbook[addressbook.name.value]
-        break
+    #     addressbook[new_name] = Record(new_name, addressbook.phones, addressbook.emails, addressbook.birthday, addressbook.address)
+    #     del addressbook[addressbook.name.value]
+    #     break
 
 # # init function for phone changed
 # @error_handler
@@ -262,39 +265,38 @@ def edit_name(addressbook, *args):
 
 # dict for menu edit handler
 EDIT_COMMANDS = {
-    "name": lambda *args: edit_name(ADDRESSBOOK, *args), 
+    "name": edit_name, 
     #"phone": edit_phone, 
     #"email": edit_email,
     #"address": edit_address,
     #"birthday": edit_birthday,
-    "up": ...,
     }
 
-# a function that parses user input commands
-def parse_command(user_input: str) -> (str, tuple):
-    """
-    Parse user input command
+# # a function that parses user input commands
+# def parse_command(user_input: str) -> (str, tuple):
+#     """
+#     Parse user input command
 
-    Args:
-        user_input (str): user input command
+#     Args:
+#         user_input (str): user input command
     
-    Returns:
-        str: command
-        tuple: arguments
-    """
-    tokens = user_input.split()
-    command = tokens[0]
-    arguments = tokens[1:]
-    return command, tuple(arguments)
+#     Returns:
+#         str: command
+#         tuple: arguments
+#     """
+#     tokens = user_input.split()
+#     command = tokens[0]
+#     arguments = tokens[1:]
+#     return command, tuple(arguments)
 
-# taking a command from the user
-def user_command_input(completer: CommandCompleter):
-    user_input = prompt(">>> ", completer=completer).strip().lower()
-    if user_input:
-        return parse_command(user_input)
-    return "", ""
+# # taking a command from the user
+# def user_command_input(completer: CommandCompleter):
+#     user_input = prompt(">>> ", completer=completer).strip().lower()
+#     if user_input:
+#         return parse_command(user_input)
+#     return "", ""
 
-def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
+def execute_commands(commands: dict, cmd: str, addresbook: AddresBook, record: Record):
     """
     Function to execute user commands
 
@@ -306,31 +308,33 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     Returns:
         func: function with arguments
     """
-    if cmd not in menu_commands:
-        return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
-    cmd = menu_commands[cmd]
-    return cmd(*arguments)
+    if cmd not in commands:
+        return f"Command {cmd} is not recognized" + similar_command(cmd, commands.keys())
+    cmd = commands[cmd]
+    return cmd(addresbook, record)
 
-def edit_commands(addressbook, *args):
-    completer = CommandCompleter(EDIT_COMMANDS.keys())
-    while True:
-        cmd, arguments = user_command_input(completer)
-        if cmd == "up":
-            break
-        print(execute_commands(EDIT_COMMANDS, cmd, arguments))
-    return "Ok, I return to the addressbook menu."
+# def edit_commands(addressbook, *args):
+#     completer = CommandCompleter(EDIT_COMMANDS.keys())
+#     while True:
+#         cmd, arguments = user_command_input(completer)
+#         if cmd == "up":
+#             break
+#         print(execute_commands(EDIT_COMMANDS, cmd, arguments))
+#     return "Ok, I return to the addressbook menu."
 
-################################################
+
 # record edit
 def edit_record(addressbook, *args):
+    name_completer = CommandCompleter(addressbook.keys())
+    command_completer = CommandCompleter(EDIT_COMMANDS)
     if not args:
-        name = input("Enter the name of the record you want to edit: ").strip().title()
+        name = prompt("Enter the name of the record you want to edit: ", completer=name_completer).strip().title()
     else:
         name = " ".join(args).strip().title()
-
     if name in addressbook:
-        print("Enter what you want to edit: ")
-        edit_commands(ADDRESSBOOK, *args)
+        record = addressbook[name]
+        command = prompt(f"Type what you want to change in {name} contact: ", completer=command_completer)
+        execute_commands(EDIT_COMMANDS, command, addressbook, record)
         return f"Record {name} changed successfully."
     else:
         return f"Record {name} not found in the address book."
