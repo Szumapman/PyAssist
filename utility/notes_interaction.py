@@ -80,8 +80,8 @@ def find_note():
 
 def save_note(*args):
     Note.save_notes(notes, NOTES_DATA_PATH)
-    return f"Saved."
+    return f"Notes exported."
 def load_note(*args):
     global notes
     notes = Note.load_notes(NOTES_DATA_PATH)
-    return f"Load complete."
+    return f"Notes imported."
