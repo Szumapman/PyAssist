@@ -159,39 +159,6 @@ def edit_address(addresbook, record):
     record.address = add_address() # na razie najprostsza wersja, do czasu zmiany walidacji w klasie Address
     return f"{record.name} new {record.address}"
     
-        #     if existing_address:
-#         street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
-#         city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
-#         zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
-#         country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
-
-#         return Address(street or existing_address.street,
-#                        city or existing_address.city,
-#                        zip_code or existing_address.zip_code,
-#                        country or existing_address.country)
-#     else:
-#         # If existing_address is None, create a new Address object
-#         street = input("Enter the street: ")
-#         city = input("Enter the city: ")
-#         zip_code = input("Enter the zip code: ")
-#         country = input("Enter the country: ")
-
-#         if street or city or zip_code or country:
-#             return Address(street, city, zip_code, country)
-#         else:
-#             return None
-
-# # help menu function to choose email or phone
-# def item_selection(record, data_list, show):
-#     print(f"Contact {record.name} {type}s:\n{show}", end="")
-#     number_to_change = input("Select by typing a number (for example 1 or 2): ")
-#     try:
-#         number_to_change = int(number_to_change) - 1
-#         if number_to_change >= len(data_list) or number_to_change < 0:
-#             raise ValueError
-#         return number_to_change
-#     except ValueError:
-#         return -1
     
 # # change of phone or email
 # def change_data(record, type):
@@ -252,35 +219,12 @@ def edit_address(addresbook, record):
 # dict for menu edit handler
 EDIT_COMMANDS = {
     "name": edit_name, 
-    #"phone": edit_phone, 
+    "phone": edit_phone, 
     #"email": edit_email,
     "address": edit_address,
     "birthday": edit_birthday,
     }
 
-# # a function that parses user input commands
-# def parse_command(user_input: str) -> (str, tuple):
-#     """
-#     Parse user input command
-
-#     Args:
-#         user_input (str): user input command
-    
-#     Returns:
-#         str: command
-#         tuple: arguments
-#     """
-#     tokens = user_input.split()
-#     command = tokens[0]
-#     arguments = tokens[1:]
-#     return command, tuple(arguments)
-
-# # taking a command from the user
-# def user_command_input(completer: CommandCompleter):
-#     user_input = prompt(">>> ", completer=completer).strip().lower()
-#     if user_input:
-#         return parse_command(user_input)
-#     return "", ""
 
 def execute_commands(commands: dict, cmd: str, addresbook: AddresBook, record: Record):
     """
