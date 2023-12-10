@@ -138,3 +138,7 @@ def show(addressbook, *args):
                 if info != "":
                     input("Press Enter to continue. ")
             return "" 
+        name_record_to_show = " ".join(args).strip().title()
+        if name_record_to_show in addressbook:
+            return f"{addressbook[name_record_to_show]}"
+        return f"Contact {name_record_to_show} doesn't exist."

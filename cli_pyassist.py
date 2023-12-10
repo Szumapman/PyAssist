@@ -59,7 +59,7 @@ def parse_command(user_input: str) -> (str, tuple):
         tuple: arguments
     """
     tokens = user_input.split()
-    command = tokens[0]
+    command = tokens[0].lower()
     arguments = tokens[1:]
     return command, tuple(arguments)
 
@@ -67,7 +67,7 @@ def parse_command(user_input: str) -> (str, tuple):
 
 # taking a command from the user
 def user_command_input(completer: CommandCompleter, menu_name=""):
-    user_input = prompt(f"{menu_name} >>> ", completer=completer).strip().lower()
+    user_input = prompt(f"{menu_name} >>> ", completer=completer).strip()
     if user_input:
         return parse_command(user_input)
     return "", ""
