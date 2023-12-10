@@ -102,10 +102,22 @@ def add_record(*args):
     return "Operation cancelled"
 
 
+def show(*args):
+    if len(args) == 1:
+        if args[0] == "all":
+            for info in ADDRESSBOOK.iterator():
+                print(info, end="")
+                if info != "":
+                    input("Press Enter to continue. ")
+            return ""        
+    
+
+
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
     "add": add_record,
     "up": ...,
+    "show": show,
 }
 
 def addressbook_commands(*args):
