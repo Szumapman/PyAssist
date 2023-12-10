@@ -32,6 +32,15 @@ class Note:
         self.content = new_content
         self.modified_time = datetime.now()
 
+    def find_notes(notes_list, keyword):     #search note with input keyword
+        keyword = keyword.lower()
+        found_notes = []
+        for note in notes_list:
+            if keyword in note.title.lower() or keyword in note.content.lower():
+                found_notes.append(note)
+        return found_notes
+                
+
     @staticmethod
     def sort_notes_by_tag(notes_list):      #mechanism that sorts notes by tag (added to add, change, remove tag)
         notes_list.sort(key=lambda note: ", ".join(note.tags))

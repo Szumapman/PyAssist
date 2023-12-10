@@ -91,6 +91,15 @@ def save_note(*args):
 def load_note(*args):
     global notes
     notes = Note.load_notes(NOTES_DATA_PATH)
+
+def find_note():
+    search_term = input("Enter a keyword to search for in note titles or contents: ")
+    found_notes = Note.find_notes(notes, search_term)
+    if found_notes:
+        print(f"Notes containing '{search_term}':")
+        display_notes(found_notes)
+    else:
+        print(f"No notes found containing '{search_term}'.")
         
 # function to handle with errors
 def error_handler(func: Callable):
@@ -172,6 +181,7 @@ NOTES_MENU_COMMANDS = {
     "find by tag": find_notes_by_tag,
     "save": save_note,
     "load": load_note,
+    "search": find_note,
 }
 
 # function to handle note command  #================CHECK
