@@ -126,9 +126,6 @@ def addressbook_commands(*args):
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
     "addressbook": addressbook_commands,
-    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
-    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
-    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
     # "edit": edit_record,
     # "show": show_all,
     # "search": search,

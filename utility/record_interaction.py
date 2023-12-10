@@ -133,10 +133,9 @@ def export_to_csv(addressbook) -> None:
     while True:
         filename = input("Type the filename to export to (e.g., output.csv) or <<< to cancel: ").strip()
         
-        if filename == "<<<":
+        if filename == "<<<" or filename == "":
             return "Export cancelled."
-        elif filename == "":
-             return "Export cancelled."
+        
 
         try:
             addressbook.export_to_csv(filename)
@@ -148,10 +147,9 @@ def export_to_csv(addressbook) -> None:
             
 def import_from_csv(addressbook):
     filename = input("Enter the CSV file name for import: ").strip()
-    if filename == "<<<":
+    if filename == "<<<" or filename == "":
             return "Import cancelled."
-    elif filename == "":
-            return "Import cancelled."
+   
     
     try:
         addressbook.import_from_csv(filename)
