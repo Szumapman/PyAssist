@@ -130,30 +130,17 @@ def create_record(name):
 
 
 
-#####################################
+
 # edit existing name
 def edit_name(addressbook, record):
-    ...
-    # while True:
-    #     name = " ".join(args).strip().title()
-    #     print(f"Type new name for contact {name}")
-    #     new_name = input("New name: ").strip().title()
+    print(f"Type new name for contact {record.name}")
+    new_name = add_name(addressbook)
+    if new_name:
+        addressbook.add_record(Record(new_name, record.phones, record.emails, record.birthday, record.address))
+        old_record = addressbook.pop(record.name.value)
+        return f"Name changed from {record.name} to {new_name}"
+    return "Operation canceled."
 
-    #     if not new_name:
-    #         print("Name cannot be empty. Please try again.")
-    #         continue
-
-    #     if new_name == name:
-    #         print("The new name is the same as the current name. Please provide a different name.")
-    #         continue
-
-    #     if new_name in ADDRESSBOOK.keys():
-    #         print("A contact with this name already exists. Please choose a different name.")
-    #         continue
-
-    #     addressbook[new_name] = Record(new_name, addressbook.phones, addressbook.emails, addressbook.birthday, addressbook.address)
-    #     del addressbook[addressbook.name.value]
-    #     break
 
 # # init function for phone changed
 # @error_handler
@@ -334,7 +321,7 @@ def edit_record(addressbook, *args):
     if name in addressbook:
         record = addressbook[name]
         command = prompt(f"Type what you want to change in {name} contact: ", completer=command_completer)
-        execute_commands(EDIT_COMMANDS, command, addressbook, record)
-        return f"Record {name} changed successfully."
+        print(execute_commands(EDIT_COMMANDS, command, addressbook, record))
+        return "<<<"
     else:
         return f"Record {name} not found in the address book."
