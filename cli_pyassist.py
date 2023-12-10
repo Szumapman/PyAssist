@@ -7,8 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record, show
-from utility.record_interaction import add_name, create_record, del_record
+from utility.record_interaction import add_name, create_record, del_record, show
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
