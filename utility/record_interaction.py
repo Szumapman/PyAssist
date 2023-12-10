@@ -156,17 +156,16 @@ def del_record(addressbook, *args):
     
 
 def show(addressbook, *args):
-    if len(args) == 1:
-        if args[0] == "all":
-            for info in addressbook.iterator():
-                print(info, end="")
-                if info != "":
-                    input("Press Enter to continue. ")
-            return "" 
-        name_record_to_show = " ".join(args).strip().title()
-        if name_record_to_show in addressbook:
-            return f"{addressbook[name_record_to_show]}"
-        return f"Contact {name_record_to_show} doesn't exist."
+    if not args:
+        for info in addressbook.iterator():
+            print(info, end="")
+            if info:
+                input("Press Enter to continue.")
+        return "" 
+    name_record_to_show = " ".join(args).strip().title()
+    if name_record_to_show in addressbook:
+        return f"{addressbook[name_record_to_show]}"
+    return f"Contact {name_record_to_show} doesn't exist."
 
   
 def export_to_csv(addressbook):
