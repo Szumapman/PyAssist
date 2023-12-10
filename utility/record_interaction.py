@@ -129,3 +129,12 @@ def del_record(addressbook, *args):
     else:
         return f"Record {name} not found in the address book."
         
+
+def show(addressbook, *args):
+    if len(args) == 1:
+        if args[0] == "all":
+            for info in addressbook.iterator():
+                print(info, end="")
+                if info != "":
+                    input("Press Enter to continue. ")
+            return "" 
