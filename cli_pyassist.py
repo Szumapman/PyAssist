@@ -1,5 +1,7 @@
 import sys
 import os
+import csv
+from typing import Callable
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
 from utility.record import Record
@@ -7,17 +9,34 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
+from utility.notes import Note
+from utility.sorter import FileSorter
 from utility.record_interaction import add_name, create_record, del_record, show
-
 from utility.cmd_complet import CommandCompleter, similar_command
+from utility.notes_interaction import *
 
 # paths to files with data
+
 ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-#ścieżka do pliku z notatkami
+
+
 
 #objects storing data while the program is running
 ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
+
+#initialize an instance of FileSorter class
+file_sorter = FileSorter()
+
+#function for FileSorter in specified directory
+def sort_files_in_directory(directory):
+    file_sorter.process_folder(directory)
+    
+# function to handle sort command
+def sort_files_command(*args):
+    directory = input("Enter directory path to sort files: ")
+    sort_files_in_directory(directory)
+    return f"Done."
 
 # function to handle with errors
 def error_handler(func):
@@ -63,7 +82,11 @@ def parse_command(user_input: str) -> (str, tuple):
     arguments = tokens[1:]
     return command, tuple(arguments)
 
-
+# taking a command from the user
+def user_command_input(completer: CommandCompleter):
+    user_input = prompt(">>> ", completer=completer).strip().lower()
+    if user_input:
+        return parse_command(user_input)
 
 # taking a command from the user
 def user_command_input(completer: CommandCompleter, menu_name=""):
@@ -74,8 +97,9 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
+    ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)  #there is a problem with saving this, when problem ///Jakub
+    Note.save_notes(notes, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
-    # dodać zapisywanie notatek
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
@@ -121,10 +145,41 @@ def addressbook_commands(*args):
     return "Ok, I return to the main menu."
     
 
+
+#dict for notes menu
+NOTES_MENU_COMMANDS = {
+    "up": ...,
+    "show": display_notes,
+    "create": create_note,
+    "edit": edit_note,
+    "delete": delete_note,
+    "addtag": add_tag_to_note,
+    "findtag": find_notes_by_tag,
+    "sorttag": sort_notes_by_tag,
+    "save": save_note,
+    "load": load_note,
+    "search": find_note,
+}
+
+# function to handle note command
+def notes_command(*args):
+    completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
+    while True:
+        cmd, arguments = user_command_input(completer)
+        if cmd == "up":
+            break
+        elif cmd == "show":
+            display_notes(notes)
+        else:
+            print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
+    return "Ok, I return to the main menu."
+  
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
     "addressbook": addressbook_commands,
+    "sort": sort_files_command,
+    "notes": notes_command,
     # "edit": edit_record,
     # "delete / del": delete_record,
     # "show": show_all,
@@ -147,7 +202,10 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     Returns:
         func: function with arguments
     """
-    if cmd not in menu_commands:
+
+    if cmd == "sort":
+        return sort_files_command(*arguments)
+    elif cmd not in menu_commands:
         return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
     cmd = menu_commands[cmd]
     return cmd(*arguments)
