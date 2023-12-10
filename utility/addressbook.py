@@ -180,10 +180,8 @@ class AddresBook(UserDict):
         Returns:
             dict: key datetime.date from today + next 7 days, values lists of Records with birthdays in corresponding day
         """
-        input_days = int(number_of_days) + 1
-
         current_date = datetime.now().date()
-        upcoming_birthdays = {current_date + timedelta(days=i): [] for i in range(input_days)}
+        upcoming_birthdays = {current_date + timedelta(days=i): [] for i in range(number_of_days + 1)}
         for record in self.values():
             if record.birthday is not None:
                 this_year_birthday = datetime(year=current_date.year, month=record.birthday.value.month, day=record.birthday.value.day).date()
@@ -193,7 +191,7 @@ class AddresBook(UserDict):
                 difference_next_year = (next_year_birthday - current_date).days
 
                 difference = difference_this_year if difference_this_year > -1 else difference_next_year
-                if -1 < difference < input_days:
+                if -1 < difference <= number_of_days:
                     upcoming_birthdays[current_date + timedelta(difference)].append(record)
         return upcoming_birthdays
             

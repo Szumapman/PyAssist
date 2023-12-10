@@ -27,8 +27,10 @@ def error_handler(func):
                 if func.__name__ == "add_birthday":
                     print("Invalid date format, try again.")
                 if func.__name__ == "import_from_csv":
-                    print("I can't import from this source. Check the file.")
-                    break
+                    return "I can't import from this source. Check the file."
+                if func.__name__ == "show_upcoming_birthday":
+                    return "Wrong number of days to show. Please try again."
+                
             except FutureDateError:
                 print("You can't use a future date as a birthday, try again.")
             except FileNotFoundError:
@@ -191,12 +193,14 @@ def import_from_csv(addressbook):
 
 
 #function displays the birthdays of contacts in the next days. If the user has not entered a number of days, the function displays for 7 days.
+@error_handler
 def show_upcoming_birthday(adressbook, *args):
     if not args:
         number_of_days = 7
     else:
         number_of_days = int("".join(args))
-
+        if number_of_days < 1:
+            raise ValueError
     info = f"Upcoming birthdays in the next {number_of_days} days:"
     is_upcoming_birthday = False
     for day, records in adressbook.records_with_upcoming_birthday(number_of_days).items():
