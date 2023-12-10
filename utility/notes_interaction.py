@@ -1,4 +1,5 @@
 from utility.notes import Note
+from utility.recognizer import mow, getText
 import os
 
 # paths to files with data
@@ -19,7 +20,24 @@ def display_notes(notes_list):
 
 def create_note():
     title = input("Enter note title: ")
-    content = input("Enter note content: ")
+    choice = input("Do you want to type the note manually (type) or dictate it (dictate)? ").lower() 
+    if choice == 'type':
+        content = input("Enter note content: ")
+        new_note = Note(title, content)
+        notes.append(new_note)
+        return f"Note created successfully."
+    elif choice == 'dictate':
+        content = getText()
+        if not content == 0:
+            print(f"{content}")
+            mow(content)
+            new_note = Note(title, content)
+            notes.append(new_note)
+        else:
+            return"I couldn't recognize voice. Note created unsuccessfully."
+    else:
+        return "Invalid choice. Note creation failed."
+
     new_note = Note(title, content)
     notes.append(new_note)
     return f"Note created successfully."
