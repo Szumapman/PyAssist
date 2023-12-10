@@ -129,8 +129,6 @@ def create_record(name):
     return Record(name, phones, emails, birthday, address)
 
 
-
-
 # edit existing name
 def edit_name(addressbook, record):
     print(f"Type new name for contact {record.name}")
@@ -138,7 +136,7 @@ def edit_name(addressbook, record):
     if new_name:
         addressbook.add_record(Record(new_name, record.phones, record.emails, record.birthday, record.address))
         old_record = addressbook.pop(record.name.value)
-        return f"Name changed from {record.name} to {new_name}"
+        return f"Name changed from {old_record.name} to {new_name}"
     return "Operation canceled."
 
 
