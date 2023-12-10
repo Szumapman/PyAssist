@@ -119,24 +119,67 @@ def create_record(name):
 
 #####################################
 # edit existing name
-def edit_name(addresbook, record):
-    print(f"Type new name for contact {record.name}")
-    new_name = add_name(addresbook)
-    addresbook.add_record(Record(new_name, record.phones, record.emails))
-    addresbook.pop(record.name.value)
+@error_handler
+def edit_name(addressbook, record):
+    while True:
+        print(f"Type new name for contact {record.name}")
+        new_name = input("New name: ").strip().title()
+
+        if not new_name:
+            print("Name cannot be empty. Please try again.")
+            continue
+
+        if new_name == record.name:
+            print("The new name is the same as the current name. Please provide a different name.")
+            continue
+
+        if new_name in addressbook.keys():
+            print("A contact with this name already exists. Please choose a different name.")
+            continue
+
+        addressbook[new_name] = Record(new_name, record.phones, record.emails, record.birthday, record.address)
+        del addressbook[record.name.value]
+        break
 
 # init function for phone changed
+@error_handler
 def edit_phone(addresbook, record):
     change_data(record, "phone")
 
 # init function for email changed
+@error_handler
 def edit_email(addresbook, record):
     change_data(record, "email")
     
 # changing birthday
+@error_handler
 def edit_birthday(addresbook, record):
     birthday = add_birthday()
     addresbook[record.name.value].birthday = birthday
+
+@error_handler
+def edit_address(existing_address):
+    if existing_address:
+        street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
+        city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
+        zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
+        country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
+
+        return Address(street or existing_address.street,
+                       city or existing_address.city,
+                       zip_code or existing_address.zip_code,
+                       country or existing_address.country)
+    else:
+        # If existing_address is None, create a new Address object
+        street = input("Enter the street: ")
+        city = input("Enter the city: ")
+        zip_code = input("Enter the zip code: ")
+        country = input("Enter the country: ")
+
+        if street or city or zip_code or country:
+            return Address(street, city, zip_code, country)
+        else:
+            return None
 
 # help menu function to choose email or phone
 def item_selection(record, data_list, show):
@@ -205,27 +248,4 @@ def change_data(record, type):
             add_type(add_email() if type == "email" else add_phone())
         break
 
-
-def get_updated_address(existing_address):
-    if existing_address:
-        street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
-        city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
-        zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
-        country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
-
-        return Address(street or existing_address.street,
-                       city or existing_address.city,
-                       zip_code or existing_address.zip_code,
-                       country or existing_address.country)
-    else:
-        # If existing_address is None, create a new Address object
-        street = input("Enter the street: ")
-        city = input("Enter the city: ")
-        zip_code = input("Enter the zip code: ")
-        country = input("Enter the country: ")
-
-        if street or city or zip_code or country:
-            return Address(street, city, zip_code, country)
-        else:
-            return None
-        
+       
