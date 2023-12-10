@@ -115,6 +115,7 @@ def show(*args):
 
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
+    "exit": cli_pyassist_exit,
     "add": add_record,
     "up": ...,
     "show": show,
