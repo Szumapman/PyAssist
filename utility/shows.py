@@ -14,4 +14,4 @@ def show_upcoming_birthday(adressbook):
     return "No upcoming birthdays in the next 7 days."
 
 
-# A to mój
+# funkcja wyświetlająca
