@@ -59,6 +59,8 @@ class AddresBook(UserDict):
                     records_info += (
                         f"\nbirthday:\n{record.birthday}\n{record.days_to_birthday()}"
                     )
+                if record.address:
+                    records_info += f"\n{record.address}"
                 records_info += "\n-------------\n"
                 i += 1
                 if current_record_no >= no_of_contacts_to_return:

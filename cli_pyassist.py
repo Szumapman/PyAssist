@@ -11,15 +11,18 @@ from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
+from utility.record_interaction import add_name, create_record, del_record, show
 from utility.cmd_complet import CommandCompleter, similar_command
 from utility.notes_interaction import *
 
 # paths to files with data
-ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
+
+ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
+
 
 
 #objects storing data while the program is running
-ADDRESBOOK = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
+ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
 #initialize an instance of FileSorter class
@@ -36,15 +39,13 @@ def sort_files_command(*args):
     return f"Done."
 
 # function to handle with errors
-def error_handler(func: Callable):
+def error_handler(func):
     def wrapper(*args):
         while True:
             try:
                 return func(*args)
             # błędy i komunikaty przeniesione z pierwotnej wersji - do sprawdzenia / zmiany
             except ValueError:
-                if func.__name__ == "add_name":
-                    print("The name field cannot be empty, try again.")
                 if func.__name__ == "add_phone":
                     print("Invalid phone number, try again.")
                 if func.__name__ == "add_email":
@@ -77,7 +78,7 @@ def parse_command(user_input: str) -> (str, tuple):
         tuple: arguments
     """
     tokens = user_input.split()
-    command = tokens[0]
+    command = tokens[0].lower()
     arguments = tokens[1:]
     return command, tuple(arguments)
 
@@ -87,17 +88,63 @@ def user_command_input(completer: CommandCompleter):
     if user_input:
         return parse_command(user_input)
 
+# taking a command from the user
+def user_command_input(completer: CommandCompleter, menu_name=""):
+    user_input = prompt(f"{menu_name} >>> ", completer=completer).strip()
+    if user_input:
+        return parse_command(user_input)
+    return "", ""
+    
 # exit / close program
 def cli_pyassist_exit(*args):
     ADDRESBOOK.save_addresbook(ADDRESBOOK_DATA_PATH)  #there is a problem with saving this, when problem ///Jakub
     Note.save_notes(notes, NOTES_DATA_PATH)   
+    ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.") 
     sys.exit("Good bye!")
 
+
+# @error_handler
+def add_record(*args):
+    # jeśli użytkownik wpisał po prostu add to zostanie poproszony o podanie nazwy kontaktu do dodania
+    if len(args) == 0:
+        name = add_name(ADDRESSBOOK)
+        
+    # jeśli wpisał np. add John Smith to "John Smith" zostanie potraktowane jako nazwa dla nowego kontaku 
+    # o ile taki kontakt już nie istnieje
+    else:
+        name = " ".join(args).strip().title()
+        if name in ADDRESSBOOK.keys():
+            print(f"Contact {name} already exists. Choose another name.")
+            name = add_name(ADDRESSBOOK) 
+        else:
+            name = Name(name)
+    if name is not None:
+        record = create_record(name)
+        ADDRESSBOOK.add_record(record)
+        return f"A record: {record} added to your address book."
+    return "Operation cancelled"
+
+
+# dict for addressbook menu
+ADDRESSBOOK_MENU_COMMANDS = {
+    "exit": cli_pyassist_exit,
+    "add": add_record,
+    "up": ...,
+    "show": lambda *args: show(ADDRESSBOOK, *args),
+    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
+}
+
+def addressbook_commands(*args):
+    completer = CommandCompleter(ADDRESSBOOK_MENU_COMMANDS.keys())
+    while True:
+        cmd, arguments = user_command_input(completer, "address book")
+        if cmd == "up":
+            break
+        print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
+    return "Ok, I return to the main menu."
     
-# hendler for main menu
-def get_main_handler(command):
-    return MAIN_COMMANDS[command]
+
 
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
@@ -126,14 +173,20 @@ def notes_command(*args):
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
     return "Ok, I return to the main menu."
-
-
+  
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
+    "addressbook": addressbook_commands,
     "sort": sort_files_command,
     "notes": notes_command,
-    
+    # "edit": edit_record,
+    # "delete / del": delete_record,
+    # "show": show_all,
+    # "search": search,
+    # "save": save_data,
+    # "export": export_to_csv,
+    # "import": import_from_csv,
 }
 
 
@@ -149,6 +202,7 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     Returns:
         func: function with arguments
     """
+
     if cmd == "sort":
         return sort_files_command(*arguments)
     elif cmd not in menu_commands:
