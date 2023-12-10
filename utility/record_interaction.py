@@ -81,6 +81,7 @@ def add_address():
     country = input("country: ")
     return Address(street, city, zip_code, country)
 
+
 def create_record(name):
     phones = []
     emails = []
@@ -121,6 +122,25 @@ def create_record(name):
         address = add_address()
     
     return Record(name, phones, emails, birthday, address)
+
+
+@error_handler
+def add_record(addressbook, *args):
+    if len(args) == 0:
+        name = add_name(addressbook)      
+    else:
+        name = " ".join(args).strip().title()
+        if name in addressbook.keys():
+            print(f"Contact {name} already exists. Choose another name.")
+            name = add_name(addressbook) 
+        else:
+            name = Name(name)
+    if name is not None:
+        record = create_record(name)
+        addressbook.add_record(record)
+        return f"A record: {record} added to your address book."
+    return "Operation cancelled"
+
 
 def del_record(addressbook, *args):
     if not args:

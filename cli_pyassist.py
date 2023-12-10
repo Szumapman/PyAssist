@@ -105,32 +105,10 @@ def cli_pyassist_exit(*args):
     sys.exit("Good bye!")
 
 
-# @error_handler
-def add_record(*args):
-    # jeśli użytkownik wpisał po prostu add to zostanie poproszony o podanie nazwy kontaktu do dodania
-    if len(args) == 0:
-        name = add_name(ADDRESSBOOK)
-        
-    # jeśli wpisał np. add John Smith to "John Smith" zostanie potraktowane jako nazwa dla nowego kontaku 
-    # o ile taki kontakt już nie istnieje
-    else:
-        name = " ".join(args).strip().title()
-        if name in ADDRESSBOOK.keys():
-            print(f"Contact {name} already exists. Choose another name.")
-            name = add_name(ADDRESSBOOK) 
-        else:
-            name = Name(name)
-    if name is not None:
-        record = create_record(name)
-        ADDRESSBOOK.add_record(record)
-        return f"A record: {record} added to your address book."
-    return "Operation cancelled"
-
-
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
     "exit": cli_pyassist_exit,
-    "add": add_record,
+    "add": lambda *args: add_record(ADDRESSBOOK, *args),
     "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
     "show": lambda *args: show(ADDRESSBOOK, *args),
     "delete": lambda *args: del_record(ADDRESSBOOK, *args),
@@ -185,10 +163,6 @@ MAIN_COMMANDS = {
     "addressbook": addressbook_commands,
     "sort": sort_files_command,
     "notes": notes_command,
-    # "edit": edit_record,
-    # "show": show_all,
-    # "search": search,
-    # "save": save_data,
 }
 
 

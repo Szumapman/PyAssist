@@ -153,3 +153,4 @@ cython_debug/
 data/addresbook.dat
 addresbook_del.dat
 addresbook.dat
+notes.csv
