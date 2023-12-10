@@ -7,7 +7,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday, FutureDateError
-from utility.record_interaction import add_name, create_record, edit_name, edit_phone, edit_email, edit_birthday, edit_address
+from utility.record_interaction import add_name, create_record, edit_commands
 
 from utility.cmd_complet import CommandCompleter, similar_command
 
@@ -151,24 +151,7 @@ def edit_record(*args):
     #     else:
     #         print("Wrong option, try again")
 
-# dict for menu edit handler
-EDIT_COMMANDS = {
-    "name": edit_name, 
-    "phone": edit_phone, 
-    "email": edit_email,
-    "address": edit_address,
-    "birthday": edit_birthday,
-    "up": ...,
-    }
 
-def edit_commands(*args):
-    completer = CommandCompleter(EDIT_COMMANDS.keys())
-    while True:
-        cmd, arguments = user_command_input(completer)
-        if cmd == "up":
-            break
-        print(execute_commands(EDIT_COMMANDS, cmd, arguments))
-    return "Ok, I return to the addressbook menu."
 ################################################
 
 # dict for addressbook menu
@@ -192,7 +175,7 @@ def addressbook_commands(*args):
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
     "addressbook": addressbook_commands,
-    "edit": edit_record,
+    #"edit": edit_record,
     # "delete / del": delete_record,
     # "show": show_all,
     # "search": search,

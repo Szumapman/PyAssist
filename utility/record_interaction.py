@@ -5,6 +5,9 @@ from .birthday import Birthday
 from .address import Address
 from .name import Name
 
+from prompt_toolkit import prompt
+from utility.cmd_complet import CommandCompleter, similar_command
+
 
 # function to handle with errors
 def error_handler(func):
@@ -248,4 +251,63 @@ def change_data(record, type):
             add_type(add_email() if type == "email" else add_phone())
         break
 
-       
+
+# dict for menu edit handler
+EDIT_COMMANDS = {
+    "name": edit_name, 
+    "phone": edit_phone, 
+    "email": edit_email,
+    "address": edit_address,
+    "birthday": edit_birthday,
+    "up": ...,
+    }
+
+# a function that parses user input commands
+def parse_command(user_input: str) -> (str, tuple):
+    """
+    Parse user input command
+
+    Args:
+        user_input (str): user input command
+    
+    Returns:
+        str: command
+        tuple: arguments
+    """
+    tokens = user_input.split()
+    command = tokens[0]
+    arguments = tokens[1:]
+    return command, tuple(arguments)
+
+# taking a command from the user
+def user_command_input(completer: CommandCompleter):
+    user_input = prompt(">>> ", completer=completer).strip().lower()
+    if user_input:
+        return parse_command(user_input)
+    return "", ""
+
+def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
+    """
+    Function to execute user commands
+
+    Args:
+        menu_commands (dict): dict for menu-specific commands
+        cmd (str): user command
+        arguments (tuple): arguments from user input
+
+    Returns:
+        func: function with arguments
+    """
+    if cmd not in menu_commands:
+        return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
+    cmd = menu_commands[cmd]
+    return cmd(*arguments)
+
+def edit_commands(*args):
+    completer = CommandCompleter(EDIT_COMMANDS.keys())
+    while True:
+        cmd, arguments = user_command_input(completer)
+        if cmd == "up":
+            break
+        print(execute_commands(EDIT_COMMANDS, cmd, arguments))
+    return "Ok, I return to the addressbook menu."
