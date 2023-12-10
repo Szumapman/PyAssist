@@ -33,7 +33,7 @@ def sort_files_in_directory(directory):
 
 def display_notes(notes_list):
     if not notes_list:
-        print("No notes available.")
+        return f"No notes available."
     else:
         for i, note in enumerate(notes_list):
             print(f"Note {i+1}:")
@@ -45,7 +45,7 @@ def create_note():
     content = input("Enter note content: ")
     new_note = Note(title, content)
     notes.append(new_note)
-    print("Note created successfully.")
+    return f"Note created successfully."
 
 def edit_note():
     display_notes(notes)
@@ -53,18 +53,18 @@ def edit_note():
     if 1 <= choice <= len(notes):
         new_content = input("Enter new content: ")
         notes[choice - 1].edit_content(new_content)
-        print("Note edited successfully.")
+        return f"Note edited successfully."
     else:
-        print("Invalid note number.")
+        return f"Invalid note number."
 
 def delete_note():
     display_notes(notes)
     choice = int(input("Enter the note number you want to delete: "))
     if 1 <= choice <= len(notes):
         notes[choice - 1].remove_note(notes)
-        print("Note deleted successfully.")
+        return f"Note deleted successfully."
     else:
-        print("Invalid note number.")
+        return f"Invalid note number."
 
 def add_tag_to_note():
     display_notes(notes)
@@ -72,18 +72,18 @@ def add_tag_to_note():
     if 1 <= choice <= len(notes):
         tag = input("Enter tag to add: ")
         notes[choice - 1].add_tag(tag)
-        print(f"Tag '{tag}' added to the note.")
+        return f"Tag '{tag}' added to the note."
     else:
-        print("Invalid note number.")
+        return f"Invalid note number."
 
 def find_notes_by_tag():
     tag = input("Enter tag to search notes: ")
     found_notes = Note.find_note_by_tag(notes, tag)
     if found_notes:
-        print(f"Notes with tag '{tag}':")
         display_notes(found_notes)
+        return f"Notes with tag '{tag}'"
     else:
-        print(f"No notes found with tag '{tag}'.")
+        return f"No notes found with tag '{tag}'."
 
 def save_note(*args):
     Note.save_notes(notes, NOTES_DATA_PATH)
@@ -91,15 +91,16 @@ def save_note(*args):
 def load_note(*args):
     global notes
     notes = Note.load_notes(NOTES_DATA_PATH)
+    return f"Load complete."
 
 def find_note():
     search_term = input("Enter a keyword to search for in note titles or contents: ")
     found_notes = Note.find_notes(notes, search_term)
     if found_notes:
-        print(f"Notes containing '{search_term}':")
         display_notes(found_notes)
+        return f"Notes containing '{search_term}'"
     else:
-        print(f"No notes found containing '{search_term}'.")
+        return f"No notes found containing '{search_term}'."
         
 # function to handle with errors
 def error_handler(func: Callable):
@@ -177,8 +178,8 @@ NOTES_MENU_COMMANDS = {
     "create": create_note,
     "edit": edit_note,
     "delete": delete_note,
-    "add tag": add_tag_to_note,
-    "find by tag": find_notes_by_tag,
+    "add_tag": add_tag_to_note,
+    "find_by_tag": find_notes_by_tag,
     "save": save_note,
     "load": load_note,
     "search": find_note,
@@ -192,7 +193,7 @@ def notes_command(*args):
         if cmd == "up":
             break
         elif cmd == "show":    #========double CHECK
-            display_notes(notes) 
+            display_notes(notes)
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
     return "Ok, I return to the main menu."
