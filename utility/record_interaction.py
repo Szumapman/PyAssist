@@ -4,10 +4,18 @@ from .email import Email
 from .birthday import Birthday
 from .address import Address
 from .name import Name
+from utility.addressbook import AddresBook
+import os
 
 from prompt_toolkit import prompt
 from utility.cmd_complet import CommandCompleter, similar_command
 
+# paths to files with data
+ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
+#ścieżka do pliku z notatkami
+
+#objects storing data while the program is running
+ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 # function to handle with errors
 def error_handler(func):
@@ -122,143 +130,143 @@ def create_record(name):
 
 #####################################
 # edit existing name
-@error_handler
-def edit_name(addressbook, record):
+def edit_name(addressbook, *args):
     while True:
-        print(f"Type new name for contact {record.name}")
+        name = " ".join(args).strip().title()
+        print(f"Type new name for contact {name}")
         new_name = input("New name: ").strip().title()
 
         if not new_name:
             print("Name cannot be empty. Please try again.")
             continue
 
-        if new_name == record.name:
+        if new_name == name:
             print("The new name is the same as the current name. Please provide a different name.")
             continue
 
-        if new_name in addressbook.keys():
+        if new_name in ADDRESSBOOK.keys():
             print("A contact with this name already exists. Please choose a different name.")
             continue
 
-        addressbook[new_name] = Record(new_name, record.phones, record.emails, record.birthday, record.address)
-        del addressbook[record.name.value]
+        addressbook[new_name] = Record(new_name, addressbook.phones, addressbook.emails, addressbook.birthday, addressbook.address)
+        del addressbook[addressbook.name.value]
         break
 
-# init function for phone changed
-@error_handler
-def edit_phone(addresbook, record):
-    change_data(record, "phone")
+# # init function for phone changed
+# @error_handler
+# def edit_phone(addresbook, record):
+#     change_data(record, "phone")
 
-# init function for email changed
-@error_handler
-def edit_email(addresbook, record):
-    change_data(record, "email")
+# # init function for email changed
+# @error_handler
+# def edit_email(addresbook, record):
+#     change_data(record, "email")
     
-# changing birthday
-@error_handler
-def edit_birthday(addresbook, record):
-    birthday = add_birthday()
-    addresbook[record.name.value].birthday = birthday
+# # changing birthday
+# @error_handler
+# def edit_birthday(addresbook, record):
+#     birthday = add_birthday()
+#     addresbook[record.name.value].birthday = birthday
 
-@error_handler
-def edit_address(existing_address):
-    if existing_address:
-        street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
-        city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
-        zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
-        country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
+# @error_handler
+# def edit_address(existing_address):
+#     if existing_address:
+#         street = input(f"Enter the new street (press Enter to keep the current street - {existing_address.street}): ")
+#         city = input(f"Enter the new city (press Enter to keep the current city - {existing_address.city}): ")
+#         zip_code = input(f"Enter the new zip code (press Enter to keep the current zip code - {existing_address.zip_code}): ")
+#         country = input(f"Enter the new country (press Enter to keep the current country - {existing_address.country}): ")
 
-        return Address(street or existing_address.street,
-                       city or existing_address.city,
-                       zip_code or existing_address.zip_code,
-                       country or existing_address.country)
-    else:
-        # If existing_address is None, create a new Address object
-        street = input("Enter the street: ")
-        city = input("Enter the city: ")
-        zip_code = input("Enter the zip code: ")
-        country = input("Enter the country: ")
+#         return Address(street or existing_address.street,
+#                        city or existing_address.city,
+#                        zip_code or existing_address.zip_code,
+#                        country or existing_address.country)
+#     else:
+#         # If existing_address is None, create a new Address object
+#         street = input("Enter the street: ")
+#         city = input("Enter the city: ")
+#         zip_code = input("Enter the zip code: ")
+#         country = input("Enter the country: ")
 
-        if street or city or zip_code or country:
-            return Address(street, city, zip_code, country)
-        else:
-            return None
+#         if street or city or zip_code or country:
+#             return Address(street, city, zip_code, country)
+#         else:
+#             return None
 
-# help menu function to choose email or phone
-def item_selection(record, data_list, show):
-    print(f"Contact {record.name} {type}s:\n{show}", end="")
-    number_to_change = input("Select by typing a number (for example 1 or 2): ")
-    try:
-        number_to_change = int(number_to_change) - 1
-        if number_to_change >= len(data_list) or number_to_change < 0:
-            raise ValueError
-        return number_to_change
-    except ValueError:
-        return -1
+# # help menu function to choose email or phone
+# def item_selection(record, data_list, show):
+#     print(f"Contact {record.name} {type}s:\n{show}", end="")
+#     number_to_change = input("Select by typing a number (for example 1 or 2): ")
+#     try:
+#         number_to_change = int(number_to_change) - 1
+#         if number_to_change >= len(data_list) or number_to_change < 0:
+#             raise ValueError
+#         return number_to_change
+#     except ValueError:
+#         return -1
     
-# change of phone or email
-def change_data(record, type):
-    if type == "phone":
-        data_list = record.phones
-        show = record.show_phones()
-        add_type = record.add_phone
-    elif type == "email":
-        data_list = record.emails
-        show = record.show_emails()
-        add_type = record.add_email
-    while True:
-        if len(data_list) > 0:
-            while True:
-                answer = input(
-                    f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: "
-                )
-                if answer == "1":
-                    if len(data_list) == 1:
-                        data_to_add = add_email() if type == "email" else add_phone()
-                        if data_to_add is not None:
-                            data_list[0] = data_to_add
-                        break
-                    else:
-                        number_to_change = item_selection(record, data_list, show)
-                        if number_to_change == -1:
-                            print("Wrong option, try again")
-                            break
-                        data_to_add = add_email() if type == "email" else add_phone()
-                        if data_to_add is not None:
-                            data_list[number_to_change] = data_to_add
-                        break
-                elif answer == "2":
-                    data_to_add = add_email() if type == "email" else add_phone()
-                    if data_to_add is not None:
-                        add_type(data_to_add)
-                    break
-                elif answer == "3":
-                    if len(data_list) == 1:
-                        data_list.clear()
-                        break
-                    else:
-                        number_to_delete = item_selection(record, data_list, show)
-                        if number_to_delete == -1:
-                            print("Wrong option, try again")
-                            break
-                        print(
-                            f"{type} no {number_to_delete+1}: {data_list.pop(number_to_delete)} deleted."
-                        )
-                        break
-                else:
-                    print("Unrecognized command, try again.")
-        else:
-            add_type(add_email() if type == "email" else add_phone())
-        break
+# # change of phone or email
+# def change_data(record, type):
+#     if type == "phone":
+#         data_list = record.phones
+#         show = record.show_phones()
+#         add_type = record.add_phone
+#     elif type == "email":
+#         data_list = record.emails
+#         show = record.show_emails()
+#         add_type = record.add_email
+#     while True:
+#         if len(data_list) > 0:
+#             while True:
+#                 answer = input(
+#                     f"Contact {record.name} {type}s:{show}\nDo you want change it or add another? 1 chanege, 2 add, 3 delete: "
+#                 )
+#                 if answer == "1":
+#                     if len(data_list) == 1:
+#                         data_to_add = add_email() if type == "email" else add_phone()
+#                         if data_to_add is not None:
+#                             data_list[0] = data_to_add
+#                         break
+#                     else:
+#                         number_to_change = item_selection(record, data_list, show)
+#                         if number_to_change == -1:
+#                             print("Wrong option, try again")
+#                             break
+#                         data_to_add = add_email() if type == "email" else add_phone()
+#                         if data_to_add is not None:
+#                             data_list[number_to_change] = data_to_add
+#                         break
+#                 elif answer == "2":
+#                     data_to_add = add_email() if type == "email" else add_phone()
+#                     if data_to_add is not None:
+#                         add_type(data_to_add)
+#                     break
+#                 elif answer == "3":
+#                     if len(data_list) == 1:
+#                         data_list.clear()
+#                         break
+#                     else:
+#                         number_to_delete = item_selection(record, data_list, show)
+#                         if number_to_delete == -1:
+#                             print("Wrong option, try again")
+#                             break
+#                         print(
+#                             f"{type} no {number_to_delete+1}: {data_list.pop(number_to_delete)} deleted."
+#                         )
+#                         break
+#                 else:
+#                     print("Unrecognized command, try again.")
+#         else:
+#             add_type(add_email() if type == "email" else add_phone())
+#         break
 
 
 # dict for menu edit handler
 EDIT_COMMANDS = {
-    "name": edit_name, 
-    "phone": edit_phone, 
-    "email": edit_email,
-    "address": edit_address,
-    "birthday": edit_birthday,
+    "name": lambda *args: edit_name(ADDRESSBOOK, *args), 
+    #"phone": edit_phone, 
+    #"email": edit_email,
+    #"address": edit_address,
+    #"birthday": edit_birthday,
     "up": ...,
     }
 
@@ -303,7 +311,7 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     cmd = menu_commands[cmd]
     return cmd(*arguments)
 
-def edit_commands(*args):
+def edit_commands(addressbook, *args):
     completer = CommandCompleter(EDIT_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer)
@@ -321,34 +329,8 @@ def edit_record(addressbook, *args):
         name = " ".join(args).strip().title()
 
     if name in addressbook:
-        #del addressbook[name]
-        return f"Record {name} chnaged successfully."
+        print("Enter what you want to edit: ")
+        edit_commands(ADDRESSBOOK, *args)
+        return f"Record {name} changed successfully."
     else:
         return f"Record {name} not found in the address book."
-
-
-
-    while True:
-        if len(args) == 0:
-            name = input("Enter a name to edit: ").strip().title()
-        else:
-            name = " ".join(args).strip().title()
-
-        if name in ADDRESSBOOK.keys():
-            while True:
-                print(f"Editing record for {name}")
-                print("Available commands:")
-                print("\n".join(EDIT_COMMANDS.keys()))
-                command = input("Enter a command: ").strip()
-
-                if command == "up":
-                    break  # Powrót do poprzedniego menu
-
-                if command in EDIT_COMMANDS:
-                    EDIT_COMMANDS[command](ADDRESSBOOK, ADDRESSBOOK[name])
-                    break
-                else:
-                    print("Invalid command. Try again.")
-            break
-        else:
-            print(f"Name '{name}' not found in the address book. Please try again.")
