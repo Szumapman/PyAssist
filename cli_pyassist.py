@@ -162,6 +162,29 @@ NOTES_MENU_COMMANDS = {
 
 # function to handle note command
 def notes_command(*args):
+    menu_options = [
+        {"option": "Show Notes", "command": "show"},
+        {"option": "Search Note", "command": "search"},
+        {"option": "Create Note", "command": "create"},
+        {"option": "Edit Note", "command": "edit"},
+        {"option": "Delete Note", "command": "delete"},
+        {"option": "Add Tag to Note", "command": "addtag"},
+        {"option": "Find Notes by Tag", "command": "findtag"},
+        {"option": "Sort Notes by Tag", "command": "sorttag"},
+        {"option": "Save Notes", "command": "save"},
+        {"option": "Load Notes", "command": "load"},
+        {"option": "Main Menu", "command": "up"}
+    ]
+
+    max_option_length = max(len(item['option']) for item in menu_options) 
+    
+    print("Options:".ljust(max_option_length + 5), "Command:")
+    print("-" * (max_option_length + 15))
+
+    for index, item in enumerate(menu_options):
+        print(f"{item['option'].ljust(max_option_length + 5)} {item['command']}")
+
+    print("-" * (max_option_length + 15))
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer)
@@ -215,7 +238,20 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
 def main():
     # completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
     completer = CommandCompleter(MAIN_COMMANDS.keys())
-    print("Type command or help for command list.")
+    print("    ____        ___              _      __ ")
+    print("   / __ \__  __/   |  __________(_)____/ /_")
+    print("  / /_/ / / / / /| | / ___/ ___/ / ___/ __/")
+    print(" / ____/ /_/ / ___ |(__  |__  ) (__  ) /_  ")
+    print("/_/    \__, /_/  |_/____/____/_/____/\__/  ")
+    print("      /____/                               ")
+    print("     ╔════════════════════════════╗")
+    print("     ║         Main Menu          ║")
+    print("     ╠════════════════════════════╣")
+    print("     ║ 1. Addressbook             ║")
+    print("     ║ 2. Notes                   ║")
+    print("     ║ 3. Sorter                  ║")
+    print("     ║ 4. Exit                    ║")
+    print("     ╚════════════════════════════╝")
     while True:
             cmd, arguments = user_command_input(completer)
             print(execute_commands(MAIN_COMMANDS, cmd, arguments))
