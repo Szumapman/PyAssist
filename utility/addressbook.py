@@ -172,7 +172,7 @@ class AddresBook(UserDict):
                 self.add_record(Record(Name(name), phones_to_add, emails_to_add, birthday))
                 
 
-    def records_with_upcoming_birthday(self) -> dict:
+    def records_with_upcoming_birthday(self, number_of_days) -> dict:
         """
         The function return a dict which the keys are the days of the week from current day and next 7 days as a datetime.date(), 
         and the values are lists with Records having birthdays on a given day.
@@ -180,32 +180,20 @@ class AddresBook(UserDict):
         Returns:
             dict: key datetime.date from today + next 7 days, values lists of Records with birthdays in corresponding day
         """
+        input_days = int(number_of_days) + 1
+
         current_date = datetime.now().date()
-        this_week_birthdays = {current_date + timedelta(days=i): [] for i in range(8)}
+        upcoming_birthdays = {current_date + timedelta(days=i): [] for i in range(input_days)}
         for record in self.values():
             if record.birthday is not None:
                 this_year_birthday = datetime(year=current_date.year, month=record.birthday.value.month, day=record.birthday.value.day).date()
-                difference = (this_year_birthday - current_date).days
-                if -1 < difference < 8:
-                    this_week_birthdays[current_date + timedelta(difference)].append(record)
-        return this_week_birthdays
+                next_year_birthday = datetime(year=current_date.year + 1, month=record.birthday.value.month, day=record.birthday.value.day).date()
 
+                difference_this_year = (this_year_birthday - current_date).days
+                difference_next_year = (next_year_birthday - current_date).days
 
-    # Returns a formatted string of birthdays
-    def show_birthdays(self, upcoming_birthdays_dict=None):
-        """
-        Display birthdays for each date in the provided dictionary.
-
-        Args:
-            birthdays_dict (dict): Dictionary with dates as keys and lists of records as values.
-        """
-        birthdays_str = ""
-        for date, records in upcoming_birthdays_dict.items():
-            birthdays_str += f"Birthdays on {date}:\n"
-            if not records:
-                birthdays_str += "  Nobody\n"
-            else:
-                for record in records:
-                    name = record.name.value if record.name else None
-                    birthdays_str += f"  {name}\n" if name else ""
-        return birthdays_str or "No birthdays in the next 7 days."                 
+                difference = difference_this_year if difference_this_year > -1 else difference_next_year
+                if -1 < difference < input_days:
+                    upcoming_birthdays[current_date + timedelta(difference)].append(record)
+        return upcoming_birthdays
+            
