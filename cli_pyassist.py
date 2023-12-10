@@ -12,15 +12,15 @@ from utility.birthday import Birthday, FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.cmd_complet import CommandCompleter, similar_command
+from utility.notes_interaction import *
 
 # paths to files with data
 ADDRESBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "notes.csv")
+
 
 #objects storing data while the program is running
 ADDRESBOOK = AddresBook().load_addresbook(ADDRESBOOK_DATA_PATH)
-NOTES = Note.load_notes(NOTES_DATA_PATH)
-notes = NOTES if NOTES else []
+
 
 #initialize an instance of FileSorter class
 file_sorter = FileSorter()
@@ -31,76 +31,7 @@ def sort_files_in_directory(directory):
 
 #functions for note command #================CHECK
 
-def display_notes(notes_list):
-    if not notes_list:
-        return f"No notes available."
-    else:
-        for i, note in enumerate(notes_list):
-            print(f"Note {i+1}:")
-            print(note)
-            print("-" * 30)
 
-def create_note():
-    title = input("Enter note title: ")
-    content = input("Enter note content: ")
-    new_note = Note(title, content)
-    notes.append(new_note)
-    return f"Note created successfully."
-
-def edit_note():
-    display_notes(notes)
-    choice = int(input("Enter the note number you want to edit: "))
-    if 1 <= choice <= len(notes):
-        new_content = input("Enter new content: ")
-        notes[choice - 1].edit_content(new_content)
-        return f"Note edited successfully."
-    else:
-        return f"Invalid note number."
-
-def delete_note():
-    display_notes(notes)
-    choice = int(input("Enter the note number you want to delete: "))
-    if 1 <= choice <= len(notes):
-        notes[choice - 1].remove_note(notes)
-        return f"Note deleted successfully."
-    else:
-        return f"Invalid note number."
-
-def add_tag_to_note():
-    display_notes(notes)
-    choice = int(input("Enter the note number you want to add a tag to: "))
-    if 1 <= choice <= len(notes):
-        tag = input("Enter tag to add: ")
-        notes[choice - 1].add_tag(tag)
-        return f"Tag '{tag}' added to the note."
-    else:
-        return f"Invalid note number."
-
-def find_notes_by_tag():
-    tag = input("Enter tag to search notes: ")
-    found_notes = Note.find_note_by_tag(notes, tag)
-    if found_notes:
-        display_notes(found_notes)
-        return f"Notes with tag '{tag}'"
-    else:
-        return f"No notes found with tag '{tag}'."
-
-def save_note(*args):
-    Note.save_notes(notes, NOTES_DATA_PATH)
-    return f"Saved."
-def load_note(*args):
-    global notes
-    notes = Note.load_notes(NOTES_DATA_PATH)
-    return f"Load complete."
-
-def find_note():
-    search_term = input("Enter a keyword to search for in note titles or contents: ")
-    found_notes = Note.find_notes(notes, search_term)
-    if found_notes:
-        display_notes(found_notes)
-        return f"Notes containing '{search_term}'"
-    else:
-        return f"No notes found containing '{search_term}'."
         
 # function to handle with errors
 def error_handler(func: Callable):
@@ -185,14 +116,14 @@ NOTES_MENU_COMMANDS = {
     "search": find_note,
 }
 
-# function to handle note command  #================CHECK
+# function to handle note command
 def notes_command(*args):
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer)
         if cmd == "up":
             break
-        elif cmd == "show":    #========double CHECK
+        elif cmd == "show":
             display_notes(notes)
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
@@ -203,7 +134,7 @@ def notes_command(*args):
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
     "sort": sort_files_command,
-    "notes": notes_command,     #================CHECK
+    "notes": notes_command,
     
 }
 
