@@ -129,10 +129,6 @@ def del_record(addressbook, *args):
     else:
         return f"Record {name} not found in the address book."
     
-def export_to_csv(addressbook) -> None:
-    while True:
-        filename = input("Type the filename to export to (e.g., output.csv) or <<< to cancel: ").strip()
-        
 
 def show(addressbook, *args):
     if len(args) == 1:
@@ -146,10 +142,13 @@ def show(addressbook, *args):
         if name_record_to_show in addressbook:
             return f"{addressbook[name_record_to_show]}"
         return f"Contact {name_record_to_show} doesn't exist."
+
+  
+def export_to_csv(addressbook):
+    while True:
+        filename = input("Type the filename to export to (e.g., output.csv) or <<< to cancel: ").strip()        
         if filename == "<<<" or filename == "":
             return "Export cancelled."
-        
-
         try:
             addressbook.export_to_csv(filename)
             return f"Data exported successfully to {filename}."
@@ -157,13 +156,12 @@ def show(addressbook, *args):
             return "Error: Unable to find the specified file. Please try again."
         except Exception as e:
             return f"Error: {e}. Please try again."
-            
+
+         
 def import_from_csv(addressbook):
     filename = input("Enter the CSV file name for import: ").strip()
     if filename == "<<<" or filename == "":
             return "Import cancelled."
-   
-    
     try:
         addressbook.import_from_csv(filename)
         return f"Data imported successfully from {filename}."
