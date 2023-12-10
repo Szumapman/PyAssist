@@ -12,7 +12,7 @@ from utility.birthday import Birthday, FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.record_interaction import add_name, create_record, del_record, show
-from utility.record_interaction import add_name, create_record, del_record, export_to_csv, import_from_csv
+from utility.record_interaction import add_name, create_record, del_record, export_to_csv, import_from_csv, show_upcoming_birthday
 
 from utility.cmd_complet import CommandCompleter, similar_command
 from utility.notes_interaction import *
@@ -136,6 +136,7 @@ ADDRESSBOOK_MENU_COMMANDS = {
     "delete": lambda *args: del_record(ADDRESSBOOK, *args),
     "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
     "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
+    "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
     
 }
 

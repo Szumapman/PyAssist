@@ -171,3 +171,24 @@ def import_from_csv(addressbook):
             return "Error: Unable to find the specified file. Please try again."
     except Exception as e:
             return f"Error: {e}. Please try again."
+
+
+#function displays the birthdays of contacts in the next days. If the user has not entered a number of days, the function displays for 7 days.
+def show_upcoming_birthday(adressbook, *args):
+    if not args:
+        number_of_days = 7
+    else:
+        number_of_days = int("".join(args))
+
+    info = f"Upcoming birthdays in the next {number_of_days} days:"
+    is_upcoming_birthday = False
+    for day, records in adressbook.records_with_upcoming_birthday(number_of_days).items():
+        if records: # if the list for the day is not empty
+            names = []
+            for record in records:
+                names.append(record.name.value)    
+            info += "\n{:>10}, {:<18}: {:<60}".format(day.strftime('%A'), day.strftime('%d %B %Y'), '; '.join(names))
+            is_upcoming_birthday = True
+    if is_upcoming_birthday:
+        return info
+    return f"No upcoming birthdays in the next {number_of_days} days."
