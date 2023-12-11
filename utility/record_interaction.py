@@ -411,7 +411,7 @@ def edit_record(addressbook, *args):
 
 # method to search addresbook
 # interakcja z użytkownikiem 
-def search_interactively(addressbook, *args):
+def search(addressbook, *args):
     if not args:
         search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
         if search_query == "<<<":
@@ -421,7 +421,6 @@ def search_interactively(addressbook, *args):
     results = addressbook.search(search_query)
     if results:
         print("Search results:")
-        for record in results.values():
-            print(record)
+        return show(results)
     else:
-        print("No matching results found.")
+        return "No matching results found."

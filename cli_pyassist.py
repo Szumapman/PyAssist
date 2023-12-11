@@ -115,6 +115,7 @@ ADDRESSBOOK_MENU_COMMANDS = {
     "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
     "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
     "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
+    "search": lambda *args: search(ADDRESSBOOK, *args),
     "up": ...,
 }
 
@@ -127,7 +128,8 @@ def addressbook_commands(*args):
         {"option": "Delete Record", "command": "delete"},
         {"option": "Export Address Book", "command": "export"},
         {"option": "Import Address Book", "command": "import"},
-        {"option": "Upcoming Birthdays", "command": "birthday"},
+        {"option": "Upcoming Birthdays", "command": "birthday (or) birthday <10> (selected number of days ahead)"},
+        {"option": "Search in addressbook", "command": "search (or) search <query>"},
         {"option": "Main Menu", "command": "up"},
     ]
 
