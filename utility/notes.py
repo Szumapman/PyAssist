@@ -25,7 +25,7 @@ class Note:
     """
     Class Note allow you to create a note title, content, tag, creation time,
     editing time and deleting the entire note. It is also possible to save the content to a separate .csv file
-    with the given name and reading notes from the .csv file.
+    with the given name and reading notes from the .csv file. 
     """
 
 
