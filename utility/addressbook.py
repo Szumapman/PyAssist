@@ -84,16 +84,16 @@ class AddresBook(UserDict):
             with open(filename, "rb") as fh:
                 return pickle.load(fh)
         return self
-    
-    # method to search addresbook
-    """
-    The method first looks for an exact match in the keys
-    then searches the values of the individual records and adds them to the returned Addresbook object if the fragment matches the query.
 
-    Returns:
-        Addresbook: a new object of class Addresbook with records based on the query
-    """
+    
     def search(self, query: str):
+        """
+        The method first looks for an exact match in the keys
+        then searches the values of the individual records and adds them to the returned Addresbook object if the fragment matches the query.
+
+        Returns:
+            Addresbook: a new object of class Addresbook with records based on the query
+        """
         query_addresbook = AddresBook()
         query = query.strip()
         key_query = query.capitalize()
@@ -111,6 +111,11 @@ class AddresBook(UserDict):
             if record.birthday is not None:
                 if query in str(record.birthday.value):
                     query_addresbook[record.name.value] = record
+            if record.address and (query in record.address.street.lower() or
+                                   query in record.address.city.lower() or
+                                   query in record.address.zip_code.lower() or
+                                   query in record.address.country.lower()):
+                query_addresbook[record.name.value] = record
         return query_addresbook
             
        
@@ -195,3 +200,38 @@ class AddresBook(UserDict):
                     upcoming_birthdays[current_date + timedelta(difference)].append(record)
         return upcoming_birthdays
             
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    # method to search addresbook
+    # interakcja z użytkownikiem 
+    def search_interactively(self):
+        while True:
+            search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
+            if search_query == "<<<":
+                break
+            results = self.search(search_query)
+            if results:
+                print("Search results:")
+                for record in results.values():
+                    print(record)
+            else:
+                print("No matching results found.")
+            continue_search = input("Do you want to continue searching? (Y/N): ").strip().upper()
+            if continue_search != "Y":
+                break           
