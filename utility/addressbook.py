@@ -61,8 +61,12 @@ class AddresBook(UserDict):
                 if record.birthday:
                     records_info += f"Birthday:\n    {record.birthday}\n    {record.days_to_birthday()}\n"
                 if record.address:
-                    records_info += f"\n{record.address}"
-                records_info += "\n-------------\n"
+                    records_info += f"Address:\n    Street: {record.address.street}\n"
+                    records_info += f"    City: {record.address.city}\n"
+                    records_info += f"    Zip Code: {record.address.zip_code}\n"
+                    records_info += f"    Country: {record.address.country}\n"
+                records_info += "----------------------------------\n"
+                
                 if current_record_no >= no_of_contacts_to_return:
                     yield records_info
                     current_record_no = 1
