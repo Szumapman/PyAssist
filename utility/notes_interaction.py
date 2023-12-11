@@ -31,8 +31,7 @@ def create_note():
         if not content == 0:
             print(f"{content}")
             mow(content)
-            new_note = Note(title, content)
-            notes.append(new_note)
+            new_note = Note(title, content)           
         else:
             return"I couldn't recognize voice. Note created unsuccessfully."
     else:
