@@ -13,9 +13,9 @@ import os
 # notes = [] # NOTES if NOTES else []
 
 #functions for note command
-def display_notes(notes_list, *args):
+def display_notes(notes, *args):
     notes_to_show = ""
-    for i, note in enumerate(notes_list):
+    for i, note in enumerate(notes):
         notes_to_show += f"Note {i+1}:\n{note}\n{'-'*30}\n"
     return notes_to_show
 
@@ -86,14 +86,17 @@ def display_notes(notes_list, *args):
 
 
 
-# def find_note():
-#     search_term = input("Enter a keyword to search for in note titles or contents: ")
-#     found_notes = Note.find_notes(notes, search_term)
-#     if found_notes:
-#         display_notes(found_notes)
-#         return f"Notes containing '{search_term}'"
-#     else:
-#         return f"No notes found containing '{search_term}'."
+def find_note(notes, *args):
+    if not args:
+        search_term = input("Enter a keyword to search for in note: ")
+    else:
+        search_term = " ".join(args)
+    found_notes = Note.find_notes(notes, search_term) 
+    if found_notes:
+        print(found_notes)
+        return f"Notes containing '{search_term}:'\n{display_notes(found_notes)}"
+    else:
+        return f"No notes found containing '{search_term}'."
     
 
 # def save_note(*args):

@@ -167,7 +167,7 @@ NOTES_MENU_COMMANDS = {
     # "sorttag": sort_notes_by_tag,
     # "export": save_note,
     # "import": load_note,
-    # "search": find_note,
+    "search": lambda *args: find_note(NOTES, *args),
 }
 
 # function to handle note command
