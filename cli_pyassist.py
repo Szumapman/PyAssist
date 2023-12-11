@@ -1,6 +1,8 @@
 import sys
 import os
 import csv
+import pyfiglet
+import cowsay
 from typing import Callable
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
@@ -101,8 +103,9 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
 def cli_pyassist_exit(*args):
     Note.save_notes(notes, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
-    print("Your data has been saved.") 
-    sys.exit("Good bye!")
+    print("Your data has been saved.")
+    cowsay.tux("Good bye!") 
+    sys.exit()
 
 
 # dict for addressbook menu
@@ -238,12 +241,8 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
 def main():
     # completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
     completer = CommandCompleter(MAIN_COMMANDS.keys())
-    print("    ____        ___              _      __ ")
-    print("   / __ \__  __/   |  __________(_)____/ /_")
-    print("  / /_/ / / / / /| | / ___/ ___/ / ___/ __/")
-    print(" / ____/ /_/ / ___ |(__  |__  ) (__  ) /_  ")
-    print("/_/    \__, /_/  |_/____/____/_/____/\__/  ")
-    print("      /____/                               ")
+    logo = pyfiglet.figlet_format("PyAssist", font = "slant")
+    print(logo)
     print("     ╔════════════════════════════╗")
     print("     ║         Main Menu          ║")
     print("     ╠════════════════════════════╣")
