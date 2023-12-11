@@ -168,6 +168,62 @@ The PyAssist project is structured as follows:
 
 ## Functions
 
+In the PyAssist code, several key functions enable interactive management of data in an organized manner. Here's a brief description of the main functions included in the code:
+
+### 1. Adding, Editing, and Deleting Contacts (Addressbook)
+
+#### Function `add_record(record: Record)` in the `AddressBook` class:
+
+Adds a new contact to the address book. It checks whether the added object is an instance of the `Record` class, ensuring the correctness of contact data.
+
+#### Function `edit_record(ADDRESSBOOK, *args)` in the `Record` class:
+
+Allows editing an existing contact in the address book, enabling changes to data such as phone numbers, email addresses, etc.
+
+#### Function `del_record(ADDRESSBOOK, *args)` in the `Record` class:
+
+Deletes a contact from the address book.
+
+### 2. Displaying and Searching Contacts
+
+#### Function `show_names()` in the `AddressBook` class:
+
+Returns a formatted string containing all names (keys) in the address book.
+
+#### Function `iterator(no_of_contacts_to_return=3)` in the `AddressBook` class:
+
+Iterates through records and returns formatted information in groups of a specified size, facilitating contact browsing.
+
+#### Function `search(query: str)` in the `AddressBook` class:
+
+Searches for contacts in the address book based on the given query and returns a new `AddressBook` class object matching the query.
+
+### 3. Managing Notes
+
+Functions in the `NotesMenuCommands` class (`notes.py`): Allow displaying, creating, editing, deleting, adding tags, searching, and sorting notes.
+
+### 4. File Sorting Function
+
+#### Function `sort_files_command(*args)` in the main code:
+
+Sorts files in a specified directory, which can be useful for organizing data on disk.
+
+### 5. Voice Search Functionality
+
+Functions in the main code: Introduced an innovative voice search feature, allowing users to interact with the tool using voice commands. By enabling voice search mode, users can issue commands via speech.
+
+### 6. Export and Import Functions
+
+#### Functions `export_to_csv(filename: str)` and `import_from_csv(filename: str)` in the `AddressBook` class:
+
+Allow exporting and importing contact data to and from CSV files.
+
+### 7. Error Handling
+
+Decorator `@error_handler` in the main code: Provides error handling during adding, editing, exporting, and other operations, improving the program's reliability.
+
+The integrated usage examples in the README section allow for a quick understanding of how to use individual PyAssist functions.
+
 ## Examples of use
 
 ### Adding a New Contact to the Address Book
