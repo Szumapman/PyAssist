@@ -33,21 +33,27 @@
 
 ## Konfiguracja
 
-Przed uruchomieniem aplikacji, upewnij się, że masz zainstalowane poniższe zależności:
+Upewnij się, że na Twoim komputerze zainstalowany jest Python 3.11.
 
-- Python (wersja 3.11)
-- biblioteki:
-  - xxx
+Aplikacja korzysta z następujących bibliotek:
+
+- 'SpeechRecognition'
+- 'pyttsx3'
+- 'pyaudio'
+- 'pyfiglet'
+- 'cowsay'
+- 'difflib'
+- 'prompt_toolkit'
 
 ## Instalacja
 
 Aby zainstalować aplikację, użyj poniższej komendy:
-pip install XXX
+pip install cli_pyassist
 
 ## Uruchomienie programu
 
 Uruchom aplikację za pomocą następującej komendy:
-python xxx.py
+python cli_pyassist.py
 
 ## Funkcje
 
@@ -58,15 +64,25 @@ Podajemy tutaj różne przypadki użycia i przykłady kodu.
 
 ## Licencja
 
-Ten projekt jest udostępniany na licencji MIT.
+Ta aplikacja jest udostępniana na licencji MIT.
 
 ## Autorzy
 
+- 'Beata Chrząszcz'
+- 'Jakub Szymaniak'
+- 'Julia Macha'
+- 'Paweł Szumański'
+- 'Sabina Limmer'
+
 ## Kontakt
 
-Stworzony przez:
+Jeśli masz pytania, sugestie lub chciałbyś się skontaktować w sprawie aplikacji, skontaktuj się z nami:
 
-- XXX
+- GitHub Beata Chrząszcz: [BettyBeetle](https://github.com/BettyBeetle)
+- GitHub Jakub Szymaniak: [jszymaniak](https://github.com/jszymaniak)
+- GitHub Julia Macha: [juliazmacha](https://github.com/juliazmacha)
+- GitHub Paweł Szumański: [Szumapman](https://github.com/Szumapman)
+- GitHub Sabina Limmer: [SabinaLimmer](https://github.com/SabinaLimmer)
 
 ## Table of Contents
 
@@ -84,9 +100,27 @@ Stworzony przez:
 
 ## Setup
 
+Make sure that Python 3.11 is installed on your computer.
+
+The application uses the following libraries:
+
+- 'SpeechRecognition'
+- 'pyttsx3'
+- 'pyaudio'
+- 'pyfiglet'
+- 'cowsay'
+- 'difflib'
+- 'prompt_toolkit'
+
 ## Installation
 
+To install the application, use the following command:
+pip install cli_pyassist
+
 ## Running the application
+
+Run the application using the following command:
+python cli_pyassist.py
 
 ## Functions
 
@@ -94,6 +128,22 @@ Stworzony przez:
 
 ## Licence
 
+This application is made available under the MIT licence.
+
 ## Authors
 
+- 'Beata Chrząszcz'
+- 'Jakub Szymaniak'
+- 'Julia Macha'
+- 'Paweł Szumański'
+- 'Sabina Limmer'
+
 ## Contact
+
+If you have any questions, suggestions or would like to get in touch about the application, please contact us:
+
+- GitHub Beata Chrząszcz: [BettyBeetle](https://github.com/BettyBeetle)
+- GitHub Jakub Szymaniak: [jszymaniak](https://github.com/jszymaniak)
+- GitHub Julia Macha: [juliazmacha](https://github.com/juliazmacha)
+- GitHub Paweł Szumański: [Szumapman](https://github.com/Szumapman)
+- GitHub Sabina Limmer: [SabinaLimmer](https://github.com/SabinaLimmer)
