@@ -82,35 +82,16 @@ class AddresBook(UserDict):
             with open(filename, "rb") as fh:
                 return pickle.load(fh)
         return self
-    
-    # method to search addresbook
-    # interakcja z użytkownikiem 
-    def search_interactively(self):
-        while True:
-            search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
-            if search_query == "<<<":
-                break
 
-            results = self.search(search_query)
-            if results:
-                print("Search results:")
-                for record in results.values():
-                    print(record)
-            else:
-                print("No matching results found.")
-
-            continue_search = input("Do you want to continue searching? (Y/N): ").strip().upper()
-            if continue_search != "Y":
-                break
-    """
-    The method first looks for an exact match in the keys
-    then searches the values of the individual records and adds them to the returned Addresbook object if the fragment matches the query.
-
-    Returns:
-        Addresbook: a new object of class Addresbook with records based on the query
-    """
     
     def search(self, query: str):
+        """
+        The method first looks for an exact match in the keys
+        then searches the values of the individual records and adds them to the returned Addresbook object if the fragment matches the query.
+
+        Returns:
+            Addresbook: a new object of class Addresbook with records based on the query
+        """
         query_addresbook = AddresBook()
         query = query.strip()
         key_query = query.capitalize()
@@ -230,4 +211,22 @@ class AddresBook(UserDict):
                 for record in records:
                     name = record.name.value if record.name else None
                     birthdays_str += f"  {name}\n" if name else ""
-        return birthdays_str or "No birthdays in the next 7 days."                 
+        return birthdays_str or "No birthdays in the next 7 days."      
+    
+    # method to search addresbook
+    # interakcja z użytkownikiem 
+    def search_interactively(self):
+        while True:
+            search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
+            if search_query == "<<<":
+                break
+            results = self.search(search_query)
+            if results:
+                print("Search results:")
+                for record in results.values():
+                    print(record)
+            else:
+                print("No matching results found.")
+            continue_search = input("Do you want to continue searching? (Y/N): ").strip().upper()
+            if continue_search != "Y":
+                break           
