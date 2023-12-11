@@ -47,10 +47,22 @@ Aplikacja korzysta z następujących bibliotek:
 
 ## Instalacja
 
-Aby zainstalować aplikację, użyj poniższej komendy:
+1. Pobierz repozytorium:
 
 ```
-pip install cli_pyassist
+git clone .git
+```
+
+2. Przejdź do katalogu z aplikacja:
+
+```
+cd (tutaj wpisac nazwe katalogu!!!!!)
+```
+
+3. Zainstaluj zależności:
+
+```
+pip install (co nalezy wpisac?????)
 ```
 
 ## Uruchomienie programu
@@ -58,7 +70,7 @@ pip install cli_pyassist
 Uruchom aplikację za pomocą następującej komendy:
 
 ```
-python cli_pyassist.py
+cli_pyassist (komenda poprawna??????)
 ```
 
 ## Funkcje
@@ -120,10 +132,22 @@ The application uses the following libraries:
 
 ## Installation
 
-To install the application, use the following command:
+1. Download the repository:
 
 ```
-pip install cli_pyassist
+git clone https://github.com/Szumapman/PyAssist.git
+```
+
+2. navigate to the directory with the application:
+
+```
+cd (????????)
+```
+
+3. Install dependencies:
+
+```
+pip install (?????)
 ```
 
 ## Running the application
@@ -131,7 +155,7 @@ pip install cli_pyassist
 Run the application using the following command:
 
 ```
-python cli_pyassist.py
+cli_pyassist
 ```
 
 ## Functions
