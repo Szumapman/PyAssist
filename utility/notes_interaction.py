@@ -1,5 +1,8 @@
 from utility.notes import Note
 from utility.recognizer import mow, getText
+from utility.cmd_complet import CommandCompleter
+
+from prompt_toolkit import prompt
 import os
 
 # paths to files with data
@@ -21,7 +24,7 @@ def display_notes(notes_list):
 
 def create_note():
     title = input("Enter note title: ")
-    choice = input("Do you want to type the note manually (type) or dictate it (dictate)? ").lower() 
+    choice = prompt("Do you want to type the note manually (type) or dictate it (dictate)? ", completer=CommandCompleter(["type", "dictate"])).lower() 
     if choice == 'type':
         content = input("Enter note content: ")
         new_note = Note(title, content)
