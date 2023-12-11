@@ -383,3 +383,21 @@ def edit_record(addressbook, *args):
         return "<<<"
     else:
         return f"Record {name} not found in the address book."
+    
+
+# method to search addresbook
+# interakcja z użytkownikiem 
+def search_interactively(addressbook, *args):
+    if not args:
+        search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
+        if search_query == "<<<":
+            return "Operation canceled."
+    else:
+        search_query = " ".join(args).strip()
+    results = addressbook.search(search_query)
+    if results:
+        print("Search results:")
+        for record in results.values():
+            print(record)
+    else:
+        print("No matching results found.")
