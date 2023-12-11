@@ -47,22 +47,26 @@ class AddresBook(UserDict):
     def iterator(self, no_of_contacts_to_return=3):
         if len(self.data) > 0:
             current_record_no = 1
-            i = 1
             records_info = ""
             for record in self.values():
-                records_info += f"{i}. {record.name}"
-                if len(record.phones) > 0:
-                    records_info += f"\nphones:{record.show_phones()}"
-                if len(record.emails) > 0:
-                    records_info += f"\nemails:{record.show_emails()}"
-                if record.birthday is not None:
-                    records_info += (
-                        f"\nbirthday:\n{record.birthday}\n{record.days_to_birthday()}"
-                    )
+                records_info += f"Name: {record.name}\n"
+                if record.phones:
+                    records_info += "Phones:\n"
+                    for phone in record.phones:
+                        records_info += f"    - {phone}\n"
+                if record.emails:
+                    records_info += "Emails:\n"
+                    for email in record.emails:
+                        records_info += f"    - {email}\n"
+                if record.birthday:
+                    records_info += f"Birthday:\n    {record.birthday}\n    {record.days_to_birthday()}\n"
                 if record.address:
-                    records_info += f"\n{record.address}"
-                records_info += "\n-------------\n"
-                i += 1
+                    records_info += f"Address:\n    Street: {record.address.street}\n"
+                    records_info += f"    City: {record.address.city}\n"
+                    records_info += f"    Zip Code: {record.address.zip_code}\n"
+                    records_info += f"    Country: {record.address.country}\n"
+                records_info += "----------------------------------\n"
+                
                 if current_record_no >= no_of_contacts_to_return:
                     yield records_info
                     current_record_no = 1

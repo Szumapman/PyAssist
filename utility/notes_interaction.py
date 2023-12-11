@@ -8,10 +8,11 @@ NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
 notes = NOTES if NOTES else []
+
 #functions for note command
 def display_notes(notes_list):
     if not notes_list:
-        return f"No notes available."
+        print("No notes available.")
     else:
         for i, note in enumerate(notes_list):
             print(f"Note {i+1}:")

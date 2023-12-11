@@ -126,10 +126,10 @@ def addressbook_commands(*args):
         {"option": "Add Record", "command": "add"},
         {"option": "Edit Record", "command": "edit"},
         {"option": "Delete Record", "command": "delete"},
+        {"option": "Search in Addressbook", "command": "search <query>"},
+        {"option": "Upcoming Birthdays", "command": "birthday <days>"}, # (selected number of days ahead) - informacja do instrukcji 
         {"option": "Export Address Book", "command": "export"},
         {"option": "Import Address Book", "command": "import"},
-        {"option": "Upcoming Birthdays", "command": "birthday (or) birthday <10> (selected number of days ahead)"},
-        {"option": "Search in addressbook", "command": "search (or) search <query>"},
         {"option": "Main Menu", "command": "up"},
     ]
 
@@ -194,7 +194,7 @@ def notes_command(*args):
     print("-" * (max_option_length + 15))
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
     while True:
-        cmd, arguments = user_command_input(completer)
+        cmd, arguments = user_command_input(completer, "notes")
         if cmd == "up":
             break
         elif cmd == "show":
