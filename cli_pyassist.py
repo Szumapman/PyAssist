@@ -19,13 +19,13 @@ from utility.record_interaction import *
 from utility.cmd_complet import CommandCompleter, similar_command
 
 
-# paths to files with data
-
-ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") # Because it's a simple program. The path is hard coded ;)
-
+# paths to files with data # Because it's a simple program. The path is hard coded ;)
+NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
+ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") 
 
 
 #objects storing data while the program is running
+NOTES = Note.load_notes(NOTES_DATA_PATH)
 ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
@@ -61,8 +61,8 @@ def error_handler(func):
                     break
             except FutureDateError:
                 print("You can't use a future date as a birthday, try again.")
-            except FileNotFoundError:
-                print("I can't find file to import data.")
+            except FileNotFoundError:# dopisać obsługę błędów 
+                print("I can't find file to import data.") 
                 break
             except KeyboardInterrupt:
                 cli_pyassist_exit()
@@ -101,7 +101,7 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
-    Note.save_notes(notes, NOTES_DATA_PATH)   
+    # Note.save_notes(notes, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.")
     cowsay.tux("Good bye!") 
@@ -158,16 +158,16 @@ def addressbook_commands(*args):
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
     "up": ...,
-    "show": display_notes,
-    "create": create_note,
-    "edit": edit_note,
-    "delete": delete_note,
-    "addtag": add_tag_to_note,
-    "findtag": find_notes_by_tag,
-    "sorttag": sort_notes_by_tag,
-    "export": save_note,
-    "import": load_note,
-    "search": find_note,
+    "show": lambda *args: display_notes(NOTES, *args),
+    # "create": create_note,
+    # "edit": edit_note,
+    # "delete": delete_note,
+    # "addtag": add_tag_to_note,
+    # "findtag": find_notes_by_tag,
+    # "sorttag": sort_notes_by_tag,
+    # "export": save_note,
+    # "import": load_note,
+    # "search": find_note,
 }
 
 # function to handle note command
@@ -200,8 +200,8 @@ def notes_command(*args):
         cmd, arguments = user_command_input(completer, "notes")
         if cmd == "up":
             break
-        elif cmd == "show":
-            display_notes(notes)
+        # elif cmd == "show":
+        #     display_notes(notes)
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
     return "Ok, I return to the main menu."
