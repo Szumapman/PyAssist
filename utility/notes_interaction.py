@@ -81,15 +81,14 @@ def delete_note(notes, *args):
     else:
         return f"Invalid note number."
 
-# def add_tag_to_note():
-#     display_notes(notes)
-#     choice = int(input("Enter the note number you want to add a tag to: "))
-#     if 1 <= choice <= len(notes):
-#         tag = input("Enter tag to add: ")
-#         notes[choice - 1].add_tag(tag)
-#         return f"Tag '{tag}' added to the note."
-#     else:
-#         return f"Invalid note number."
+def add_tag_to_note(notes, *args):
+    notes, choice = choice_note(notes, *args)
+    if 1 <= choice <= len(notes):
+        tag = input("Enter tag to add: ")
+        notes[choice - 1].add_tag(tag)
+        return f"Tag '{tag}' added to the note."
+    else:
+        return f"Invalid note number."
 
 # def find_notes_by_tag():
 #     tag = input("Enter tag to search notes: ")

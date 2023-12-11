@@ -161,7 +161,7 @@ NOTES_MENU_COMMANDS = {
     "create": lambda *args: create_note(NOTES, *args),
     "edit": lambda *args: edit_note(NOTES, *args),
     "delete": lambda *args: delete_note(NOTES, *args),
-    # "addtag": add_tag_to_note,
+    "addtag": lambda *args: add_tag_to_note(NOTES, *args),
     # "findtag": find_notes_by_tag,
     # "sorttag": sort_notes_by_tag,
     # "export": save_note,
