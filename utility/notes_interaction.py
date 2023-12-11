@@ -4,9 +4,16 @@ from utility.cmd_complet import CommandCompleter
 
 from prompt_toolkit import prompt
 import os
-
+"""
+This script provides a set of functions to manage notes, allowing users to create, 
+edit, delete, and search notes based on titles, contents, and tags. It utilizes a 'Note' 
+class to handle note-related operations, enabling the creation of notes either manually or 
+via dictation, editing existing notes, adding tags, searching by tags, and exporting/importing 
+notes to/from a .csv file.
+"""
 # paths to files with data
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+NOTES_DATA_PATH = os.path.join(current_dir, "data/notes.csv")
 
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
