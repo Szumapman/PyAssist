@@ -49,9 +49,8 @@ def create_note(notes, *args):
     notes.append(new_note)
     return f"Note created successfully."
 
-def edit_note(notes, *args):
-    if not notes:
-        return "You don't have any notes."
+
+def choice_note(notes, *args):
     if not args:
         print(display_notes(notes, "Your notes:\n"))
     else:
@@ -61,7 +60,12 @@ def edit_note(notes, *args):
             print(display_notes(notes, f"Your notes with {query}\n"))
         else:
             return f"You don't have notes with {query}"
-    choice = int(input("Enter the note number you want to edit: "))
+    choice = int(input("Enter the number of the note you want to choose: "))
+    return notes, choice   
+
+
+def edit_note(notes, *args):
+    notes, choice = choice_note(notes, *args)
     if 1 <= choice <= len(notes):
         new_content = input("Enter new content: ")
         notes[choice - 1].edit_content(new_content)
@@ -69,14 +73,13 @@ def edit_note(notes, *args):
     else:
         return f"Invalid note number."
 
-# def delete_note():
-#     display_notes(notes)
-#     choice = int(input("Enter the note number you want to delete: "))
-#     if 1 <= choice <= len(notes):
-#         notes[choice - 1].remove_note(notes)
-#         return f"Note deleted successfully."
-#     else:
-#         return f"Invalid note number."
+def delete_note(notes, *args):
+    notes, choice = choice_note(notes, *args)
+    if 1 <= choice <= len(notes):
+        notes[choice - 1].remove_note(notes)
+        return f"Note deleted successfully."
+    else:
+        return f"Invalid note number."
 
 # def add_tag_to_note():
 #     display_notes(notes)

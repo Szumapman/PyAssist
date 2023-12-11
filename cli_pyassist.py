@@ -160,7 +160,7 @@ NOTES_MENU_COMMANDS = {
     "show": lambda *args: show_notes(NOTES, *args),
     "create": lambda *args: create_note(NOTES, *args),
     "edit": lambda *args: edit_note(NOTES, *args),
-    # "delete": delete_note,
+    "delete": lambda *args: delete_note(NOTES, *args),
     # "addtag": add_tag_to_note,
     # "findtag": find_notes_by_tag,
     # "sorttag": sort_notes_by_tag,
