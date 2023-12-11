@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages # install --upgrade setuptools wheel
 
 setup(
     name='pyassist',
@@ -14,9 +14,8 @@ setup(
         'pyaudio',
         'pyfiglet',
         'cowsay',
-        'difflib',
         'prompt_toolkit',
-    ]
+    ],
     entry_points={'console_scripts': ['cli_pyassist = cli_pyassist:main']}
 )
  
