@@ -63,7 +63,6 @@ class AddresBook(UserDict):
                 if record.address:
                     records_info += f"\n{record.address}"
                 records_info += "\n-------------\n"
-                i += 1
                 if current_record_no >= no_of_contacts_to_return:
                     yield records_info
                     current_record_no = 1
