@@ -1,3 +1,5 @@
+import os
+import csv
 from .record import Record
 from .phone import Phone
 from .email import Email
@@ -179,8 +181,18 @@ def export_to_csv(addressbook):
         filename = input("Type the filename to export to (e.g., output.csv) or <<< to cancel: ").strip()        
         if filename == "<<<" or filename == "":
             return "Export cancelled."
-        addressbook.export_to_csv(filename)
-        return f"Data exported successfully to {filename}."
+        
+        data_directory = os.path.join(os.getcwd(), "data")
+        os.makedirs(data_directory, exist_ok=True)
+        full_path = os.path.join(data_directory, filename)
+        
+        try:
+            addressbook.export_to_csv(full_path)
+            return f"Data exported successfully to {full_path}."
+        except FileNotFoundError:
+            print("Error: Unable to find the specified file. Please try again.")
+        except Exception as e:
+            print(f"Error: {e}. Please try again.")
 
 
 @error_handler         
@@ -188,8 +200,20 @@ def import_from_csv(addressbook):
     filename = input("Enter the CSV file name for import: ").strip()
     if filename == "<<<" or filename == "":
             return "Import cancelled."
-    addressbook.import_from_csv(filename)
-    return f"Data imported successfully from {filename}."
+    
+    try:
+        addressbook.import_from_csv(filename)
+        print(f"Data imported successfully from {filename}.")
+
+        with open(filename, 'r', newline='') as fh:
+            reader = csv.reader(fh)
+            for row in reader:
+                print(row)
+        return "File successfully displayed"
+    except FileNotFoundError:
+        return "Error: Unable to find the specified file. Please try again."
+    except Exception as e:
+        return f"Error: {e}. Please try again."
 
 
 #function displays the birthdays of contacts in the next days. If the user has not entered a number of days, the function displays for 7 days.
