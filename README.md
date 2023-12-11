@@ -1,7 +1,8 @@
 # PyAssist
 
 > Krótki opis projektu PL
->
+> PyAssist to narzędzie wiersza poleceń oparte na języku Python, które zostało zaprojektowane w celu efektywnego zarządzania książką adresową i notatkami. Dzięki PyAssist możesz łatwo dodawać, edytować, usuwać, wyszukiwać i eksportować rekordy w swojej książce adresowej. Dodatkowo, narzędzie umożliwia tworzenie, edytowanie, usuwanie i wyszukiwanie notatek, oferując różnorodne funkcje.
+
 > Short project description EN
 > PyAssist is a Python-based command-line utility designed to assist you in managing your address book and notes efficiently. With PyAssist, you can easily add, edit, delete, search, and export records in your address book. Additionally, you can create, edit, delete, and search notes with various functionalities.
 > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
@@ -25,11 +26,95 @@
 
 ## Informacje ogólne
 
-- Podaj tutaj ogólne informacje o swoim projekcie.
-- Jaki problem rozwiązuje (zamierza rozwiązać)?
-- Jaki jest cel twojego projektu?
-- Dlaczego się go podjąłeś?
-<!-- Nie musisz odpowiadać na wszystkie pytania - tylko na te, które są istotne dla Twojego projektu. -->
+### Zdefiniowanie problemu rozwiązywanego przez Pyassist
+
+Projekt rozwiązuje problem związany z efektywnym organizowaniem i zarządzaniem informacjami z książki adresowej, a także notatkami. Tradycyjne metody korzystania z kontaktów i notatek mogą być uciążliwe, a PyAssist ma na celu dostarczenie zoptymalizowanego i efektywnego rozwiązania.
+
+### Cele projektu
+
+Główne cele PyAssist obejmują:
+
+1. Uproszczenie procesu zarządzania rekordami książki adresowej.
+2. Dostarczenie wygodnego i potężnego narzędzia do robienia notatek oraz organizacji.
+3. Oferowanie funkcji sortowania plików w określonym katalogu.
+
+### Potrzeba stworzenia projektu
+
+Potrzeba stworzenia tego projektu wynika z potrzeby wszechstronnego i przyjaznego użytkownikowi narzędzia wiersza poleceń do zarządzania informacjami osobistymi. PyAssist został stworzony, aby zapewnić intuicyjny interfejs obsługi kontaktów i notatek, pozwalając użytkownikom skupić się na produktywności, zamiast zajmować się uciążliwymi zadaniami organizacyjnymi.
+
+### Funkcjonalność głosowego wyszukiwania
+
+PyAssist wprowadza innowacyjną funkcję głosowego wyszukiwania, umożliwiającą interakcję z narzędziem za pomocą komend głosowych. Ta innowacyjna funkcja poprawia doświadczenie użytkownika, umożliwiając obsługę bez użycia rąk, co jest szczególnie przydatne dla użytkowników w podróży lub tych, którzy preferują komendy głosowe.
+
+Aby skorzystać z funkcji głosowego wyszukiwania:
+
+1. Po prostu wypowiedz komendę po wejściu w tryb głosowego wyszukiwania.
+2. PyAssist przetworzy twoją wypowiedź i wykonają odpowiednią akcję.
+
+Ta funkcja dodaje nowy wymiar do interfejsu użytkownika, sprawiając, że PyAssist staje się jeszcze bardziej dostępny i przyjazny.
+
+### Menu główne
+
+Po uruchomieniu PyAssist zostaniesz powitany w menu głównym, gdzie możesz wybrać spośród następujących opcji:
+
+- `addressbook:` Dostęp do menu zarządzania książką adresową.
+- `notes:` Dostęp do menu zarządzania notatkami.
+- `sort:` Sortowanie plików w określonym katalogu.
+- `exit:` Wyjście z PyAssist.
+
+### Menu książki adresowej
+
+W menu książki adresowej możesz wykonywać następujące czynności:
+
+- `add:` Dodaj nowy rekord do książki adresowej.
+- `edit:` Edytuj istniejący rekord w książce adresowej.
+- `show:` Wyświetl wszystkie rekordy lub określony rekord w książce adresowej.
+- `delete:` Usuń rekord z książki adresowej.
+- `export:` Wyeksportuj książkę adresową do pliku CSV.
+- `import:` Importuj dane z pliku CSV do książki adresowej.
+- `birthday:` Przeglądaj nadchodzące urodziny w określonym zakresie dni.
+- `search:` Szukaj określonego rekordu w książce adresowej.
+
+### Menu notatek
+
+W menu notatek możesz zarządzać swoimi notatkami:
+
+- `show:` Wyświetl wszystkie notatki.
+- `search:` Szukaj określonej notatki.
+- `create:` Stwórz nową notatkę.
+- `edit:` Edytuj istniejącą notatkę.
+- `delete:` Usuń notatkę.
+- `addtag:` Dodaj tag do notatki.
+- `findtag:` Znajdź notatki według określonego tagu.
+- `sorttag:` Sortuj notatki według tagu.
+- `export:` Eksportuj notatki do pliku.
+- `import:` Importuj notatki z pliku.
+
+### Sortowanie plików
+
+PyAssist umożliwia sortowanie plików w określonym katalogu. Po prostu wybierz opcję "sort" z menu głównego i postępuj zgodnie z instrukcjami, aby podać ścieżkę do katalogu.
+
+### Wyjście z Pyassist
+
+Aby wyjść z PyAssist i zapisać dane, wybierz opcję "exit" z menu głównego.
+
+### Struktura projektu
+
+Projekt PyAssist jest zorganizowany w następujący sposób:
+
+- `pyassist.py:` Główny skrypt inicjujący i uruchamiający aplikację PyAssist.
+- `utility:` Katalog zawierający różne moduły narzędziowe używane przez PyAssist.
+- `addressbook.py:` Definiuje klasę AddressBook do zarządzania rekordami książki adresowej.
+- `record.py:` Definiuje klasę Record do przechowywania indywidualnych rekordów.
+- `name.py:` Definiuje klasę Name do obsługi nazw.
+- `phone.py:` Definiuje klasę Phone do obsługi numerów telefonu.
+- `email.py:` Definiuje klasę Email do obsługi adresów e-mail.
+- `birthday.py:` Definiuje klasę Birthday do obsługi dat urodzin.
+- `notes.py:` Definiuje klasę Note do zarządzania notatkami.
+- `sorter.py:` Definiuje klasę FileSorter do sortowania plików w katalogu.
+- `notes_interaction.py:` Zawiera funkcje do interakcji z notatkami.
+- `record_interaction.py:` Zawiera funkcje do interakcji z rekordami książki adresowej.
+- `cmd_complet.py:` Definiuje klasę CommandCompleter do automatycznego uzupełniania poleceń wiersza poleceń.
 
 ## Konfiguracja
 
@@ -41,10 +126,79 @@ Np. Przed uruchomieniem aplikacji, upewnij się, że na Twoim komputerze zainsta
 
 ## Funkcje
 
+W kodzie PyAssist znajduje się kilka kluczowych funkcji umożliwiających interaktywne zarządzanie danymi w zorganizowany sposób. Oto krótki opis głównych funkcji zawartych w kodzie:
+
+### 1. Dodawanie, Edytowanie i Usuwanie Kontaktów (Książka Adresowa)
+
+#### Funkcja `add_record(record: Record)` w klasie `AddressBook`:
+
+Dodaje nowy kontakt do książki adresowej. Sprawdza, czy dodany obiekt jest instancją klasy `Record`, co zapewnia poprawność danych kontaktowych.
+
+#### Funkcja `edit_record(ADDRESSBOOK, *args)` w klasie `Record`:
+
+Umożliwia edytowanie istniejącego kontaktu w książce adresowej, umożliwiając zmiany danych, takich jak numery telefonów, adresy e-mail itp.
+
+#### Funkcja `del_record(ADDRESSBOOK, *args)` w klasie `Record`:
+
+Usuwa kontakt z książki adresowej.
+
+### 2. Wyświetlanie i Wyszukiwanie Kontaktów
+
+#### Funkcja `show_names()` w klasie `AddressBook`:
+
+Zwraca sformatowany ciąg zawierający wszystkie nazwy (klucze) w książce adresowej.
+
+#### Funkcja `iterator(no_of_contacts_to_return=3)` w klasie `AddressBook`:
+
+Iteruje przez rekordy i zwraca sformatowane informacje w grupach o określonym rozmiarze, ułatwiając przeglądanie kontaktów.
+
+#### Funkcja `search(query: str)` w klasie `AddressBook`:
+
+Wyszukuje kontakty w książce adresowej na podstawie podanego zapytania i zwraca nowy obiekt klasy `AddressBook`, dopasowany do zapytania.
+
+### 3. Zarządzanie Notatkami
+
+Funkcje w klasie `NotesMenuCommands` (plik `notes.py`): Pozwalają na wyświetlanie, tworzenie, edytowanie, usuwanie, dodawanie tagów, wyszukiwanie i sortowanie notatek.
+
+### 4. Funkcja Sortowania Plików
+
+#### Funkcja `sort_files_command(*args)` w głównym kodzie:
+
+Sortuje pliki w określonym katalogu, co może być przydatne do organizowania danych na dysku.
+
+### 5. Funkcjonalność Wyszukiwania Głosowego
+
+Funkcje w głównym kodzie: Wprowadziły innowacyjną funkcję wyszukiwania głosowego, pozwalając użytkownikom na interakcję z narzędziem za pomocą poleceń głosowych. Włączając tryb wyszukiwania głosowego, użytkownicy mogą wydawać polecenia za pomocą mowy.
+
+### 6. Funkcje Exportu i Importu
+
+#### Funkcje `export_to_csv(filename: str)` i `import_from_csv(filename: str)` w klasie `AddressBook`:
+
+Pozwalają na eksportowanie i importowanie danych kontaktowych do i z plików CSV.
+
+### 7. Obsługa Błędów
+
+Dekorator `@error_handler` w głównym kodzie: Zapewnia obsługę błędów podczas dodawania, edytowania, eksportowania i innych operacji, poprawiając niezawodność programu.
+
+Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumienie, jak korzystać z poszczególnych funkcji PyAssist.
+
 ## Przykłady użycia
 
-Jak można z niego korzystać?
-Podajemy tutaj różne przypadki użycia i przykłady kodu.
+### Dodawanie Nowego Kontaktu do Książki Adresowej
+
+<!-- sc -->
+
+### Wyszukiwanie Kontaktu Według Imienia
+
+<!-- sc -->
+
+### Tworzenie Nowej Notatki
+
+<!-- sc -->
+
+### Korzystanie z Wyszukiwania Głosowego
+
+<!-- sc -->
 
 ## Licencja
 
