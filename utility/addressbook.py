@@ -84,6 +84,24 @@ class AddresBook(UserDict):
         return self
     
     # method to search addresbook
+    # interakcja z użytkownikiem 
+    def search_interactively(self):
+        while True:
+            search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
+            if search_query == "<<<":
+                break
+
+            results = self.search(search_query)
+            if results:
+                print("Search results:")
+                for record in results.values():
+                    print(record)
+            else:
+                print("No matching results found.")
+
+            continue_search = input("Do you want to continue searching? (Y/N): ").strip().upper()
+            if continue_search != "Y":
+                break
     """
     The method first looks for an exact match in the keys
     then searches the values of the individual records and adds them to the returned Addresbook object if the fragment matches the query.
@@ -91,6 +109,7 @@ class AddresBook(UserDict):
     Returns:
         Addresbook: a new object of class Addresbook with records based on the query
     """
+    
     def search(self, query: str):
         query_addresbook = AddresBook()
         query = query.strip()
