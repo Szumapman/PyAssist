@@ -48,12 +48,18 @@ Aplikacja korzysta z następujących bibliotek:
 ## Instalacja
 
 Aby zainstalować aplikację, użyj poniższej komendy:
+
+```
 pip install cli_pyassist
+```
 
 ## Uruchomienie programu
 
 Uruchom aplikację za pomocą następującej komendy:
+
+```
 python cli_pyassist.py
+```
 
 ## Funkcje
 
@@ -115,12 +121,18 @@ The application uses the following libraries:
 ## Installation
 
 To install the application, use the following command:
+
+```
 pip install cli_pyassist
+```
 
 ## Running the application
 
 Run the application using the following command:
+
+```
 python cli_pyassist.py
+```
 
 ## Functions
 
