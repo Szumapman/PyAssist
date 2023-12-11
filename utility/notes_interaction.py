@@ -13,44 +13,61 @@ import os
 # notes = [] # NOTES if NOTES else []
 
 #functions for note command
-def display_notes(notes, *args):
-    notes_to_show = ""
+def show_notes(notes, *args):
+    return display_notes(notes, "Your notes:\n")
+
+def display_notes(notes, notes_to_show):
+    if not notes:
+        return "Nothing to show."
     for i, note in enumerate(notes):
         notes_to_show += f"Note {i+1}:\n{note}\n{'-'*30}\n"
     return notes_to_show
 
-# def create_note():
-#     title = input("Enter note title: ")
-#     choice = prompt("Do you want to type the note manually (type) or dictate it (dictate)? ", completer=CommandCompleter(["type", "dictate"])).lower() 
-#     if choice == 'type':
-#         content = input("Enter note content: ")
-#         new_note = Note(title, content)
-#         notes.append(new_note)
-#         return f"Note created successfully."
-#     elif choice == 'dictate':
-#         content = getText()
-#         if not content == 0:
-#             print(f"{content}")
-#             mow(content)
-#             new_note = Note(title, content)           
-#         else:
-#             return"I couldn't recognize voice. Note created unsuccessfully."
-#     else:
-#         return "Invalid choice. Note creation failed."
+def create_note(notes, *args):
+    if not args:
+        title = input("Enter note title: ")
+        if title == "":
+            return "Operation canceled."
+    else:
+        title = " ".join(args)
+    while True:
+        choice = prompt("Do you want to type the note manually (type) or dictate it (dictate)? ", completer=CommandCompleter(["type", "dictate"])).lower() 
+        if choice == 'type':
+            content = input("Enter note content: ")
+            break
+        elif choice == 'dictate':
+            content = getText()
+            if content != 0:
+                print(f"{content}")
+                mow(content)
+                break         
+            else:
+                return"I couldn't recognize voice. Operation canceled."    
+    tags = input("Tags (separated by space): ")
+    tags = list(tags.split())
+    new_note = Note(title, content, tags)
+    notes.append(new_note)
+    return f"Note created successfully."
 
-#     new_note = Note(title, content)
-#     notes.append(new_note)
-#     return f"Note created successfully."
-
-# def edit_note():
-#     display_notes(notes)
-#     choice = int(input("Enter the note number you want to edit: "))
-#     if 1 <= choice <= len(notes):
-#         new_content = input("Enter new content: ")
-#         notes[choice - 1].edit_content(new_content)
-#         return f"Note edited successfully."
-#     else:
-#         return f"Invalid note number."
+def edit_note(notes, *args):
+    if not notes:
+        return "You don't have any notes."
+    if not args:
+        print(display_notes(notes, "Your notes:\n"))
+    else:
+        query = " ".join(args)
+        notes = find_note(notes, query)
+        if notes:
+            print(display_notes(notes, f"Your notes with {query}\n"))
+        else:
+            return f"You don't have notes with {query}"
+    choice = int(input("Enter the note number you want to edit: "))
+    if 1 <= choice <= len(notes):
+        new_content = input("Enter new content: ")
+        notes[choice - 1].edit_content(new_content)
+        return f"Note edited successfully."
+    else:
+        return f"Invalid note number."
 
 # def delete_note():
 #     display_notes(notes)
@@ -85,18 +102,16 @@ def display_notes(notes, *args):
 #     return "Notes sorted by tags."
 
 
-
-def find_note(notes, *args):
+def show_search(notes, *args):
     if not args:
         search_term = input("Enter a keyword to search for in note: ")
     else:
-        search_term = " ".join(args)
-    found_notes = Note.find_notes(notes, search_term) 
-    if found_notes:
-        print(found_notes)
-        return f"Notes containing '{search_term}:'\n{display_notes(found_notes)}"
-    else:
-        return f"No notes found containing '{search_term}'."
+        search_term = " ".join(args)    
+    return display_notes(find_note(notes, search_term), f"Notes containing '{search_term}':\n")
+
+
+def find_note(notes, query):
+    return Note.find_notes(notes, query) 
     
 
 # def save_note(*args):

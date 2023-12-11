@@ -151,16 +151,15 @@ def addressbook_commands(*args):
         if cmd == "up":
             break
         print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
-    return "Ok, I return to the main menu."
-    
+    return "Ok, I return to the main menu."    
 
 
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
     "up": ...,
-    "show": lambda *args: display_notes(NOTES, *args),
-    # "create": create_note,
-    # "edit": edit_note,
+    "show": lambda *args: show_notes(NOTES, *args),
+    "create": lambda *args: create_note(NOTES, *args),
+    "edit": lambda *args: edit_note(NOTES, *args),
     # "delete": delete_note,
     # "addtag": add_tag_to_note,
     # "findtag": find_notes_by_tag,
