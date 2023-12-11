@@ -2,7 +2,7 @@ from utility.notes import Note
 import os
 
 # paths to files with data
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "notes.csv")
+NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
 
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
@@ -80,8 +80,8 @@ def find_note():
 
 def save_note(*args):
     Note.save_notes(notes, NOTES_DATA_PATH)
-    return f"Saved."
+    return f"Notes exported."
 def load_note(*args):
     global notes
     notes = Note.load_notes(NOTES_DATA_PATH)
-    return f"Load complete."
+    return f"Notes imported."
