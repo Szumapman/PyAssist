@@ -77,9 +77,4 @@ class FileSorter:
                 folder_to_check = os.path.join(dirpath, dirname)
                 if not os.listdir(folder_to_check):
                     os.rmdir(folder_to_check)
-                    print(f"Empty directory: <{dirname}> removed.")
-
-'''debug code below'''
-# file_sorter = FileSorter()
-# folder_path = "path/to/folder"
-# file_sorter.process_folder(folder_path)
+                    print(f"Empty directory: <{dirname}> removed.") 
