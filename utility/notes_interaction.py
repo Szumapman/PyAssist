@@ -11,9 +11,13 @@ class to handle note-related operations, enabling the creation of notes either m
 via dictation, editing existing notes, adding tags, searching by tags, and exporting/importing 
 notes to/from a .csv file.
 """
-# paths to files with data
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
-NOTES_DATA_PATH = os.path.join(current_dir, "data/notes.csv")
+
+# folder up (bcs this file is in utility)
+parent_dir = os.path.dirname(current_dir)
+
+NOTES_DATA_PATH = os.path.join(parent_dir, "data", "notes.csv")
 
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
