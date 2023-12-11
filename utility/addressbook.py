@@ -61,12 +61,9 @@ class AddresBook(UserDict):
                 if record.birthday:
                     records_info += f"Birthday:\n    {record.birthday}\n    {record.days_to_birthday()}\n"
                 if record.address:
-                    records_info += f"Address:\n    Street: {record.address.street}\n"
-                    records_info += f"    City: {record.address.city}\n"
-                    records_info += f"    Zip Code: {record.address.zip_code}\n"
-                    records_info += f"    Country: {record.address.country}\n"
-                records_info += "----------------------------------\n"
-                
+                    records_info += f"\n{record.address}"
+                records_info += "\n-------------\n"
+                i += 1
                 if current_record_no >= no_of_contacts_to_return:
                     yield records_info
                     current_record_no = 1
@@ -100,11 +97,11 @@ class AddresBook(UserDict):
         """
         query_addresbook = AddresBook()
         query = query.strip()
-        key_query = query.capitalize()
+        key_query = query.title()
         if key_query in self.keys():
             query_addresbook[key_query] = self[key_query]
         for record in self.values():
-            if query in record.name.value:
+            if query in record.name.value or key_query in record.name.value:
                 query_addresbook[record.name.value] = record
             for phone in record.phones:
                 if query in phone.value:
@@ -203,39 +200,3 @@ class AddresBook(UserDict):
                 if -1 < difference <= number_of_days:
                     upcoming_birthdays[current_date + timedelta(difference)].append(record)
         return upcoming_birthdays
-            
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    # method to search addresbook
-    # interakcja z użytkownikiem 
-    def search_interactively(self):
-        while True:
-            search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
-            if search_query == "<<<":
-                break
-            results = self.search(search_query)
-            if results:
-                print("Search results:")
-                for record in results.values():
-                    print(record)
-            else:
-                print("No matching results found.")
-            continue_search = input("Do you want to continue searching? (Y/N): ").strip().upper()
-            if continue_search != "Y":
-                break           
