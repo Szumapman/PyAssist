@@ -221,13 +221,6 @@ Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumieni
 ![dodawanie_danych_do_ka](https://github.com/Szumapman/PyAssist/assets/115115006/ae247f21-363a-479b-a876-6df3c7d4eecf)
 ![dodawanie_danych_do_ka_2](https://github.com/Szumapman/PyAssist/assets/115115006/a9c5525c-a3f5-4dcc-9b90-d9170f3efe18)
 
-### Wyszukiwanie Kontaktu Według Imienia
-
-<!-- sc -->
-
-### Tworzenie Nowej Notatki
-
-<!-- sc -->
 
 ### Korzystanie z Wyszukiwania Głosowego
 ![notatka_glosowa](https://github.com/Szumapman/PyAssist/assets/115115006/a2092da0-938b-40a8-b20d-443a961f9021)
@@ -467,13 +460,6 @@ The integrated usage examples in the README section allow for a quick understand
 ![dodawanie_danych_do_ka](https://github.com/Szumapman/PyAssist/assets/115115006/ae247f21-363a-479b-a876-6df3c7d4eecf)
 ![dodawanie_danych_do_ka_2](https://github.com/Szumapman/PyAssist/assets/115115006/a9c5525c-a3f5-4dcc-9b90-d9170f3efe18)
 
-### Searching for a Contact by Name
-
-<!-- sc -->
-
-### Creating a New Note
-
-<!-- sc -->
 
 ### Using Voice Search
 
