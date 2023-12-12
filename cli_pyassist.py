@@ -20,8 +20,9 @@ from utility.cmd_complet import CommandCompleter, similar_command
 
 
 # paths to files with data # Because it's a simple program. The path is hard coded ;)
-NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv")
-ADDRESSBOOK_DATA_PATH = os.path.join(os.getcwd(), "data/addresbook.dat") 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+NOTES_DATA_PATH = os.path.join(current_dir, "data/notes.csv")
+ADDRESSBOOK_DATA_PATH = os.path.join(current_dir, "data/addresbook.dat") 
 
 
 #objects storing data while the program is running
