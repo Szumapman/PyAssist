@@ -90,18 +90,25 @@ def add_tag_to_note(notes, *args):
     else:
         return f"Invalid note number."
 
-# def find_notes_by_tag():
-#     tag = input("Enter tag to search notes: ")
-#     found_notes = Note.find_note_by_tag(notes, tag)
-#     if found_notes:
-#         display_notes(found_notes)
-#         return f"Notes with tag '{tag}'"
-#     else:
-#         return f"No notes found with tag '{tag}'."
-    
-# def sort_notes_by_tag(*args):
-#     Note.sort_notes_by_tag(notes)
-#     return "Notes sorted by tags."
+def find_notes_by_tag(notes, *args):
+    if not args:
+        tag = input("Enter tag to search notes: ")
+        found_notes = Note.find_note_by_tag(notes, tag)
+    else:
+        found_notes = []
+        tag = " ".join(args)
+        for arg in args:
+            found_notes += Note.find_note_by_tag(notes, arg)
+    if found_notes:
+        return display_notes(found_notes, f"Notes with tag '{tag}'\n")
+    else:
+        return f"No notes found with tag '{tag}'."
+
+
+#funkcja do poprawy / sprawdzenia    
+def sort_notes_by_tag(notes, *args): 
+    Note.sort_notes_by_tag(notes) #to sortowanie nie działe, albo ja nie rozumiem, co ono ma robić
+    return display_notes(notes, "Notes sorted by tags.\n")
 
 
 def show_search(notes, *args):
