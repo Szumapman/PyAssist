@@ -133,19 +133,19 @@ Aplikacja korzysta z następujących bibliotek:
 1. Pobierz repozytorium:
 
 ```
-git clone .git
+git clone https://github.com/Szumapman/PyAssist.git
 ```
 
 2. Przejdź do katalogu z aplikacja:
 
 ```
-cd (tutaj wpisac nazwe katalogu!!!!!)
+cd PyAssist
 ```
 
 3. Zainstaluj zależności:
 
 ```
-pip install (co nalezy wpisac?????)
+pip install .
 ```
 
 ## Uruchomienie programu
@@ -153,7 +153,7 @@ pip install (co nalezy wpisac?????)
 Uruchom aplikację za pomocą następującej komendy:
 
 ```
-cli_pyassist (komenda poprawna??????)
+cli_pyassist
 ```
 
 ## Funkcje
@@ -378,13 +378,13 @@ git clone https://github.com/Szumapman/PyAssist.git
 2. navigate to the directory with the application:
 
 ```
-cd (????????)
+cd PyAssist
 ```
 
 3. Install dependencies:
 
 ```
-pip install (?????)
+pip install .
 ```
 
 ## Running the application
