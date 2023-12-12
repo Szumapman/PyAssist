@@ -1,6 +1,0 @@
-SpeechRecognition
-pyttsx3
-pyaudio
-pyfiglet
-cowsay
-prompt_toolkit
