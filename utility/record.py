@@ -20,7 +20,24 @@ class Record:
 
     # overridden method __repr__
     def __repr__(self) -> str:
-        return f"{self._name}"
+        record_info = f"Name: {self.name}\n"
+        if self.phones:
+            record_info += "Phones:\n"
+            for phone in self.phones:
+                record_info += f"    - {phone}\n"
+        if self.emails:
+            record_info += "Emails:\n"
+            for email in self.emails:
+                record_info += f"    - {email}\n"
+        if self.birthday:
+            record_info += f"Birthday:\n    {self.birthday}\n    {self.days_to_birthday()}\n"
+        if self.address:
+            record_info += f"Address:\n    Street: {self.address.street}\n"
+            record_info += f"    City: {self.address.city}\n"
+            record_info += f"    Zip Code: {self.address.zip_code}\n"
+            record_info += f"    Country: {self.address.country}\n"
+        record_info += "----------------------------------\n"
+        return record_info
 
     # name section
     # Getter for name

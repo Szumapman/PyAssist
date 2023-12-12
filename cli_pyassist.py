@@ -114,8 +114,8 @@ def addressbook_commands(*args):
         {"option": "Export Address Book", "command": "export"},
         {"option": "Import Address Book", "command": "import"},
         {"option": "Main Menu", "command": "up"}, 
-        {"option": "Show this Menu", "command": "help"},
         {"option": "Program exit", "command": "exit"},
+        {"option": "Show this Menu", "command": "help"},
     ]
     show_menu(menu_options)
     completer = CommandCompleter(list(ADDRESSBOOK_MENU_COMMANDS.keys()) + list(ADDRESSBOOK.keys()))
@@ -139,6 +139,7 @@ def notes_command(*args):
         # {"option": "Import Notes", "command": "import"},
         {"option": "Main Menu", "command": "up"},
         {"option": "Program exit", "command": "exit"},
+        {"option": "Show this Menu", "command": "help"},
     ]
     show_menu(menu_options)
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
