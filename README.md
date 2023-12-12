@@ -218,7 +218,7 @@ Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumieni
 
 ### Dodawanie Nowego Kontaktu do Książki Adresowej
 
-<!-- sc -->
+![dodawanie_danych_do_ka](https://github.com/Szumapman/PyAssist/assets/115115006/ae247f21-363a-479b-a876-6df3c7d4eecf)
 
 ### Wyszukiwanie Kontaktu Według Imienia
 
