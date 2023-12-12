@@ -36,8 +36,8 @@ def create_note(notes, *args):
                 break         
             else:
                 return"I couldn't recognize voice. Operation canceled."    
-    tags = input("Tags (separated by space): ")
-    tags = list(tags.split())
+    tags = list(input("Tags (separated by space): ").strip().split())
+    # tags = list(tags.split())
     new_note = Note(title, content, tags)
     notes.append(new_note)
     return f"Note created successfully."
@@ -77,9 +77,10 @@ def delete_note(notes, *args):
 def add_tag_to_note(notes, *args):
     notes, choice = choice_note(notes, *args)
     if 1 <= choice <= len(notes):
-        tag = input("Enter tag to add: ")
-        notes[choice - 1].add_tag(tag)
-        return f"Tag '{tag}' added to the note."
+        tags = list(input("Enter tags to add (separated by space): ").strip().split())
+        for tag in tags:
+            notes[choice - 1].add_tag(tag)
+        return f"Tags '{', '.join(tags)}' added to the note."
     else:
         return f"Invalid note number."
 
