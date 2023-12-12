@@ -144,16 +144,14 @@ cd PyAssist
 
 3. Zainstaluj zależności:
 
-```
-pip install .
-```
+Aby zainstalować pakiet z kodu źródłowego, wykonaj w konsoli polecenie `pip install .` lub `pip install -e .` w folderze, w którym znajduje się setup.py
 
 ## Uruchomienie programu
 
 Uruchom aplikację za pomocą następującej komendy:
 
 ```
-cli_pyassist
+pyassist
 ```
 
 ## Funkcje
@@ -383,16 +381,14 @@ cd PyAssist
 
 3. Install dependencies:
 
-```
-pip install .
-```
+To install the package from the source code, type `pip install .` in the console or `pip install -e .` in the folder where setup.py is located
 
 ## Running the application
 
 Run the application using the following command:
 
 ```
-cli_pyassist
+pyassist
 ```
 
 ## Functions
