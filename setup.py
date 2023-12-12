@@ -16,5 +16,5 @@ setup(
         'cowsay',
         'prompt_toolkit',
     ],
-    entry_points={'console_scripts': ['cli_pyassist = pyassist.cli_pyassist:main']}
+    entry_points={'console_scripts': ['cli_pyassist = cli_pyassist.cli_pyassist:main']}
 )
