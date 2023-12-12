@@ -87,11 +87,6 @@ def parse_command(user_input: str) -> (str, tuple):
     arguments = tokens[1:]
     return command, tuple(arguments)
 
-# taking a command from the user
-def user_command_input(completer: CommandCompleter):
-    user_input = prompt(">>> ", completer=completer).strip().lower()
-    if user_input:
-        return parse_command(user_input)
 
 # taking a command from the user
 def user_command_input(completer: CommandCompleter, menu_name=""):
@@ -102,11 +97,22 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
-    Note.save_notes(notes, NOTES_DATA_PATH)   
+    Note.save_notes(NOTES, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.")
     cowsay.tux("Good bye!") 
     sys.exit()
+
+
+# function to show menus addressbook & notes
+def show_menu(menu_options):
+    max_option_length = max(len(item['option']) for item in menu_options) 
+    print("Options:".ljust(max_option_length + 5), "Command:")
+    print("-" * (max_option_length + 18))
+    for _, item in enumerate(menu_options):
+        print(f"{item['option'].ljust(max_option_length + 5)} {item['command']}")
+    print("-" * (max_option_length + 18))
+
 
 # function to handle addressbook command
 def addressbook_commands(*args):
@@ -120,26 +126,16 @@ def addressbook_commands(*args):
         {"option": "Upcoming Birthdays", "command": "birthday <days>"}, # (selected number of days ahead) - informacja do instrukcji 
         {"option": "Export Address Book", "command": "export"},
         {"option": "Import Address Book", "command": "import"},
+        {"option": "Main Menu", "command": "up"}, 
         {"option": "Show this Menu", "command": "help"},
-        {"option": "Main Menu", "command": "up"},
+        {"option": "Program exit", "command": "exit"},
     ]
-
-    max_option_length = max(len(item['option']) for item in menu_options) 
-    
-    print("Options:".ljust(max_option_length + 5), "Command:")
-    print("-" * (max_option_length + 18))
-
-    for index, item in enumerate(menu_options):
-        print(f"{item['option'].ljust(max_option_length + 5)} {item['command']}")
-
-    print("-" * (max_option_length + 18))
+    show_menu(menu_options)
     completer = CommandCompleter(list(ADDRESSBOOK_MENU_COMMANDS.keys()) + list(ADDRESSBOOK.keys()))
     while True:
         cmd, arguments = user_command_input(completer, "address book")
-        if cmd == "up":
-            break
         print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
-    return "Ok, I return to the main menu."
+
 
 # function to handle note command
 def notes_command(*args):
@@ -154,30 +150,31 @@ def notes_command(*args):
         {"option": "Sort Notes by Tag", "command": "sorttag"},
         # {"option": "Export Notes", "command": "export"},
         # {"option": "Import Notes", "command": "import"},
-        {"option": "Show this Menu", "command": "help"},
         {"option": "Main Menu", "command": "up"},
         {"option": "Program exit", "command": "exit"},
     ]
-
-    max_option_length = max(len(item['option']) for item in menu_options) 
-    
-    print("Options:".ljust(max_option_length + 5), "Command:")
-    print("-" * (max_option_length + 15))
-
-    for index, item in enumerate(menu_options):
-        print(f"{item['option'].ljust(max_option_length + 5)} {item['command']}")
-
-    print("-" * (max_option_length + 15))
+    show_menu(menu_options)
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer, "notes")
-        if cmd == "up":
-            break
-        # elif cmd == "show":
-        #     display_notes(notes)
-        else:
-            print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
-    return "Ok, I return to the main menu."
+        print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
+
+
+# dict for main menu handler
+MAIN_COMMANDS = {
+    "exit": cli_pyassist_exit,
+    "addressbook": addressbook_commands,
+    "sort": sort_files_command,
+    "notes": notes_command,
+}
+
+
+@error_handler
+def pyassit_main_menu():
+    completer = CommandCompleter(MAIN_COMMANDS.keys())
+    while True:
+        cmd, arguments = user_command_input(completer, "main menu")
+        print(execute_commands(MAIN_COMMANDS, cmd, arguments))
 
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
@@ -190,13 +187,12 @@ ADDRESSBOOK_MENU_COMMANDS = {
     "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
     "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
     "search": lambda *args: search(ADDRESSBOOK, *args),
-    "up": ...,
+    "up": pyassit_main_menu,
     "help": addressbook_commands,
 }
 
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
-    "up": ...,
     "show": lambda *args: show_notes(NOTES, *args),
     "create": lambda *args: create_note(NOTES, *args),
     "edit": lambda *args: edit_note(NOTES, *args),
@@ -207,22 +203,13 @@ NOTES_MENU_COMMANDS = {
     # "export": save_note,
     # "import": load_note,
     "search": lambda *args: show_search(NOTES, *args),
+    "up": pyassit_main_menu,
     "exit": cli_pyassist_exit, 
 }
-
-
-# dict for main menu handler
-MAIN_COMMANDS = {
-    "exit": cli_pyassist_exit,
-    "addressbook": addressbook_commands,
-    "sort": sort_files_command,
-    "notes": notes_command,
-}
-
-
+    
+    
 def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
-    """
-    Function to execute user commands
+    """Function to execute user commands
 
     Args:
         menu_commands (dict): dict for menu-specific commands
@@ -232,7 +219,6 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     Returns:
         func: function with arguments
     """
-
     if cmd == "sort":
         return sort_files_command(*arguments)
     elif cmd not in menu_commands:
@@ -241,11 +227,7 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     return cmd(*arguments)
 
 
-
-@error_handler
 def main():
-    # completer = CommandCompleter(list(MAIN_COMMANDS.keys()) + list(ADDRESBOOK.keys()))
-    completer = CommandCompleter(MAIN_COMMANDS.keys())
     logo = pyfiglet.figlet_format("PyAssist", font = "slant")
     print(logo)
     print("     ╔════════════════════════════╗")
@@ -256,10 +238,8 @@ def main():
     print("     ║ - sort                     ║")
     print("     ║ - exit                     ║")
     print("     ╚════════════════════════════╝")
-    while True:
-            cmd, arguments = user_command_input(completer)
-            print(execute_commands(MAIN_COMMANDS, cmd, arguments))
-
+    pyassit_main_menu()
+    
 
 if __name__ == "__main__":
     main()
