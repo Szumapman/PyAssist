@@ -3,12 +3,12 @@ import csv
 
 notes = []
 class Note:
-    def __init__(self, title, content, tags=[]):
+    def __init__(self, title, content):
         self.title = title
         self.content = content
         self.create_time = datetime.now()
         self.modified_time = self.create_time
-        self.tags = tags
+        self.tags = []
     
     def __str__(self):
         creation_time_str = self.create_time.strftime("%Y-%m-%d %H:%M:%S")

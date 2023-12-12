@@ -3,6 +3,7 @@ from utility.recognizer import mow, getText
 from utility.cmd_complet import CommandCompleter
 
 from prompt_toolkit import prompt
+import os
 """
 This script provides a set of functions to manage notes, allowing users to create, 
 edit, delete, and search notes based on titles, contents, and tags. It utilizes a 'Note' 
@@ -21,60 +22,43 @@ NOTES_DATA_PATH = os.path.join(parent_dir, "data", "notes.csv")
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
 notes = NOTES if NOTES else []
+
 #functions for note command
-def show_notes(notes, *args):
-    return display_notes(notes, "Your notes:\n")
-
-def display_notes(notes, notes_to_show):
-    if not notes:
-        return "Nothing to show."
-    for i, note in enumerate(notes):
-        notes_to_show += f"Note {i+1}:\n{note}\n{'-'*30}\n"
-    return notes_to_show
-
-def create_note(notes, *args):
-    if not args:
-        title = input("Enter note title: ")
-        if title == "":
-            return "Operation canceled."
+def display_notes(notes_list):
+    if not notes_list:
+        print("No notes available.")
     else:
-        title = " ".join(args)
-    while True:
-        choice = prompt("Do you want to type the note manually (type) or dictate it (dictate)? ", completer=CommandCompleter(["type", "dictate"])).lower() 
-        if choice == 'type':
-            content = input("Enter note content: ")
-            break
-        elif choice == 'dictate':
-            content = getText()
-            if content != 0:
-                print(f"{content}")
-                mow(content)
-                break         
-            else:
-                return"I couldn't recognize voice. Operation canceled."    
-    tags = list(input("Tags (separated by space): ").strip().split())
-    # tags = list(tags.split())
-    new_note = Note(title, content, tags)
+        for i, note in enumerate(notes_list):
+            print(f"Note {i+1}:")
+            print(note)
+            print("-" * 30)
+
+def create_note():
+    title = input("Enter note title: ")
+    choice = prompt("Do you want to type the note manually (type) or dictate it (dictate)? ", completer=CommandCompleter(["type", "dictate"])).lower() 
+    if choice == 'type':
+        content = input("Enter note content: ")
+        new_note = Note(title, content)
+        notes.append(new_note)
+        return f"Note created successfully."
+    elif choice == 'dictate':
+        content = getText()
+        if not content == 0:
+            print(f"{content}")
+            mow(content)
+            new_note = Note(title, content)           
+        else:
+            return"I couldn't recognize voice. Note created unsuccessfully."
+    else:
+        return "Invalid choice. Note creation failed."
+
+    new_note = Note(title, content)
     notes.append(new_note)
     return f"Note created successfully."
 
-
-def choice_note(notes, *args):
-    if not args:
-        print(display_notes(notes, "Your notes:\n"))
-    else:
-        query = " ".join(args)
-        notes = find_note(notes, query)
-        if notes:
-            print(display_notes(notes, f"Your notes with {query}\n"))
-        else:
-            return f"You don't have notes with {query}"
-    choice = int(input("Enter the number of the note you want to choose: "))
-    return notes, choice   
-
-
-def edit_note(notes, *args):
-    notes, choice = choice_note(notes, *args)
+def edit_note():
+    display_notes(notes)
+    choice = int(input("Enter the note number you want to edit: "))
     if 1 <= choice <= len(notes):
         new_content = input("Enter new content: ")
         notes[choice - 1].edit_content(new_content)
@@ -82,54 +66,54 @@ def edit_note(notes, *args):
     else:
         return f"Invalid note number."
 
-def delete_note(notes, *args):
-    notes, choice = choice_note(notes, *args)
+def delete_note():
+    display_notes(notes)
+    choice = int(input("Enter the note number you want to delete: "))
     if 1 <= choice <= len(notes):
         notes[choice - 1].remove_note(notes)
         return f"Note deleted successfully."
     else:
         return f"Invalid note number."
 
-def add_tag_to_note(notes, *args):
-    notes, choice = choice_note(notes, *args)
+def add_tag_to_note():
+    display_notes(notes)
+    choice = int(input("Enter the note number you want to add a tag to: "))
     if 1 <= choice <= len(notes):
-        tags = list(input("Enter tags to add (separated by space): ").strip().split())
-        for tag in tags:
-            notes[choice - 1].add_tag(tag)
-        return f"Tags '{', '.join(tags)}' added to the note."
+        tag = input("Enter tag to add: ")
+        notes[choice - 1].add_tag(tag)
+        return f"Tag '{tag}' added to the note."
     else:
         return f"Invalid note number."
 
-def find_notes_by_tag(notes, *args):
-    if not args:
-        tags = list(input("Enter tag to search notes: ").strip().split())
-    else:
-        tags = args
-    found_notes = []
-    for tag in tags:
-        for note in Note.find_note_by_tag(notes, tag):
-            if not note in found_notes:
-                found_notes.append(note)
+def find_notes_by_tag():
+    tag = input("Enter tag to search notes: ")
+    found_notes = Note.find_note_by_tag(notes, tag)
     if found_notes:
-        return display_notes(found_notes, f"Notes with tags '{', '.join(tags)}'\n")
+        display_notes(found_notes)
+        return f"Notes with tag '{tag}'"
     else:
         return f"No notes found with tag '{tag}'."
-
-
-#funkcja do poprawy / sprawdzenia    
-def sort_notes_by_tag(notes, *args): 
-    Note.sort_notes_by_tag(notes) #to sortowanie nie działe, albo ja nie rozumiem, co ono ma robić
-    return display_notes(notes, "Notes sorted by tags.\n")
-
-
-def show_search(notes, *args):
-    if not args:
-        search_term = input("Enter a keyword to search for in note: ")
-    else:
-        search_term = " ".join(args)    
-    return display_notes(find_note(notes, search_term), f"Notes containing '{search_term}':\n")
-
-
-def find_note(notes, query):
-    return Note.find_notes(notes, query) 
     
+def sort_notes_by_tag(*args):
+    Note.sort_notes_by_tag(notes)
+    return "Notes sorted by tags."
+
+
+
+def find_note():
+    search_term = input("Enter a keyword to search for in note titles or contents: ")
+    found_notes = Note.find_notes(notes, search_term)
+    if found_notes:
+        display_notes(found_notes)
+        return f"Notes containing '{search_term}'"
+    else:
+        return f"No notes found containing '{search_term}'."
+    
+
+def save_note(*args):
+    Note.save_notes(notes, NOTES_DATA_PATH)
+    return f"Notes exported."
+def load_note(*args):
+    global notes
+    notes = Note.load_notes(NOTES_DATA_PATH)
+    return f"Notes imported."
