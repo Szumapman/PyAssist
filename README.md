@@ -1,12 +1,9 @@
 # PyAssist
 
-> Krótki opis projektu PL
 > PyAssist to narzędzie wiersza poleceń oparte na języku Python, które zostało zaprojektowane w celu efektywnego zarządzania książką adresową i notatkami. Dzięki PyAssist możesz łatwo dodawać, edytować, usuwać, wyszukiwać i eksportować rekordy w swojej książce adresowej. Dodatkowo, narzędzie umożliwia tworzenie, edytowanie, usuwanie i wyszukiwanie notatek, oferując różnorodne funkcje.
 
-> Short project description EN
 > PyAssist is a Python-based command-line utility designed to assist you in managing your address book and notes efficiently. With PyAssist, you can easily add, edit, delete, search, and export records in your address book. Additionally, you can create, edit, delete, and search notes with various functionalities.
 
-> Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
 
 ## Język / Language
 
