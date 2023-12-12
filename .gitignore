@@ -155,5 +155,3 @@ cython_debug/
 
 
 #ignore all csv and dat files
-*.dat
-*.csv
