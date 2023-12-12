@@ -101,7 +101,7 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
-    # Note.save_notes(notes, NOTES_DATA_PATH)   
+    Note.save_notes(NOTES, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.")
     cowsay.tux("Good bye!") 
@@ -166,7 +166,8 @@ NOTES_MENU_COMMANDS = {
     "sorttag": lambda *args: sort_notes_by_tag(NOTES, *args),
     # "export": save_note,
     # "import": load_note,
-    "search": lambda *args: find_note(NOTES, *args),
+    "search": lambda *args: show_search(NOTES, *args),
+    "exit": cli_pyassist_exit, 
 }
 
 # function to handle note command
@@ -180,9 +181,10 @@ def notes_command(*args):
         {"option": "Add Tag to Note", "command": "addtag"},
         {"option": "Find Notes by Tag", "command": "findtag"},
         {"option": "Sort Notes by Tag", "command": "sorttag"},
-        {"option": "Export Notes", "command": "export"},
-        {"option": "Import Notes", "command": "import"},
-        {"option": "Main Menu", "command": "up"}
+        # {"option": "Export Notes", "command": "export"},
+        # {"option": "Import Notes", "command": "import"},
+        {"option": "Main Menu", "command": "up"},
+        {"option": "Program exit", "command": "exit"}
     ]
 
     max_option_length = max(len(item['option']) for item in menu_options) 

@@ -3,14 +3,7 @@ from utility.recognizer import mow, getText
 from utility.cmd_complet import CommandCompleter
 
 from prompt_toolkit import prompt
-import os
 
-# paths to files with data
-# NOTES_DATA_PATH = os.path.join(os.getcwd(), "data/notes.csv") # do usunięcia
-
-#objects storing data while the program is running
-# NOTES = Note.load_notes(NOTES_DATA_PATH)
-# notes = [] # NOTES if NOTES else []
 
 #functions for note command
 def show_notes(notes, *args):
@@ -122,13 +115,3 @@ def show_search(notes, *args):
 def find_note(notes, query):
     return Note.find_notes(notes, query) 
     
-
-# def save_note(*args):
-#     Note.save_notes(notes, NOTES_DATA_PATH)
-#     return f"Notes exported."
-
-
-# def load_note(*args):
-#     global notes
-#     notes = Note.load_notes(NOTES_DATA_PATH)
-#     return f"Notes imported."
