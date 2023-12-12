@@ -1,16 +1,10 @@
 import sys
 import os
-import csv
 import pyfiglet
 import cowsay
-from typing import Callable
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
-from utility.record import Record
-from utility.name import Name
-from utility.phone import Phone
-from utility.email import Email
-from utility.birthday import Birthday, FutureDateError
+from utility.birthday import FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.notes_interaction import *
