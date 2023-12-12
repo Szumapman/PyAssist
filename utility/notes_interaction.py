@@ -86,15 +86,16 @@ def add_tag_to_note(notes, *args):
 
 def find_notes_by_tag(notes, *args):
     if not args:
-        tag = input("Enter tag to search notes: ")
-        found_notes = Note.find_note_by_tag(notes, tag)
+        tags = list(input("Enter tag to search notes: ").strip().split())
     else:
-        found_notes = []
-        tag = " ".join(args)
-        for arg in args:
-            found_notes += Note.find_note_by_tag(notes, arg)
+        tags = args
+    found_notes = []
+    for tag in tags:
+        for note in Note.find_note_by_tag(notes, tag):
+            if not note in found_notes:
+                found_notes.append(note)
     if found_notes:
-        return display_notes(found_notes, f"Notes with tag '{tag}'\n")
+        return display_notes(found_notes, f"Notes with tags '{', '.join(tags)}'\n")
     else:
         return f"No notes found with tag '{tag}'."
 
