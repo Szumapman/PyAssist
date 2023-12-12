@@ -10,7 +10,7 @@ from utility.name import Name
 from utility.phone import Phone
 from utility.email import Email
 from utility.birthday import Birthday
-
+from utility.address import Address
 
 class AddresBook(UserDict):
     """
@@ -130,7 +130,7 @@ class AddresBook(UserDict):
     def export_to_csv(self, filename):
         if len(self.data) > 0:
             with open(filename, 'w', newline='') as fh:
-                field_names = ['name', 'phones', 'emails', 'birthday']
+                field_names = ['name', 'phones', 'emails', 'birthday', 'street', 'city', 'zip_code', 'country']
                 writer = csv.DictWriter(fh, fieldnames=field_names)
                 writer.writeheader()
                 for record in self.data.values():
@@ -145,6 +145,11 @@ class AddresBook(UserDict):
                     record_dict['emails'] = '|'.join(emails)
                     if record.birthday is not None:
                         record_dict['birthday'] = record.birthday.value.strftime("%d %m %Y")
+                    if record.address:
+                        record_dict['street'] = record.address.street
+                        record_dict['city'] = record.address.city
+                        record_dict['zip_code'] = record.address.zip_code
+                        record_dict['country'] = record.address.country
                     writer.writerow(record_dict)
                 
                     
@@ -177,8 +182,16 @@ class AddresBook(UserDict):
                 if birthday != '':
                     birthday = Birthday(birthday)
                 else:
-                    birthday = None    
-                self.add_record(Record(Name(name), phones_to_add, emails_to_add, birthday))
+                    birthday = None
+                street = row['street'] 
+                city = row['city']
+                zip_code = row['zip_code']
+                country = row['country']
+                if street or city or zip_code or country:
+                    address = Address(street, city, zip_code, country)
+                else:
+                    address = None
+                self.add_record(Record(Name(name), phones_to_add, emails_to_add, birthday, address))
                 
 
     def records_with_upcoming_birthday(self, number_of_days) -> dict:
