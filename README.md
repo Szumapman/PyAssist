@@ -229,7 +229,7 @@ Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumieni
 <!-- sc -->
 
 ### Korzystanie z Wyszukiwania Głosowego
-
+https://github.com/Szumapman/PyAssist/issues/14#issue-2038218894
 <!-- sc -->
 
 ## Licencja
