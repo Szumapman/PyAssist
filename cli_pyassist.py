@@ -206,6 +206,7 @@ def notes_command(*args):
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
     return "Ok, I return to the main menu."
+ 
   
 # dict for main menu handler
 MAIN_COMMANDS = {
