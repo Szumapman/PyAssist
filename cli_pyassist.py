@@ -24,18 +24,13 @@ NOTES = Note.load_notes(NOTES_DATA_PATH)
 ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
-#initialize an instance of FileSorter class
-file_sorter = FileSorter()
+# #initialize an instance of FileSorter class
+# file_sorter = FileSorter()
 
-#function for FileSorter in specified directory
-def sort_files_in_directory(directory):
-    file_sorter.process_folder(directory)
+# #function for FileSorter in specified directory
+# def sort_files_in_directory(directory):
+#     file_sorter.process_folder(directory)
     
-# function to handle sort command
-def sort_files_command(*args):
-    directory = input("Enter directory path to sort files: ")
-    sort_files_in_directory(directory)
-    return f"Done."
 
 # function to handle with errors
 def error_handler(func):
@@ -43,25 +38,23 @@ def error_handler(func):
         while True:
             try:
                 return func(*args)
-            # błędy i komunikaty przeniesione z pierwotnej wersji - do sprawdzenia / zmiany
-            except ValueError:
-                if func.__name__ == "add_phone":
-                    print("Invalid phone number, try again.")
-                if func.__name__ == "add_email":
-                    print("Invalid email, try again.")
-                if func.__name__ == "add_birthday":
-                    print("Invalid date format, try again.")
-                if func.__name__ == "import_from_csv":
-                    print("I can't import from this source. Check the file.")
-                    break
-            except FutureDateError:
-                print("You can't use a future date as a birthday, try again.")
-            except FileNotFoundError:
-                print("I can't find file to import data.")
-                break
+            except FileNotFoundError as e: 
+                return f"I can't find folder."
             except KeyboardInterrupt:
                 cli_pyassist_exit()
     return wrapper
+
+
+# function to handle sort command
+@error_handler
+def sort_files_command(*args):
+    if not args:
+        directory = input("Enter directory path to sort files: ")
+    else:
+        directory = "".join(args)
+    file_sorter = FileSorter()
+    file_sorter.process_folder(directory)
+    return f"Done."
 
 
 # a function that parses user input commands
