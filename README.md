@@ -219,6 +219,7 @@ Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumieni
 ### Dodawanie Nowego Kontaktu do Książki Adresowej
 
 ![dodawanie_danych_do_ka](https://github.com/Szumapman/PyAssist/assets/115115006/ae247f21-363a-479b-a876-6df3c7d4eecf)
+![dodawanie_danych_do_ka_2](https://github.com/Szumapman/PyAssist/assets/115115006/a9c5525c-a3f5-4dcc-9b90-d9170f3efe18)
 
 ### Wyszukiwanie Kontaktu Według Imienia
 
@@ -229,7 +230,8 @@ Zintegrowane przykłady użycia w sekcji README umożliwiają szybkie zrozumieni
 <!-- sc -->
 
 ### Korzystanie z Wyszukiwania Głosowego
-![aaaa](https://github.com/Szumapman/PyAssist/issues/14#issue-2038218894)
+![notatka_glosowa](https://github.com/Szumapman/PyAssist/assets/115115006/a2092da0-938b-40a8-b20d-443a961f9021)
+![notatka_głosowa2](https://github.com/Szumapman/PyAssist/assets/115115006/4f600d96-4df7-4616-be66-33296f167c5e)
 <!-- sc -->
 
 ## Licencja
@@ -462,7 +464,8 @@ The integrated usage examples in the README section allow for a quick understand
 
 ### Adding a New Contact to the Address Book
 
-<!-- sc -->
+![dodawanie_danych_do_ka](https://github.com/Szumapman/PyAssist/assets/115115006/ae247f21-363a-479b-a876-6df3c7d4eecf)
+![dodawanie_danych_do_ka_2](https://github.com/Szumapman/PyAssist/assets/115115006/a9c5525c-a3f5-4dcc-9b90-d9170f3efe18)
 
 ### Searching for a Contact by Name
 
@@ -474,7 +477,8 @@ The integrated usage examples in the README section allow for a quick understand
 
 ### Using Voice Search
 
-<!-- sc -->
+![notatka_glosowa](https://github.com/Szumapman/PyAssist/assets/115115006/a2092da0-938b-40a8-b20d-443a961f9021)
+![notatka_głosowa2](https://github.com/Szumapman/PyAssist/assets/115115006/4f600d96-4df7-4616-be66-33296f167c5e)
 
 ## Licence
 
