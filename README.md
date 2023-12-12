@@ -85,8 +85,6 @@ W menu notatek możesz zarządzać swoimi notatkami:
 - `addtag:` Dodaj tag do notatki.
 - `findtag:` Znajdź notatki według określonego tagu.
 - `sorttag:` Sortuj notatki według tagu.
-- `export:` Eksportuj notatki do pliku.
-- `import:` Importuj notatki z pliku.
 
 ### Sortowanie plików
 
@@ -322,8 +320,6 @@ In the notes menu, you can manage your notes:
 - `addtag`: Add a tag to a note.
 - `findtag`: Find notes by a specific tag.
 - `sorttag`: Sort notes by tag.
-- `export`: Export notes to a file.
-- `import`: Import notes from a file.
 
 ### Sort Files
 
