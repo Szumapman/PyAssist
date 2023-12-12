@@ -152,7 +152,7 @@ cython_debug/
 #.idea/
 
 #ignore files in data/
-data/
+
 
 #ignore all csv and dat files
 *.dat
