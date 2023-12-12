@@ -3,12 +3,12 @@ import csv
 
 notes = []
 class Note:
-    def __init__(self, title, content, tags=[]):
+    def __init__(self, title, content):
         self.title = title
         self.content = content
         self.create_time = datetime.now()
         self.modified_time = self.create_time
-        self.tags = tags
+        self.tags = []
     
     def __str__(self):
         creation_time_str = self.create_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -22,10 +22,11 @@ class Note:
             f"Tags: {tags_str}\n"
         )
     
-
-    """class Note llow you to create a note title, content, tag, creation time,
+    """
+    Class Note allow you to create a note title, content, tag, creation time,
     editing time and deleting the entire note. It is also possible to save the content to a separate .csv file
-    with the given name and reading notes from the .csv file"""
+    with the given name and reading notes from the .csv file. 
+    """
 
 
     def edit_content(self, new_content):     #edit content of note and update modified time
@@ -75,7 +76,18 @@ class Note:
     def remove_note(self, notes_list):
         notes_list.remove(self)
 
-    def save_notes(notes_list, file_name):   #saving notes to .csv file
+    def save_notes(notes_list, file_name):   #saving notes to .csv file        
+        """
+        Save a collection of Note objects to a CSV file.
+
+        Parameters:
+        - notes_list (list): A list containing Note objects to be saved.
+        - file_name (str): The name of the CSV file to which notes will be saved.
+
+        This method writes the attributes of each Note object (title, content, creation time,
+        modified time, and tags) to the specified CSV file. If the file does not exist,
+        it will be created. If it already exists, it will be overwritten.
+        """
         try:
             with open(file_name, mode="w", newline="", encoding="utf-8") as file:  
                 writer = csv.writer(file)
@@ -88,6 +100,17 @@ class Note:
             print(f"Error saving notes to {file_name}: {e}")
 
     def load_notes(file_name):      #loading .csv file with notes
+        """
+        Load Note objects from a CSV file.
+
+        Parameters:
+        - file_name (str): The name of the CSV file from which notes will be loaded.
+
+        This method reads Note objects (title, content, creation time, modified time, and tags)
+        from the specified CSV file. It parses each row in the file to create Note objects and
+        returns them as a list. If the file is empty, missing headers, or encounters errors while
+        loading, it returns an empty list.
+        """
         try:
             loaded_notes = []
             with open(file_name, mode="r", encoding="utf-8") as file:
@@ -112,36 +135,3 @@ class Note:
         except (FileNotFoundError, PermissionError, ValueError, csv.Error) as e:
             print(f"Error loading notes from {file_name}: {e}")
             return []
-
-'''debug code below'''
-
-# note1 = Note("Shopping List", "z, x ,c")
-# note1.add_tag("shopping")
-# note1.edit_content("q, w, e")
-# note2 = Note("Meeting Agenda", "some notes")
-# note2.add_tag("work")
-# note2.add_tag("meeting")
-
-
-# Note.save_notes([note1, note2], "my_notes.csv")
-
-# loaded_notes = Note.load_notes("my_notes.csv")
-
-
-# for note in loaded_notes:
-#     print(note)
-#     print("--------------------")
-
-
-# loaded_notes[0].edit_content("o, o, o, o")
-# loaded_notes[0].add_tag("groceries")
-# Note.save_notes(loaded_notes, "my_notes.csv")
-
-# loaded_notes[0].remove_tag("shopping")
-# loaded_notes[1].remove_note(loaded_notes)
-# Note.save_notes(loaded_notes, "my_notes.csv")
-
-# found_notes = Note.find_note_by_tag(loaded_notes, "work")
-# for note in found_notes:
-#     print(note)
-#     print("--------------------")

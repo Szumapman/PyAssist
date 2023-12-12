@@ -26,7 +26,6 @@ ADDRESSBOOK_DATA_PATH = os.path.join(current_dir, "data/addresbook.dat")
 
 
 #objects storing data while the program is running
-NOTES = Note.load_notes(NOTES_DATA_PATH)
 ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
 
 
@@ -62,8 +61,8 @@ def error_handler(func):
                     break
             except FutureDateError:
                 print("You can't use a future date as a birthday, try again.")
-            except FileNotFoundError:# dopisać obsługę błędów 
-                print("I can't find file to import data.") 
+            except FileNotFoundError:
+                print("I can't find file to import data.")
                 break
             except KeyboardInterrupt:
                 cli_pyassist_exit()
@@ -102,27 +101,13 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
     
 # exit / close program
 def cli_pyassist_exit(*args):
-    Note.save_notes(NOTES, NOTES_DATA_PATH)   
+    Note.save_notes(notes, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
     print("Your data has been saved.")
     cowsay.tux("Good bye!") 
     sys.exit()
 
-
-# dict for addressbook menu
-ADDRESSBOOK_MENU_COMMANDS = {
-    "exit": cli_pyassist_exit,
-    "add": lambda *args: add_record(ADDRESSBOOK, *args),
-    "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
-    "show": lambda *args: show(ADDRESSBOOK, *args),
-    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
-    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
-    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
-    "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
-    "search": lambda *args: search(ADDRESSBOOK, *args),
-    "up": ...,
-}
-
+# function to handle addressbook command
 def addressbook_commands(*args):
     menu_options = [
         {"option": "Show All Records", "command": "show"},
@@ -134,6 +119,7 @@ def addressbook_commands(*args):
         {"option": "Upcoming Birthdays", "command": "birthday <days>"}, # (selected number of days ahead) - informacja do instrukcji 
         {"option": "Export Address Book", "command": "export"},
         {"option": "Import Address Book", "command": "import"},
+        {"option": "Show this Menu", "command": "help"},
         {"option": "Main Menu", "command": "up"},
     ]
 
@@ -152,24 +138,7 @@ def addressbook_commands(*args):
         if cmd == "up":
             break
         print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
-    return "Ok, I return to the main menu."    
-
-
-#dict for notes menu
-NOTES_MENU_COMMANDS = {
-    "up": ...,
-    "show": lambda *args: show_notes(NOTES, *args),
-    "create": lambda *args: create_note(NOTES, *args),
-    "edit": lambda *args: edit_note(NOTES, *args),
-    "delete": lambda *args: delete_note(NOTES, *args),
-    "addtag": lambda *args: add_tag_to_note(NOTES, *args),
-    "findtag": lambda *args: find_notes_by_tag(NOTES, *args),
-    "sorttag": lambda *args: sort_notes_by_tag(NOTES, *args),
-    # "export": save_note,
-    # "import": load_note,
-    "search": lambda *args: show_search(NOTES, *args),
-    "exit": cli_pyassist_exit, 
-}
+    return "Ok, I return to the main menu."
 
 # function to handle note command
 def notes_command(*args):
@@ -182,10 +151,10 @@ def notes_command(*args):
         {"option": "Add Tag to Note", "command": "addtag"},
         {"option": "Find Notes by Tag", "command": "findtag"},
         {"option": "Sort Notes by Tag", "command": "sorttag"},
-        # {"option": "Export Notes", "command": "export"},
-        # {"option": "Import Notes", "command": "import"},
-        {"option": "Main Menu", "command": "up"},
-        {"option": "Program exit", "command": "exit"}
+        {"option": "Export Notes", "command": "export"},
+        {"option": "Import Notes", "command": "import"},
+        {"option": "Show this Menu", "command": "help"},
+        {"option": "Main Menu", "command": "up"}
     ]
 
     max_option_length = max(len(item['option']) for item in menu_options) 
@@ -202,12 +171,44 @@ def notes_command(*args):
         cmd, arguments = user_command_input(completer, "notes")
         if cmd == "up":
             break
-        # elif cmd == "show":
-        #     display_notes(notes)
+        elif cmd == "show":
+            display_notes(notes)
         else:
             print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
     return "Ok, I return to the main menu."
-  
+
+# dict for addressbook menu
+ADDRESSBOOK_MENU_COMMANDS = {
+    "exit": cli_pyassist_exit,
+    "add": lambda *args: add_record(ADDRESSBOOK, *args),
+    "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
+    "show": lambda *args: show(ADDRESSBOOK, *args),
+    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
+    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
+    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
+    "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
+    "search": lambda *args: search(ADDRESSBOOK, *args),
+    "up": ...,
+    "help": addressbook_commands,
+}
+
+#dict for notes menu
+NOTES_MENU_COMMANDS = {
+    "up": ...,
+    "show": display_notes,
+    "create": create_note,
+    "edit": edit_note,
+    "delete": delete_note,
+    "addtag": add_tag_to_note,
+    "findtag": find_notes_by_tag,
+    "sorttag": sort_notes_by_tag,
+    "export": save_note,
+    "import": load_note,
+    "search": find_note,
+    "help": notes_command
+}
+
+
 # dict for main menu handler
 MAIN_COMMANDS = {
     "exit": cli_pyassist_exit,
