@@ -1,5 +1,5 @@
 import sys
-import os
+from pathlib import Path
 import pyfiglet
 import cowsay
 from prompt_toolkit import prompt
@@ -13,9 +13,10 @@ from utility.cmd_complet import CommandCompleter, similar_command
 
 
 # paths to files with data # Because it's a simple program. The path is hard coded ;)
-current_dir = os.path.dirname(os.path.abspath(__file__))
-NOTES_DATA_PATH = os.path.join(current_dir, "data/notes.csv")
-ADDRESSBOOK_DATA_PATH = os.path.join(current_dir, "data/addresbook.dat") 
+program_dir = Path(__file__).parent
+NOTES_DATA_PATH = program_dir.joinpath('data/notes.csv')
+ADDRESSBOOK_DATA_PATH = program_dir.joinpath("data/addresbook.dat") 
+
 
 
 #objects storing data while the program is running
