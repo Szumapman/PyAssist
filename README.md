@@ -40,14 +40,11 @@ Główne cele PyAssist obejmują:
 
 Potrzeba stworzenia tego projektu wynika z potrzeby wszechstronnego i przyjaznego użytkownikowi narzędzia wiersza poleceń do zarządzania informacjami osobistymi. PyAssist został stworzony, aby zapewnić intuicyjny interfejs obsługi kontaktów i notatek, pozwalając użytkownikom skupić się na produktywności, zamiast zajmować się uciążliwymi zadaniami organizacyjnymi.
 
-### Funkcjonalność głosowego wyszukiwania
+### Funkcjonalność głosowego dyktowania
 
-PyAssist wprowadza innowacyjną funkcję głosowego wyszukiwania, umożliwiającą interakcję z narzędziem za pomocą komend głosowych. Ta innowacyjna funkcja poprawia doświadczenie użytkownika, umożliwiając obsługę bez użycia rąk, co jest szczególnie przydatne dla użytkowników w podróży lub tych, którzy preferują komendy głosowe.
+PyAssist wprowadza innowacyjną funkcję głosowego dyktowania notatek. Ta innowacyjna funkcja poprawia doświadczenie użytkownika, umożliwiając obsługę bez użycia rąk, co jest szczególnie przydatne przy dłuższych notatkach.
 
-Aby skorzystać z funkcji głosowego wyszukiwania:
-
-1. Po prostu wypowiedz komendę po wejściu w tryb głosowego wyszukiwania.
-2. PyAssist przetworzy twoją wypowiedź i wykonają odpowiednią akcję.
+Aby skorzystać z funkcji głosowego dyktowania: Wybierz tryb "dictate" podczas tworzenia notatki.PyAssist przetworzy twoją wypowiedź na tekst.
 
 Ta funkcja dodaje nowy wymiar do interfejsu użytkownika, sprawiając, że PyAssist staje się jeszcze bardziej dostępny i przyjazny.
 
@@ -114,7 +111,7 @@ Projekt PyAssist jest zorganizowany w następujący sposób:
 
 ## Konfiguracja
 
-Upewnij się, że na Twoim komputerze zainstalowany jest Python 3.11.
+Upewnij się, że na Twoim komputerze zainstalowany jest Python 3.11 lub nowszy.
 
 Aplikacja korzysta z następujących bibliotek:
 
@@ -134,15 +131,15 @@ Aplikacja korzysta z następujących bibliotek:
 git clone https://github.com/Szumapman/PyAssist.git
 ```
 
-2. Przejdź do katalogu z aplikacja:
+2. Przejdź do katalogu z aplikacją np.:
 
 ```
 cd PyAssist
 ```
 
-3. Zainstaluj zależności:
+3. Zainstaluj program:
 
-Aby zainstalować pakiet z kodu źródłowego, wykonaj w konsoli polecenie `pip install .` lub `pip install -e .` w folderze, w którym znajduje się setup.py
+Aby zainstalować pakiet z kodu źródłowego, wykonaj w konsoli polecenie `pip install -e .` w folderze, w którym znajduje się plik setup.py.
 
 ## Uruchomienie programu
 
@@ -275,14 +272,11 @@ The primary goals of PyAssist include:
 
 The motivation behind the project stems from the need for a versatile and user-friendly command-line tool for personal information management. PyAssist was developed to offer an intuitive interface for handling contacts and notes, allowing users to focus on productivity rather than dealing with cumbersome organizational tasks.
 
-### Voice Search Functionality
+### Voice Note Dictation Functionality
 
-PyAssist introduces a cutting-edge voice search feature, allowing users to interact with the tool through spoken commands. This innovative functionality enhances the user experience by enabling hands-free operation, particularly useful for users on the go or those who prefer voice commands.
+PyAssist introduces an innovative feature for voice dictation of notes. This innovative feature improves the user experience by enabling hands-free operation, which is especially useful for longer notes. 
 
-#### To utilize the voice search feature:
-
-1. Simply speak your command after entering the designated voice search mode.
-2. PyAssist will process your spoken command and execute the corresponding action.
+To use the voice dictation function: Select "dictate" mode when creating a note.PyAssist will process your speech into text.
 
 This feature adds a new dimension to the user interface, making PyAssist even more accessible and user-friendly.
 
@@ -377,7 +371,7 @@ cd PyAssist
 
 3. Install dependencies:
 
-To install the package from the source code, type `pip install .` in the console or `pip install -e .` in the folder where setup.py is located
+To install the package from the source code, type `pip install -e .` in the folder where setup.py is located
 
 ## Running the application
 
