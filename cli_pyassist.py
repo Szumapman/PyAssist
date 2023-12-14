@@ -4,7 +4,6 @@ import pyfiglet
 import cowsay
 from prompt_toolkit import prompt
 from utility.addressbook import AddresBook
-from utility.birthday import FutureDateError
 from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.notes_interaction import *
