@@ -1,7 +1,7 @@
 from datetime import datetime
 import csv
 
-notes = []
+# notes = []
 class Note:
     def __init__(self, title, content, tags=[]):
         self.title = title
