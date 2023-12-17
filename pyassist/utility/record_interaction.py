@@ -32,7 +32,6 @@ def error_handler(func):
                     return "I can't import from this source. Check the file."
                 if func.__name__ == "show_upcoming_birthday":
                     return "Wrong number of days to show. Please try again."
-                
             except FutureDateError:
                 print("You can't use a future date as a birthday, try again.")
             except FileNotFoundError:
@@ -328,10 +327,11 @@ def change_data(record, type):
                 else:
                     print("Unrecognized command, try again.")
         else:
-            add_type(add_email() if type == "email" else add_phone())
-            return f"{type} edited sucessfully."
-        return f"{type} edited sucessfully.???"
-
+            data_to_add = add_email() if type == "email" else add_phone()
+            if data_to_add:
+                add_type(data_to_add)
+                return f"{type} edited sucessfully."
+            return "Operation canceled."
 
 
 # dict for menu edit handler
@@ -397,7 +397,6 @@ def edit_record(addressbook, *args):
     
 
 # method to search addresbook
-# interakcja z użytkownikiem 
 def search(addressbook, *args):
     if not args:
         search_query = input("Enter the search query (or type '<<<' to exit): ").strip()
