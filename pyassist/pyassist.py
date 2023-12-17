@@ -37,7 +37,7 @@ def error_handler(func):
 
 # function to handle sort command
 @error_handler
-def sort_files_command(*args):
+def sort_files_command(data, *args):
     if not args:
         directory = input("Enter directory path to sort files: ")
     else:
@@ -199,14 +199,13 @@ def execute_commands(menu_commands: dict, cmd: str, data_to_use, arguments: tupl
     Args:
         menu_commands (dict): dict for menu-specific commands
         cmd (str): user command
+        data_to_use: dict (for addressbook) or list (for notes) or None (for rest) to use in calling functions
         arguments (tuple): arguments from user input
 
     Returns:
-        func: function with arguments
+        func: function with data_ti_use and arguments
     """
-    if cmd == "sort":
-        return sort_files_command(*arguments)
-    elif cmd not in menu_commands:
+    if cmd not in menu_commands:
         return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
     cmd = menu_commands[cmd]
     return cmd(data_to_use, *arguments)
