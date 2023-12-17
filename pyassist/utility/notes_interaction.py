@@ -11,6 +11,20 @@ class to handle note-related operations, enabling the creation of notes either m
 via dictation, editing existing notes, adding tags, searching by tags, and exporting/importing 
 notes to/from a .csv file.
 """
+
+# function to handle with errors
+def error_handler(func):
+    def wrapper(*args):
+        while True:
+            try:
+                return func(*args)
+            except ValueError:
+                    print("It's not a number, try again.")
+            except Exception as e:
+                return f"Error: {e}. Please try again."
+    return wrapper
+
+
 #functions for note command
 def show_notes(notes, *args):
     return display_notes(notes, "Your notes:\n")
@@ -43,18 +57,18 @@ def create_note(notes, *args):
             else:
                 return"I couldn't recognize voice. Operation canceled."    
     tags = list(input("Tags (separated by space): ").strip().split())
-    # tags = list(tags.split())
     new_note = Note(title, content, tags)
     notes.append(new_note)
     return f"Note created successfully."
 
 
+@error_handler
 def choice_note(notes, *args):
     if not args:
         print(display_notes(notes, "Your notes:\n"))
     else:
         query = " ".join(args)
-        notes = find_note(notes, query)
+        notes = Note.find_notes(notes, query)
         if notes:
             print(display_notes(notes, f"Your notes with {query}\n"))
         else:
@@ -105,10 +119,9 @@ def find_notes_by_tag(notes, *args):
     else:
         return f"No notes found with tag '{tag}'."
 
-
-#funkcja do poprawy / sprawdzenia    
+   
 def sort_notes_by_tag(notes, *args): 
-    Note.sort_notes_by_tag(notes) #to sortowanie nie działe, albo ja nie rozumiem, co ono ma robić
+    Note.sort_notes_by_tag(notes) 
     return display_notes(notes, "Notes sorted by tags.\n")
 
 
@@ -117,8 +130,4 @@ def show_search(notes, *args):
         search_term = input("Enter a keyword to search for in note: ")
     else:
         search_term = " ".join(args)    
-    return display_notes(find_note(notes, search_term), f"Notes containing '{search_term}':\n")
-
-
-def find_note(notes, query):
-    return Note.find_notes(notes, query) 
+    return display_notes(Note.find_notes(notes, search_term), f"Notes containing '{search_term}':\n")

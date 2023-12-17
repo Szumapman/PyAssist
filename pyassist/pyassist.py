@@ -187,7 +187,7 @@ NOTES_MENU_COMMANDS = {
     "sorttag": sort_notes_by_tag, #lambda *args: sort_notes_by_tag(NOTES, *args),
     # "export": save_note,
     # "import": load_note,
-    "search": show_notes, #lambda *args: show_search(NOTES, *args),
+    "search": show_search, #lambda *args: show_search(NOTES, *args),
     "up": pyassit_main_menu,
     "exit": cli_pyassist_exit, 
 }
