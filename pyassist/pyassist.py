@@ -8,7 +8,6 @@ from utility.notes import Note
 from utility.sorter import FileSorter
 from utility.notes_interaction import *
 from utility.record_interaction import *
-
 from utility.cmd_complet import CommandCompleter, similar_command
 
 
@@ -18,18 +17,9 @@ NOTES_DATA_PATH = program_dir.joinpath('data/notes.csv')
 ADDRESSBOOK_DATA_PATH = program_dir.joinpath("data/addresbook.dat") 
 
 
-
 #objects storing data while the program is running
 NOTES = Note.load_notes(NOTES_DATA_PATH)
 ADDRESSBOOK = AddresBook().load_addresbook(ADDRESSBOOK_DATA_PATH)
-
-
-# #initialize an instance of FileSorter class
-# file_sorter = FileSorter()
-
-# #function for FileSorter in specified directory
-# def sort_files_in_directory(directory):
-#     file_sorter.process_folder(directory)
     
 
 # function to handle with errors
@@ -86,8 +76,7 @@ def user_command_input(completer: CommandCompleter, menu_name=""):
 def cli_pyassist_exit(*args):
     Note.save_notes(NOTES, NOTES_DATA_PATH)   
     ADDRESSBOOK.save_addresbook(ADDRESSBOOK_DATA_PATH)
-    print("Your data has been saved.")
-    cowsay.tux("Good bye!") 
+    cowsay.tux("Your data has been saved.\nGood bye!") 
     sys.exit()
 
 
@@ -95,10 +84,10 @@ def cli_pyassist_exit(*args):
 def show_menu(menu_options):
     max_option_length = max(len(item['option']) for item in menu_options) 
     print("Options:".ljust(max_option_length + 5), "Command:")
-    print("-" * (max_option_length + 18))
+    print("-" * (max_option_length + 24))
     for _, item in enumerate(menu_options):
         print(f"{item['option'].ljust(max_option_length + 5)} {item['command']}")
-    print("-" * (max_option_length + 18))
+    print("-" * (max_option_length + 24))
 
 
 # function to handle addressbook command
@@ -121,7 +110,7 @@ def addressbook_commands(*args):
     completer = CommandCompleter(list(ADDRESSBOOK_MENU_COMMANDS.keys()) + list(ADDRESSBOOK.keys()))
     while True:
         cmd, arguments = user_command_input(completer, "address book")
-        print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, arguments))
+        print(execute_commands(ADDRESSBOOK_MENU_COMMANDS, cmd, ADDRESSBOOK, arguments))
 
 
 # function to handle note command
@@ -145,7 +134,7 @@ def notes_command(*args):
     completer = CommandCompleter(NOTES_MENU_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer, "notes")
-        print(execute_commands(NOTES_MENU_COMMANDS, cmd, arguments))
+        print(execute_commands(NOTES_MENU_COMMANDS, cmd, NOTES, arguments))
 
 
 # dict for main menu handler
@@ -158,45 +147,53 @@ MAIN_COMMANDS = {
 
 
 @error_handler
-def pyassit_main_menu():
+def pyassit_main_menu(*args):
+    menu_options = [
+        {"option": "Open your address book", "command": "addressbook"},
+        {"option": "Open your notes", "command": "notes"},
+        {"option": "Sort files in <directory>", "command": "sort <directory>"}, 
+        {"option": "Program exit", "command": "exit"},
+        {"option": "Show this Menu", "command": "help"},
+    ]
+    show_menu(menu_options)
     completer = CommandCompleter(MAIN_COMMANDS.keys())
     while True:
         cmd, arguments = user_command_input(completer, "main menu")
-        print(execute_commands(MAIN_COMMANDS, cmd, arguments))
+        print(execute_commands(MAIN_COMMANDS, cmd, None, arguments))
 
 # dict for addressbook menu
 ADDRESSBOOK_MENU_COMMANDS = {
     "exit": cli_pyassist_exit,
-    "add": lambda *args: add_record(ADDRESSBOOK, *args),
-    "edit": lambda *args: edit_record(ADDRESSBOOK, *args),
-    "show": lambda *args: show(ADDRESSBOOK, *args),
-    "delete": lambda *args: del_record(ADDRESSBOOK, *args),
-    "export": lambda *args: export_to_csv(ADDRESSBOOK, *args),
-    "import": lambda *args: import_from_csv(ADDRESSBOOK, *args),
-    "birthday": lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
-    "search": lambda *args: search(ADDRESSBOOK, *args),
+    "add": add_record, #lambda *args: add_record(ADDRESSBOOK, *args),
+    "edit": edit_record, #lambda *args: edit_record(ADDRESSBOOK, *args),
+    "show": show, #lambda *args: show(ADDRESSBOOK, *args),
+    "delete": del_record, #lambda *args: del_record(ADDRESSBOOK, *args),
+    "export": export_to_csv, #lambda *args: export_to_csv(ADDRESSBOOK, *args),
+    "import": import_from_csv, #lambda *args: import_from_csv(ADDRESSBOOK, *args),
+    "birthday": show_upcoming_birthday, #lambda *args: show_upcoming_birthday(ADDRESSBOOK, *args),
+    "search": search, #lambda *args: search(ADDRESSBOOK, *args),
     "up": pyassit_main_menu,
     "help": addressbook_commands,
 }
 
 #dict for notes menu
 NOTES_MENU_COMMANDS = {
-    "show": lambda *args: show_notes(NOTES, *args),
-    "create": lambda *args: create_note(NOTES, *args),
-    "edit": lambda *args: edit_note(NOTES, *args),
-    "delete": lambda *args: delete_note(NOTES, *args),
-    "addtag": lambda *args: add_tag_to_note(NOTES, *args),
-    "findtag": lambda *args: find_notes_by_tag(NOTES, *args),
-    "sorttag": lambda *args: sort_notes_by_tag(NOTES, *args),
+    "show": show_notes, #lambda *args: show_notes(NOTES, *args),
+    "create": create_note, #lambda *args: create_note(NOTES, *args),
+    "edit": edit_note, #lambda *args: edit_note(NOTES, *args),
+    "delete": delete_note, #lambda *args: delete_note(NOTES, *args),
+    "addtag": add_tag_to_note, #lambda *args: add_tag_to_note(NOTES, *args),
+    "findtag": find_notes_by_tag, #lambda *args: find_notes_by_tag(NOTES, *args),
+    "sorttag": sort_notes_by_tag, #lambda *args: sort_notes_by_tag(NOTES, *args),
     # "export": save_note,
     # "import": load_note,
-    "search": lambda *args: show_search(NOTES, *args),
+    "search": show_notes, #lambda *args: show_search(NOTES, *args),
     "up": pyassit_main_menu,
     "exit": cli_pyassist_exit, 
 }
     
     
-def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
+def execute_commands(menu_commands: dict, cmd: str, data_to_use, arguments: tuple):
     """Function to execute user commands
 
     Args:
@@ -212,20 +209,19 @@ def execute_commands(menu_commands: dict, cmd: str, arguments: tuple):
     elif cmd not in menu_commands:
         return f"Command {cmd} is not recognized" + similar_command(cmd, menu_commands.keys())
     cmd = menu_commands[cmd]
-    return cmd(*arguments)
+    return cmd(data_to_use, *arguments)
 
 
 def main():
-    logo = pyfiglet.figlet_format("PyAssist", font = "slant")
-    print(logo)
-    print("     ╔════════════════════════════╗")
-    print("     ║         Main Menu          ║")
-    print("     ╠════════════════════════════╣")
-    print("     ║ - addressbook              ║")
-    print("     ║ - notes                    ║")
-    print("     ║ - sort                     ║")
-    print("     ║ - exit                     ║")
-    print("     ╚════════════════════════════╝")
+    print(pyfiglet.figlet_format("PyAssist", font = "slant"))
+    # print("     ╔════════════════════════════╗")
+    # print("     ║         Main Menu          ║")
+    # print("     ╠════════════════════════════╣")
+    # print("     ║ - addressbook              ║")
+    # print("     ║ - notes                    ║")
+    # print("     ║ - sort                     ║")
+    # print("     ║ - exit                     ║")
+    # print("     ╚════════════════════════════╝")
     pyassit_main_menu()
     
 
